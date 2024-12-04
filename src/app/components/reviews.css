@@ -1,0 +1,38 @@
+/* Hide default Swiper navigation buttons */
+.swiper-button-prev,
+.swiper-button-next {
+  display: none !important;
+}
+
+/* Remove pagination styles */
+.swiper-pagination {
+  display: none !important;
+}
+
+/* Custom pagination styles */
+/* This section is removed because pagination is now hidden */
+
+/* Ensure navigation buttons are visible */
+.gestro-prev,
+.gestro-next,
+.google-prev,
+.google-next {
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: static !important;
+  transform: none !important;
+  width: 32px !important;
+  height: 32px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin-left: 8px !important;
+}
+
+/* Add hover effect */
+.gestro-prev:hover,
+.gestro-next:hover,
+.google-prev:hover,
+.google-next:hover {
+  background: transparent !important;
+}
