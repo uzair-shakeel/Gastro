@@ -85,7 +85,7 @@ export function DateSelectionModal() {
         onClick={handleClickOpen}
         sx={{
           textTransform: "none",
-          maxWidth: "110px",
+          maxWidth: "140px",
           fontSize: "16px",
           justifyContent: "space-between",
           color: "gray",
@@ -105,8 +105,11 @@ export function DateSelectionModal() {
         }}
       >
         <span style={{ display: "flex", alignItems: "center" }}>
-          <div className="mr-3">
-            <img src="/CalendarTodayFilled.svg" />
+          <div className="mr-2">
+            <img
+              src="/CalendarTodayFilled.svg"
+              className="w-[18px] h-[18px] min-w-[18px]"
+            />
           </div>
           {selectedDate ? selectedDate.toLocaleDateString() : "Date"}
         </span>
