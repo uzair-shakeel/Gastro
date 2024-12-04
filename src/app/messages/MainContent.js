@@ -133,17 +133,33 @@ export default function MainContent({
           {isPopupVisible && (
             <div
               ref={popupRef} // Attach the ref to the popup div
-              className="absolute top-[40px] bg-white px-[16px] py-[14px] hover:bg-gray-50 transition rounded-[4px] mt-2 border w-[200px] shadow-lg"
+              className={`absolute top-[40px] bg-white px-[16px] py-[14px] hover:bg-gray-50 transition rounded-[4px] mt-2 border shadow-lg right-[-5px] ${
+                selectedRestaurant.isArchived === true
+                  ? "w-[225px]"
+                  : "w-[180px]"
+              }`}
             >
               <div
                 onClick={handleArchivedClick}
                 className="flex items-center gap-[12px] cursor-pointer"
               >
-                <IoMdInformationCircleOutline className="text-[#0000008C] text-[20px]" />
+                {selectedRestaurant.isArchived === true ? (
+                  <img
+                    src="/unarchive.svg"
+                    alt="unarchive"
+                    className="w-[24px] h-[24px]"
+                  />
+                ) : (
+                  <img
+                    src="/archive.svg"
+                    alt="archive"
+                    className="w-[24px] h-[24px]"
+                  />
+                )}
                 <span className="text-[#000000B2] font-roboto">
                   {selectedRestaurant.isArchived === true
-                    ? "Unarchived"
-                    : "Archived"}
+                    ? "Remove from Archive"
+                    : "Add to Archive"}
                 </span>
               </div>
             </div>

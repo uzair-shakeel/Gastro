@@ -4,7 +4,7 @@ import OrderCard from "./screens/orders";
 import DeletePopup from "./components/popups/delete";
 import CancelPopup from "./components/popups/cancel";
 
-const initialOrders = [
+export const initialOrders = [
   {
     id: 1,
     location: "Marriage Function 4 Dishes",
@@ -18,6 +18,9 @@ const initialOrders = [
     note: "The offer has been accepted by the restaurant.",
     isMessaged: true,
     city: "Zürich",
+    time: "09:10 AM",
+    isUnread: false,
+    isArchived: true,
   },
   {
     id: 2,
@@ -32,6 +35,9 @@ const initialOrders = [
     note: "The offer has been accepted by the restaurant.",
     isMessaged: true,
     city: "Zürich",
+    time: "07:53 AM",
+    isUnread: true,
+    isArchived: false,
   },
   {
     id: 3,
@@ -46,6 +52,9 @@ const initialOrders = [
     note: "The offer has been accepted by the restaurant.",
     isMessaged: false,
     city: "Las Vegas",
+    time: "LAST DAY",
+    isUnread: false,
+    isArchived: true,
   },
   {
     id: 4,
@@ -60,6 +69,9 @@ const initialOrders = [
     note: "The offer has been accepted by the restaurant.",
     isMessaged: false,
     city: "Las Vegas",
+    time: "2D AGO",
+    isUnread: false,
+    isArchived: false,
   },
   {
     id: 5,
@@ -74,6 +86,9 @@ const initialOrders = [
     note: "The offer has been accepted by the restaurant.",
     isMessaged: false,
     city: "Las Vegas",
+    time: "5D AGO",
+    isUnread: true,
+    isArchived: false,
   },
 ];
 
@@ -85,11 +100,10 @@ export default function Home() {
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
-    setOrders(
-      (prevOrders) =>
-        prevOrders
-          .sort((a, b) => a.city.localeCompare(b.city))
-          .sort((a, b) => new Date(a.date) - new Date(b.date))
+    setOrders((prevOrders) =>
+      prevOrders
+        .sort((a, b) => a.city.localeCompare(b.city))
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
     );
   }, []);
 
@@ -142,8 +156,7 @@ export default function Home() {
       {Object.keys(groupedOrders).map((city) => (
         <div key={city}>
           <h2 className="text-2xl font-semibold mt-8 mb-4">
-            {city} -
-            {new Date(groupedOrders[city][0].date).toLocaleDateString()}
+            {city} -{new Date(groupedOrders[city][0].date).toLocaleDateString()}
           </h2>
           <div className="space-y-6">
             {groupedOrders[city].map((order) => (
