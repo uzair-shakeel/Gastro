@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Button,
@@ -55,6 +55,13 @@ export default function RestaurantDetails() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedDay, setSelectedDay] = useState("Monday");
   const [qrModalOpen, setQrModalOpen] = useState(false);
+
+  useEffect(() => {
+    // This will only run on the client side
+    if (typeof window !== "undefined") {
+      setCurrentUrl(window.location.href);
+    }
+  }, []);
 
   return (
     <div
@@ -401,7 +408,7 @@ export default function RestaurantDetails() {
       <QRCodeModal
         open={qrModalOpen}
         onClose={() => setQrModalOpen(false)}
-        url={window.location.href}
+        url={currentUrl}
       />
     </div>
   );
