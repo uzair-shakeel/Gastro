@@ -55,6 +55,7 @@ export default function RestaurantDetails() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedDay, setSelectedDay] = useState("Monday");
   const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState("");
 
   useEffect(() => {
     // This will only run on the client side
