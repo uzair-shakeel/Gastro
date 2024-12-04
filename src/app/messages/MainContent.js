@@ -103,7 +103,9 @@ export default function MainContent({
             />
           </div>
           <div>
-            <h2 className="font-medium pb-[8px]">{selectedRestaurant.name}</h2>
+            <h2 className="font-[600] pb-[8px]">
+              {selectedRestaurant.location}
+            </h2>
             <div className="flex flex-wrap gap-[12px] items-center">
               <span
                 className={`text-[14px] px-2 py-[7px] lg:w-[150px] text-center font-[700] rounded-full ${getStatusStyle(
@@ -199,8 +201,10 @@ export default function MainContent({
               {msgs.map((msg, index) => (
                 <div
                   key={index}
-                  className={`space-y-[24px] w-full flex justify-${
-                    msg.sender.startsWith("ME") ? "end" : "start"
+                  className={`space-y-[24px] w-full flex ${
+                    msg.sender.startsWith("ME")
+                      ? "justify-end"
+                      : "justify-start"
                   }`}
                 >
                   <div className="space-y-[8px] w-1/2">
