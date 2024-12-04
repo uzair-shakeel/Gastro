@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Heart,
-  Info,
-  Star,
-  ChevronLeft,
-  ChevronRight,
-  ArrowRight,
-  ArrowLeft,
-} from "lucide-react";
+import { Info, Star, ArrowRight, ArrowLeft } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
