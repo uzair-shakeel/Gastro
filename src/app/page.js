@@ -17,6 +17,9 @@ const initialOrders = [
       "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
     note: "The offer has been accepted by the restaurant.",
     isMessaged: true,
+    time: "09:10 AM",
+    isUnread: false,
+    isArchived: true,
     city: "Zürich",
   },
   {
@@ -30,6 +33,9 @@ const initialOrders = [
     description:
       "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
     note: "The offer has been accepted by the restaurant.",
+    time: "09:10 AM",
+    isUnread: false,
+    isArchived: false,
     isMessaged: true,
     city: "Zürich",
   },
@@ -44,6 +50,9 @@ const initialOrders = [
     description:
       "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
     note: "The offer has been accepted by the restaurant.",
+    time: "09:10 AM",
+    isUnread: false,
+    isArchived: false,
     isMessaged: false,
     city: "Las Vegas",
   },
@@ -58,6 +67,9 @@ const initialOrders = [
     description:
       "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
     note: "The offer has been accepted by the restaurant.",
+    time: "09:10 AM",
+    isUnread: false,
+    isArchived: false,
     isMessaged: false,
     city: "Las Vegas",
   },
@@ -72,6 +84,9 @@ const initialOrders = [
     description:
       "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
     note: "The offer has been accepted by the restaurant.",
+    time: "09:10 AM",
+    isUnread: false,
+    isArchived: false,
     isMessaged: false,
     city: "Las Vegas",
   },
@@ -85,11 +100,10 @@ export default function Home() {
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
-    setOrders(
-      (prevOrders) =>
-        prevOrders
-          .sort((a, b) => a.city.localeCompare(b.city))
-          .sort((a, b) => new Date(a.date) - new Date(b.date))
+    setOrders((prevOrders) =>
+      prevOrders
+        .sort((a, b) => a.city.localeCompare(b.city))
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
     );
   }, []);
 
@@ -142,8 +156,7 @@ export default function Home() {
       {Object.keys(groupedOrders).map((city) => (
         <div key={city}>
           <h2 className="text-2xl font-semibold mt-8 mb-4">
-            {city} -
-            {new Date(groupedOrders[city][0].date).toLocaleDateString()}
+            {city} -{new Date(groupedOrders[city][0].date).toLocaleDateString()}
           </h2>
           <div className="space-y-6">
             {groupedOrders[city].map((order) => (
