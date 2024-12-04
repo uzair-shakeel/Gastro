@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,6 @@ import {
   Snackbar,
 } from "@mui/material";
 import { Close, ContentCopy, Share } from "@mui/icons-material";
-// import { QRCodeSVG } from "qrcode.react";
 import { styled } from "@mui/material/styles";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
@@ -52,9 +51,15 @@ const CopyButton = styled(Button)(({ theme }) => ({
 
 export function QRCodeModal({ open, onClose, url }) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false); // State to check if it's the client-side
+
+  useEffect(() => {
+    // This will only run on the client side
+    setIsClient(true);
+  }, []);
 
   const handleShare = async () => {
-    if (navigator.share) {
+    if (isClient && navigator.share) {
       try {
         await navigator.share({
           title: "Restaurant Details",
@@ -67,8 +72,10 @@ export function QRCodeModal({ open, onClose, url }) {
   };
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(url);
-    setSnackbarOpen(true);
+    if (isClient && navigator.clipboard) {
+      navigator.clipboard.writeText(url);
+      setSnackbarOpen(true);
+    }
   };
 
   return (
@@ -92,7 +99,6 @@ export function QRCodeModal({ open, onClose, url }) {
             }}
             className="mx-auto"
           >
-            {/* <QRCodeSVG value={url} size={256} level="H" includeMargin={true} /> */}
             <img src="/qr-code.png" className="w-full h-full" />
           </div>
 
@@ -101,7 +107,7 @@ export function QRCodeModal({ open, onClose, url }) {
               variant="contained"
               startIcon={<Share />}
               onClick={handleShare}
-              disabled={!navigator.share}
+              disabled={!isClient || !navigator.share}
             >
               SHARE
             </ShareButton>

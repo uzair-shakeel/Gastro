@@ -2,65 +2,9 @@
 import { useEffect, useState } from "react";
 import RestaurantList from "./RestaurantList";
 import MainContent from "./MainContent";
+import { initialOrders } from "../page";
 
 const tabs = ["ALL", "ACTIVE", "CONFIRMED", "CANCELLED", "ARCHIVED"];
-
-const restaurants = [
-  {
-    id: 1,
-    name: "Restaurant 1",
-    date: "22 JAN, 2025",
-    status: "Confirmed",
-    time: "09:10 AM",
-    isUnread: false,
-    isArchived: false,
-  },
-  {
-    id: 2,
-    name: "Restaurant 2",
-    date: "22 JAN, 2025",
-    status: "Cancelled",
-    time: "07:53 AM",
-    isUnread: true,
-    isArchived: false,
-  },
-  {
-    id: 3,
-    name: "Restaurant 3",
-    date: "22 JAN, 2025",
-    status: "In Review",
-    time: "LAST DAY",
-    isUnread: false,
-    isArchived: true,
-  },
-  {
-    id: 4,
-    name: "Restaurant 4",
-    date: "22 JAN, 2025",
-    status: "Adjusted",
-    time: "2D AGO",
-    isUnread: false,
-    isArchived: false,
-  },
-  {
-    id: 5,
-    name: "Restaurant 5",
-    date: "22 JAN, 2025",
-    status: "Accepted",
-    time: "5D AGO",
-    isUnread: true,
-    isArchived: false,
-  },
-  {
-    id: 6,
-    name: "Restaurant 6",
-    date: "22 JAN, 2025",
-    status: "Confirmed",
-    time: "5D AGO",
-    isUnread: false,
-    isArchived: false,
-  },
-];
 
 // Mock messages for each restaurant
 const mockMessagesByRestaurant = {
@@ -115,9 +59,11 @@ const mockMessagesByRestaurant = {
 
 export default function MessagesPage() {
   const [activeTab, setActiveTab] = useState("ALL");
-  const [selectedRestaurant, setSelectedRestaurant] = useState(restaurants[0]);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(
+    initialOrders[0]
+  );
   const [messages, setMessages] = useState(mockMessagesByRestaurant);
-  const [restaurantsState, setRestaurantsState] = useState(restaurants);
+  const [restaurantsState, setRestaurantsState] = useState(initialOrders);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
   useEffect(() => {

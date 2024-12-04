@@ -1,24 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Button,
   Grid,
   Card,
   CardContent,
-  Avatar,
-  Rating,
   Box,
   IconButton,
 } from "@mui/material";
-import {
-  Favorite,
-  FavoriteBorder,
-  Info,
-  Star,
-  ChevronLeft,
-  ChevronRight,
-} from "@mui/icons-material";
+import { Favorite, FavoriteBorder, Info, Star } from "@mui/icons-material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -64,11 +55,19 @@ export default function RestaurantDetails() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedDay, setSelectedDay] = useState("Monday");
   const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState("");
+
+  useEffect(() => {
+    // This will only run on the client side
+    if (typeof window !== "undefined") {
+      setCurrentUrl(window.location.href);
+    }
+  }, []);
 
   return (
     <div
+      className="container"
       style={{
-        maxWidth: "1200px",
         margin: "0 auto",
         padding: "24px",
       }}
@@ -410,7 +409,7 @@ export default function RestaurantDetails() {
       <QRCodeModal
         open={qrModalOpen}
         onClose={() => setQrModalOpen(false)}
-        url={window.location.href}
+        url={currentUrl}
       />
     </div>
   );

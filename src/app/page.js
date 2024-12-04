@@ -4,7 +4,7 @@ import OrderCard from "./screens/orders";
 import DeletePopup from "./components/popups/delete";
 import CancelPopup from "./components/popups/cancel";
 
-const initialOrders = [
+export const initialOrders = [
   {
     id: 1,
     location: "Marriage Function 4 Dishes",
@@ -21,6 +21,9 @@ const initialOrders = [
     isUnread: false,
     isArchived: true,
     city: "Zürich",
+    time: "09:10 AM",
+    isUnread: false,
+    isArchived: true,
   },
   {
     id: 2,
@@ -38,6 +41,9 @@ const initialOrders = [
     isArchived: false,
     isMessaged: true,
     city: "Zürich",
+    time: "07:53 AM",
+    isUnread: true,
+    isArchived: false,
   },
   {
     id: 3,
@@ -55,6 +61,9 @@ const initialOrders = [
     isArchived: false,
     isMessaged: false,
     city: "Las Vegas",
+    time: "LAST DAY",
+    isUnread: false,
+    isArchived: true,
   },
   {
     id: 4,
@@ -72,6 +81,9 @@ const initialOrders = [
     isArchived: false,
     isMessaged: false,
     city: "Las Vegas",
+    time: "2D AGO",
+    isUnread: false,
+    isArchived: false,
   },
   {
     id: 5,
@@ -89,6 +101,9 @@ const initialOrders = [
     isArchived: false,
     isMessaged: false,
     city: "Las Vegas",
+    time: "5D AGO",
+    isUnread: true,
+    isArchived: false,
   },
 ];
 

@@ -27,7 +27,7 @@ export default function RestaurantList({
             </div>
             <div className="flex-1">
               <div className="flex justify-between">
-                <h3 className="font-medium">{restaurant.name}</h3>
+                <h3 className="font-medium">{restaurant.location}</h3>
                 {restaurant.isUnread && (
                   <span className="w-[12px] h-[12px] bg-[#821101] rounded-full"></span>
                 )}
