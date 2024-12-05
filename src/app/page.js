@@ -7,7 +7,7 @@ import CancelPopup from "./components/popups/cancel";
 export const initialOrders = [
   {
     id: 1,
-    location: "Marriage Function 4 Dishes",
+    location: "Restaurant 1",
     persons: "x10",
     date: "11/01/2024",
     meal: "Lunch",
@@ -27,7 +27,7 @@ export const initialOrders = [
   },
   {
     id: 2,
-    location: "Marriage Function 4 Dishes",
+    location: "Restaurant 2",
     persons: "x10",
     date: "11/02/2024",
     meal: "Lunch",
@@ -47,7 +47,7 @@ export const initialOrders = [
   },
   {
     id: 3,
-    location: "Marriage Function 4 Dishes",
+    location: "Restaurant 3",
     persons: "x10",
     date: "11/01/2024",
     meal: "Lunch",
@@ -67,7 +67,7 @@ export const initialOrders = [
   },
   {
     id: 4,
-    location: "Marriage Function 4 Dishes",
+    location: "Restaurant 4",
     persons: "x10",
     date: "11/01/2024",
     meal: "Lunch",
@@ -87,7 +87,7 @@ export const initialOrders = [
   },
   {
     id: 5,
-    location: "Marriage Function 4 Dishes",
+    location: "Restaurant 5",
     persons: "x10",
     date: "11/01/2024",
     meal: "Lunch",

@@ -22,6 +22,7 @@ import { BudgetInput } from "../components/popups/restaurant/budget";
 import Reviews from "../components/reviews";
 import { QRCodeModal } from "../components/popups/restaurant/qr-code";
 import { RestaurantCarousel } from "../components/restaurant-carousel";
+import Image from "next/image";
 ("../globals.css");
 
 const openingHours = [
@@ -79,40 +80,34 @@ export default function RestaurantDetails() {
         style={{ marginBottom: "24px" }}
       >
         <Grid item xs>
-          <Typography variant="h4" component="h1" gutterBottom>
+          <Typography variant="h4" component="h1" gutterBottom className="font-semibold">
             Mondal Restaurant Islamabad
           </Typography>
           <div className="flex gap-4 items-center">
             <Typography
               variant="body2"
-              color="primary"
+              color="#1D9BF0"
               component="a"
+              className="underline flex items-center gap-2 font-semibold"
               href="https://mondalislamabad.com"
-              style={{ textDecoration: "none" }}
             >
+              <img src='/link-logo.svg' alt="link-logo" />
               mondalislamabad.com
             </Typography>
             <Typography
               variant="body2"
-              style={{ display: "flex", alignItems: "center" }}
+              style={{ display: "flex", alignItems: "center", fontWeight:'600'  }}
             >
               <img
                 src="/italian.svg"
                 alt="Italian flag"
-                style={{ width: "20px", height: "20px", marginRight: "8px" }}
+                style={{ width: "20px", height: "20px", marginRight: "8px",}}
               />
               Italian
               <Star style={{ color: "#FFD700", marginLeft: "16px" }} />
-              <span style={{ fontWeight: "bold", marginLeft: "4px" }}>4.7</span>
-              <span style={{ color: "gray", marginLeft: "4px" }}>(591)</span>
-              <Info
-                style={{
-                  color: "gray",
-                  marginLeft: "4px",
-                  width: "16px",
-                  height: "16px",
-                }}
-              />
+              <span style={{ fontWeight: "600", marginLeft: "4px" }}>4.7</span>
+              <span style={{ fontWeight: "600", color: "#000000", marginLeft: "4px" }}>(591)</span>
+              <Image src='/help .svg' alt="help" width={20} height={20} className="ml-2" />
             </Typography>
           </div>
         </Grid>
@@ -148,12 +143,9 @@ export default function RestaurantDetails() {
         <Grid item xs="auto">
           <Button
             variant="contained"
-            // color="#821101"
             fullWidth
+            className="w-[137px] h-[56px] bg-[#821101] font-satoshi tracking-[0.46px] font-medium text-[15px]"
             style={{
-              height: "100%",
-              backgroundColor: "#821101",
-              padding: "14px 16px",
               boxShadow: "none",
             }} // Adjust padding for the button
           >
@@ -202,7 +194,7 @@ export default function RestaurantDetails() {
             </Box>
             <Box className="absolute bottom-[10px] right-[10px]">
               <IconButton
-                className={`custom-swiper-button-next bg-black text-white z-50 `}
+                className={`custom-swiper-button-next  text-white z-50 `}
               >
                 <img
                   src="/right-arrow.svg"
@@ -287,53 +279,57 @@ export default function RestaurantDetails() {
           <Card
             style={{
               marginBottom: "24px",
-              border: "1px solid rgba(0, 0, 0, 0.1)", // Black border with 10% opacity
+              border: "1px solid rgba(0, 0, 0, 0.1)",
             }}
           >
             <CardContent>
               <Typography variant="h6" gutterBottom className="font-bold">
                 Opening Hours:
               </Typography>
-              {openingHours.map((day) => (
-                <div
-                  key={day.day}
-                  onClick={() => setSelectedDay(day.day)} // Set selected day on click
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: "8px",
-                    padding: "10px",
-                    paddingLeft: "15px",
-                    paddingRight: "15px",
-                    cursor: "pointer", // Add pointer cursor
-                    backgroundColor:
-                      selectedDay === day.day ? "#8211011A" : "#F9F9F9", // Highlight selected day
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    style={{ fontWeight: "bold", display: "flex", gap: "5px" }}
+              {openingHours.map((day) => {
+                const isToday = new Date().toLocaleString('en-US', { weekday: 'long' }) === day.day;
+                return (
+                  <div
+                    key={day.day}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "8px",
+                      padding: "10px",
+                      paddingLeft: "15px",
+                      paddingRight: "15px",
+                      backgroundColor: isToday ? "#FFEBEB" : "#F9F9F9",
+                    }}
                   >
-                    <span>
-                      {
-                        day.day === "Saturday" ? (
-                          <img src="/schedule-black.svg" />
+                    <Typography
+                      variant="body2"
+                      style={{
+                        fontWeight: isToday ? "medium" : "normal",
+                        color: isToday ? "black" : "inherit",
+                        display: "flex",
+                        gap: "5px",
+                      }}
+                    >
+                      <span>
+                        {day.day === "Saturday" ? (
+                          <img src="/schedule-black.svg" alt="Schedule Icon" />
                         ) : (
-                          <img src="/schedule.svg" />
-                        ) // Highlight selected day
-                      }
-                    </span>
-                    {day.day}:
-                  </Typography>
-                  <Typography variant="body2">{day.hours}</Typography>
-                </div>
-              ))}
+                          <img src="/schedule.svg" alt="Schedule Icon" />
+                        )}
+                      </span>
+                      {day.day}:
+                    </Typography>
+                    <Typography variant="body2">{day.hours}</Typography>
+                  </div>
+                );
+              })}
             </CardContent>
+
           </Card>
           <Card
             style={{
               marginBottom: "24px",
-              border: "1px solid rgba(0, 0, 0, 0.1)", // Black border with 10% opacity
+              border: "1px solid rgba(0, 0, 0, 0.1)",
             }}
           >
             <CardContent>

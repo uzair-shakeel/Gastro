@@ -179,9 +179,8 @@ export function DateSelectionModal() {
               return (
                 <div
                   key={day}
-                  className={`day ${isSelected ? "selected" : ""} ${
-                    isToday ? "today" : ""
-                  }`}
+                  className={`day ${isSelected ? "selected" : ""} ${isToday ? "today" : ""
+                    }`}
                   onClick={() => handleDateSelect(day)}
                 >
                   {day}
@@ -193,20 +192,24 @@ export function DateSelectionModal() {
           <Button
             fullWidth
             variant="contained"
-            onClick={() => setSelectedDate(new Date())}
+            onClick={() => {
+              setSelectedDate(new Date());
+              setCurrentMonth(new Date());  
+            }}
             sx={{
               mt: 2,
-              boxShadow: "none", // Remove shadow
+              boxShadow: "none",  
               color: "#8B0000",
               backgroundColor: "rgba(130, 17, 1, 0.1)",
               "&:hover": {
                 backgroundColor: "rgba(130, 17, 1, 0.2)",
-                boxShadow: "none", // Remove shadow
+                boxShadow: "none",  
               },
             }}
           >
             TODAY
           </Button>
+
           <Button
             fullWidth
             variant="contained"
@@ -214,11 +217,11 @@ export function DateSelectionModal() {
             sx={{
               mt: 2,
               backgroundColor: "#8B0000",
-              boxShadow: "none", // Remove shadow
+              boxShadow: "none", 
 
               "&:hover": {
                 backgroundColor: "#660000",
-                boxShadow: "none", // Remove shadow
+                boxShadow: "none",  
               },
             }}
           >

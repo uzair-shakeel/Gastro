@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Info, Star, ArrowRight, ArrowLeft } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import "swiper/css/pagination";
 
 const Reviews = () => {
   const reviews = [
@@ -42,17 +41,19 @@ const Reviews = () => {
     },
   ];
 
+  const gestroSwiperRef = useRef(null);
+  const googleSwiperRef = useRef(null);
+
   const renderStars = (filledStars) => {
     return (
       <>
         {Array.from({ length: 5 }, (_, i) => (
           <Star
             key={i}
-            className={`h-5 w-5 ${
-              i < filledStars
-                ? "fill-yellow-400 text-yellow-400"
-                : "text-gray-300"
-            }`}
+            className={`h-5 w-5 ${i < filledStars
+              ? "fill-yellow-400 text-yellow-400"
+              : "text-gray-300"
+              }`}
           />
         ))}
       </>
@@ -77,7 +78,7 @@ const Reviews = () => {
           <div className="flex items-center justify-between">
             <div className="font-medium">{review.name}</div>
             {isGoogle && (
-              <img src="/google.svg" alt="Google" className="w-5 h-5" />
+              <img src="/google.svg" alt="Google" className="w-11 h-11" />
             )}
           </div>
           <div className="text-sm text-gray-500">{review.time}</div>
@@ -88,16 +89,31 @@ const Reviews = () => {
     </div>
   );
 
-  const NavigationButtons = ({ prevClass, nextClass }) => (
-    <div className="flex items-center gap-4">
-      <button className={prevClass}>
-        <ArrowLeft className="w-auto h-7 text-gray-600" />
+  const NavigationButtons = ({ swiperRef, direction }) => {
+    const handleClick = () => {
+      if (swiperRef.current) {
+        if (direction === "prev") {
+          swiperRef.current.swiper.slidePrev();
+        } else if (direction === "next") {
+          swiperRef.current.swiper.slideNext();
+        }
+      }
+    };
+
+    return (
+      <button
+        onClick={handleClick}
+        className={`p-2 rounded-full ${direction === "prev" ? " " : ""
+          }`}
+      >
+        {direction === "prev" ? (
+          <ArrowLeft className="w-6 h-6 text-gray-600" />
+        ) : (
+          <ArrowRight className="w-6 h-6 text-gray-600" />
+        )}
       </button>
-      <button className={nextClass}>
-        <ArrowRight className="w-auto h-7 text-gray-600" />
-      </button>
-    </div>
-  );
+    );
+  };
 
   return (
     <div>
@@ -113,17 +129,17 @@ const Reviews = () => {
               <Info className="h-4 w-4 text-gray-400" />
             </div>
           </div>
-          <NavigationButtons prevClass="gestro-prev" nextClass="gestro-next" />
+          <div className="flex items-center gap-4">
+            <NavigationButtons swiperRef={gestroSwiperRef} direction="prev" />
+            <NavigationButtons swiperRef={gestroSwiperRef} direction="next" />
+          </div>
         </div>
         <div className="relative">
           <Swiper
             modules={[Navigation]}
             spaceBetween={20}
             slidesPerView={2}
-            navigation={{
-              prevEl: ".gestro-prev",
-              nextEl: ".gestro-next",
-            }}
+            ref={gestroSwiperRef}
             breakpoints={{
               640: { slidesPerView: 1 },
               1024: { slidesPerView: 2 },
@@ -150,17 +166,17 @@ const Reviews = () => {
               <Info className="h-4 w-4 text-gray-400" />
             </div>
           </div>
-          <NavigationButtons prevClass="google-prev" nextClass="google-next" />
+          <div className="flex items-center gap-4">
+            <NavigationButtons swiperRef={googleSwiperRef} direction="prev" />
+            <NavigationButtons swiperRef={googleSwiperRef} direction="next" />
+          </div>
         </div>
         <div className="relative">
           <Swiper
             modules={[Navigation]}
             spaceBetween={20}
             slidesPerView={2}
-            navigation={{
-              prevEl: ".google-prev",
-              nextEl: ".google-next",
-            }}
+            ref={googleSwiperRef}
             breakpoints={{
               640: { slidesPerView: 1 },
               1024: { slidesPerView: 2 },

@@ -6,7 +6,6 @@ import { initialOrders } from "../page";
 
 const tabs = ["ALL", "ACTIVE", "CONFIRMED", "CANCELLED", "ARCHIVED"];
 
-// Mock messages for each restaurant
 const mockMessagesByRestaurant = {
   1: [
     {
@@ -15,7 +14,7 @@ const mockMessagesByRestaurant = {
       content: "OFFER WAS UPDATED",
       details: 'SUMMARY:\nREPLACED "STEAK" WITH "FISH"',
       time: "11:55 AM",
-      date: "11/28/2024", // Add date field
+      date: "11/28/2024",
       type: "update",
     },
     {
@@ -23,7 +22,7 @@ const mockMessagesByRestaurant = {
       sender: "ME - FILIP",
       content: "REQUESTED OFFER",
       time: "11:24 AM",
-      date: "11/28/2024", // Add date field
+      date: "11/28/2024",
       type: "request",
     },
     {
@@ -31,7 +30,7 @@ const mockMessagesByRestaurant = {
       sender: "ME - FILIP",
       content: "OFFER APPROVED",
       time: "08:53 PM",
-      date: "11/28/2024", // Add date field
+      date: "11/28/2024",
       type: "approval",
     },
   ],
@@ -41,7 +40,7 @@ const mockMessagesByRestaurant = {
       sender: "RESTAURANT 2",
       content: "TABLE RESERVED",
       time: "12:30 PM",
-      date: "11/28/2024", // Add date field
+      date: "11/28/2024",
       type: "info",
     },
   ],
@@ -51,7 +50,7 @@ const mockMessagesByRestaurant = {
       sender: "RESTAURANT 3",
       content: "OFFER UNDER REVIEW",
       time: "10:00 AM",
-      date: "11/28/2024", // Add date field
+      date: "11/28/2024",
       type: "review",
     },
   ],
@@ -68,7 +67,7 @@ export default function MessagesPage() {
 
   useEffect(() => {
     setFilteredRestaurants(getFilteredRestaurants());
-  }, [restaurantsState, activeTab]); // Recalculate when restaurantsState or activeTab changes
+  }, [restaurantsState, activeTab]);
 
   const getFilteredRestaurants = () => {
     switch (activeTab) {
@@ -93,29 +92,26 @@ export default function MessagesPage() {
     const updatedRestaurants = restaurantsState.map((r) =>
       r.id === restaurant.id ? { ...r, isUnread: false } : r
     );
-    setRestaurantsState(updatedRestaurants); // Update the main restaurants state
+    setRestaurantsState(updatedRestaurants);
   };
 
   const updateRestaurantStatus = (id) => {
-    // Update selectedRestaurant status
     setSelectedRestaurant((prev) => ({
       ...prev,
       isArchived: !prev.isArchived,
     }));
 
-    // Update the status in restaurantsState
     const updatedRestaurants = restaurantsState.map((r) =>
       r.id === id
         ? {
-            ...r,
-            isArchived: !r.isArchived,
-          }
+          ...r,
+          isArchived: !r.isArchived,
+        }
         : r
     );
-    setRestaurantsState(updatedRestaurants); // Reflect status change in the restaurantsState
+    setRestaurantsState(updatedRestaurants);
 
-    // Optionally, update filteredRestaurants explicitly (not necessary unless you need to do something specific)
-    setFilteredRestaurants(getFilteredRestaurants()); // Update filtered restaurants based on activeTab
+    setFilteredRestaurants(getFilteredRestaurants());
   };
 
   const getStatusStyle = (status) => {
@@ -136,7 +132,6 @@ export default function MessagesPage() {
   };
 
   const updateTimeAndisUnread = (restaurantId, newTime, isUnread) => {
-    // Use functional update to ensure you're working with the latest state
     setRestaurantsState((prevRestaurants) => {
       const updatedRestaurants = prevRestaurants.map((restaurant) =>
         restaurant.id === restaurantId
@@ -146,7 +141,6 @@ export default function MessagesPage() {
       return updatedRestaurants;
     });
 
-    // Sync with filteredRestaurants to keep the state consistent
     setFilteredRestaurants((prevFilteredRestaurants) => {
       const updatedFilteredRestaurants = prevFilteredRestaurants.map(
         (restaurant) =>
@@ -181,7 +175,6 @@ export default function MessagesPage() {
       ],
     }));
 
-    // Update time and mark as unread only if not currently viewed
     updateTimeAndisUnread(selectedRestaurant.id, currentTime, true);
   };
 
@@ -197,11 +190,10 @@ export default function MessagesPage() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-[32px] py-[16px] font-roboto whitespace-nowrap font-[500] text-[14px] ${
-                activeTab === tab
+              className={`px-[32px] py-[16px] font-roboto whitespace-nowrap font-[500] text-[14px] ${activeTab === tab
                   ? "text-[#821101] border-b-2 border-[#821101]"
                   : "text-[#000000B2]"
-              }`}
+                }`}
             >
               {tab}
             </button>
