@@ -4,6 +4,7 @@ import { FaRegUser } from "react-icons/fa";
 import { ImSpoonKnife } from "react-icons/im";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoMdInformationCircleOutline } from "react-icons/io";
+import Link from "next/link";
 
 export default function MainContent({
   selectedRestaurant,
@@ -103,9 +104,11 @@ export default function MainContent({
             />
           </div>
           <div>
-            <h2 className="font-[600] pb-[8px]">
-              {selectedRestaurant.location}
-            </h2>
+            <Link href="/restaurant">
+              <h2 className="font-[600] pb-[8px]">
+                {selectedRestaurant.location}
+              </h2>
+            </Link>
             <div className="flex flex-wrap gap-[12px] items-center">
               <span
                 className={`text-[14px] px-2 py-[7px] lg:w-[150px] text-center font-[700] rounded-full ${getStatusStyle(

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function RestaurantList({
@@ -27,7 +28,9 @@ export default function RestaurantList({
             </div>
             <div className="flex-1">
               <div className="flex justify-between">
-                <h3 className="font-[600]">{restaurant.location}</h3>
+                <Link href="/restaurant">
+                  <h3 className="font-[600]">{restaurant.location}</h3>
+                </Link>
                 {restaurant.isUnread && (
                   <span className="w-[12px] h-[12px] bg-[#821101] rounded-full"></span>
                 )}
