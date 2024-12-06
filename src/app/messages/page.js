@@ -62,30 +62,59 @@ const parseTime = (timeString) => {
   if (timeString.toUpperCase().includes("D AGO")) {
     const daysAgo = parseInt(timeString);
     currentTime.setDate(currentTime.getDate() - daysAgo);
+    currentTime.setSeconds(0); // Ensure seconds are set to 0 for consistency
     return currentTime.getTime();
   }
 
   // Handle "LAST DAY"
   if (timeString.toUpperCase() === "LAST DAY") {
     currentTime.setDate(currentTime.getDate() - 1); // Subtract 1 day
+    currentTime.setSeconds(0); // Ensure seconds are set to 0 for consistency
     return currentTime.getTime();
   }
 
-  // Handle standard time format "07:53 AM" or "7:00 AM"
+  // Handle standard time format "07:53 AM" or "7:00 AM" (without seconds)
   const timeParts = timeString.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
   if (timeParts) {
     let [_, hours, minutes, period] = timeParts;
     hours = parseInt(hours, 10);
     minutes = parseInt(minutes, 10);
+
+    // Convert AM/PM to 24-hour format
     if (period.toUpperCase() === "PM" && hours !== 12) {
-      hours += 12; // Convert PM to 24-hour format
+      hours += 12;
     }
     if (period.toUpperCase() === "AM" && hours === 12) {
-      hours = 0; // Convert 12 AM to 00
+      hours = 0;
     }
+
     currentTime.setHours(hours);
     currentTime.setMinutes(minutes);
-    currentTime.setSeconds(0);
+    currentTime.setSeconds(0); // Ensure seconds are set to 0 for consistency
+    return currentTime.getTime();
+  }
+
+  // Handle time format with seconds "07:53:30 AM"
+  const timeWithSeconds = timeString.match(
+    /(\d{1,2}):(\d{2}):(\d{2})\s?(AM|PM)/i
+  );
+  if (timeWithSeconds) {
+    let [_, hours, minutes, seconds, period] = timeWithSeconds;
+    hours = parseInt(hours, 10);
+    minutes = parseInt(minutes, 10);
+    seconds = parseInt(seconds, 10);
+
+    // Convert AM/PM to 24-hour format
+    if (period.toUpperCase() === "PM" && hours !== 12) {
+      hours += 12;
+    }
+    if (period.toUpperCase() === "AM" && hours === 12) {
+      hours = 0;
+    }
+
+    currentTime.setHours(hours);
+    currentTime.setMinutes(minutes);
+    currentTime.setSeconds(seconds); // Set seconds as per the input
     return currentTime.getTime();
   }
 
@@ -93,11 +122,12 @@ const parseTime = (timeString) => {
   return new Date(timeString).getTime();
 };
 
-// Helper function to format time in 12 hour format
+// Helper function to format time in 12-hour format
 const formatTime = (date) => {
   return date.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
+    second: "2-digit", // Include seconds in the formatted time
     hour12: true, // Ensures time is in AM/PM format
   });
 };

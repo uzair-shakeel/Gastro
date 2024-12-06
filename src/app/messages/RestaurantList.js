@@ -6,6 +6,64 @@ export default function RestaurantList({
   onSelectAndMarkRead,
   getStatusStyle,
 }) {
+  // Function to format time without seconds (for display purposes)
+  const formatTimeWithoutSeconds = (time) => {
+    const date = new Date(time);
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true, // Ensures time is in AM/PM format
+    });
+  };
+
+  // Function to parse time and handle different time formats
+  const parseTime = (timeString) => {
+    const currentTime = new Date();
+
+    // Handle "LAST DAY", "5D AGO", "2D AGO"
+    if (timeString.toUpperCase().includes("D AGO")) {
+      const daysAgo = parseInt(timeString);
+      currentTime.setDate(currentTime.getDate() - daysAgo);
+      return currentTime.getTime();
+    }
+
+    // Handle "LAST DAY"
+    if (timeString.toUpperCase() === "LAST DAY") {
+      currentTime.setDate(currentTime.getDate() - 1); // Subtract 1 day
+      return currentTime.getTime();
+    }
+
+    // Handle standard time format "08:20:05 pm" or "7:00 pm"
+    const timeParts = timeString.match(
+      /(\d{1,2}):(\d{2}):?(\d{2})?\s?(AM|PM)/i
+    );
+    if (timeParts) {
+      let [_, hours, minutes, seconds, period] = timeParts;
+      hours = parseInt(hours, 10);
+      minutes = parseInt(minutes, 10);
+      if (seconds) {
+        seconds = parseInt(seconds, 10);
+      } else {
+        seconds = 0; // Default to 0 if no seconds provided
+      }
+
+      if (period.toUpperCase() === "PM" && hours !== 12) {
+        hours += 12; // Convert PM to 24-hour format
+      }
+      if (period.toUpperCase() === "AM" && hours === 12) {
+        hours = 0; // Convert 12 AM to 00
+      }
+
+      currentTime.setHours(hours);
+      currentTime.setMinutes(minutes);
+      currentTime.setSeconds(seconds); // Keep seconds for internal use
+      return currentTime.getTime();
+    }
+
+    // If no matching format, return the timestamp for the original string
+    return new Date(timeString).getTime();
+  };
+
   return (
     <div className="lg:w-[30%] w-[280px] custom-scrollbar space-y-[12px] overflow-y-auto h-[87vh]">
       {restaurants.map((restaurant) => (
@@ -44,7 +102,8 @@ export default function RestaurantList({
                   {restaurant.status}
                 </span>
                 <span className="text-[14px] text-black font-satoshi uppercase">
-                  {restaurant.time}
+                  {formatTimeWithoutSeconds(parseTime(restaurant.time))}{" "}
+                  {/* Display without seconds */}
                 </span>
               </div>
             </div>
