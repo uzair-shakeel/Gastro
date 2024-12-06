@@ -188,7 +188,7 @@ export default function RestaurantDetails() {
             <Box>
               <Button
                 fullWidth
-                className="w-[137px] h-[56px] bg-[#821101] font-satoshi tracking-[0.46px] font-medium text-[15px]"
+                className="min-w-[137px] h-[56px] bg-[#821101] font-satoshi tracking-[0.46px] font-medium text-[15px]"
                 style={{
                   boxShadow: "none",
                   backgroundColor: "#821101",
@@ -253,7 +253,7 @@ export default function RestaurantDetails() {
 
           <ImageGrid />
 
-          <Typography className="mt-6 text-[#000000] text-[18px] leading-[27px] font-medium tracking-[-0.02em]">
+          <Typography style={{marginTop:'24px !important'}} className=" text-[#000000] text-[18px] leading-[27px] font-medium tracking-[-0.02em]">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
