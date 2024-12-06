@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  Typography,
-  IconButton,
-} from "@mui/material";
+import { Button, Typography, IconButton, Menu, MenuItem } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
@@ -38,13 +32,19 @@ const CalendarGrid = styled("div")(({ theme }) => ({
 
 const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
 
-export function DateSelectionModal() {
-  const [open, setOpen] = useState(false);
+export function DateSelectionDropdown() {
+  const [anchorEl, setAnchorEl] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [tempSelectedDate, setTempSelectedDate] = useState(null); // Temporary date for confirmation
 
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const open = Boolean(anchorEl);
+
+  const handleOpen = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => {
+    setTempSelectedDate(selectedDate); // Reset to the previously confirmed date on close
+    setAnchorEl(null);
+  };
 
   const getDaysInMonth = (date) => {
     const year = date.getFullYear();
@@ -69,20 +69,21 @@ export function DateSelectionModal() {
   };
 
   const handleDateSelect = (day) => {
-    setSelectedDate(
+    setTempSelectedDate(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
     );
   };
 
   const handleConfirm = () => {
-    handleClose();
+    setSelectedDate(tempSelectedDate); // Set the selected date
+    setAnchorEl(null);
   };
 
   return (
     <>
       <Button
         variant="outlined"
-        onClick={handleClickOpen}
+        onClick={handleOpen}
         sx={{
           textTransform: "none",
           maxWidth: "140px",
@@ -91,8 +92,6 @@ export function DateSelectionModal() {
           color: "gray",
           border: "1px solid #C4C4C4",
           borderRadius: "4px",
-          // padding: "8px 12px",
-
           height: "100%",
           width: "200px",
           fontWeight: 400,
@@ -117,8 +116,8 @@ export function DateSelectionModal() {
           {selectedDate ? selectedDate.toLocaleDateString() : "Select"}
         </span>
       </Button>
-
-      <Dialog
+      <Menu
+        anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         PaperProps={{
@@ -129,110 +128,98 @@ export function DateSelectionModal() {
           },
         }}
       >
-        <DialogContent
-          sx={{
-            maxHeight: "550px", // Set a height limit for scrolling
-            overflowY: "scroll", // Enable vertical scrolling
-            "&::-webkit-scrollbar": {
-              display: "none", // Hide the scrollbar in Webkit browsers (Chrome, Safari)
-            },
-            scrollbarWidth: "none", // For Firefox
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "16px",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "16px",
-            }}
-          >
-            <IconButton onClick={handlePrevMonth}>
-              <ChevronLeft />
-            </IconButton>
-            <Typography>
-              {currentMonth.toLocaleString("default", {
-                month: "long",
-                year: "numeric",
-              })}
-            </Typography>
-            <IconButton onClick={handleNextMonth}>
-              <ChevronRight />
-            </IconButton>
-          </div>
-          <CalendarGrid>
-            {weekDays.map((day) => (
-              <div key={day} className="weekday">
+          <IconButton onClick={handlePrevMonth}>
+            <ChevronLeft />
+          </IconButton>
+          <Typography>
+            {currentMonth.toLocaleString("default", {
+              month: "long",
+              year: "numeric",
+            })}
+          </Typography>
+          <IconButton onClick={handleNextMonth}>
+            <ChevronRight />
+          </IconButton>
+        </div>
+        <CalendarGrid>
+          {weekDays.map((day) => (
+            <div key={day} className="weekday">
+              {day}
+            </div>
+          ))}
+          {[...Array(firstDay)].map((_, index) => (
+            <div key={`empty-${index}`} />
+          ))}
+          {[...Array(days)].map((_, index) => {
+            const day = index + 1;
+            const isTempSelected =
+              tempSelectedDate?.getDate() === day &&
+              tempSelectedDate?.getMonth() === currentMonth.getMonth() &&
+              tempSelectedDate?.getFullYear() === currentMonth.getFullYear();
+            const isToday =
+              new Date().getDate() === day &&
+              new Date().getMonth() === currentMonth.getMonth() &&
+              new Date().getFullYear() === currentMonth.getFullYear();
+            return (
+              <div
+                key={day}
+                className={`day ${isTempSelected ? "selected" : ""} ${
+                  isToday ? "today" : ""
+                }`}
+                onClick={() => handleDateSelect(day)}
+              >
                 {day}
               </div>
-            ))}
-            {[...Array(firstDay)].map((_, index) => (
-              <div key={`empty-${index}`} />
-            ))}
-            {[...Array(days)].map((_, index) => {
-              const day = index + 1;
-              const isSelected =
-                selectedDate?.getDate() === day &&
-                selectedDate?.getMonth() === currentMonth.getMonth() &&
-                selectedDate?.getFullYear() === currentMonth.getFullYear();
-              const isToday =
-                new Date().getDate() === day &&
-                new Date().getMonth() === currentMonth.getMonth() &&
-                new Date().getFullYear() === currentMonth.getFullYear();
-              return (
-                <div
-                  key={day}
-                  className={`day ${isSelected ? "selected" : ""} ${
-                    isToday ? "today" : ""
-                  }`}
-                  onClick={() => handleDateSelect(day)}
-                >
-                  {day}
-                </div>
-              );
-            })}
-          </CalendarGrid>
-
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={() => {
-              setSelectedDate(new Date());
-              setCurrentMonth(new Date());
-            }}
-            sx={{
-              mt: 2,
+            );
+          })}
+        </CalendarGrid>
+        <MenuItem
+          onClick={() => {
+            setTempSelectedDate(new Date());
+            setCurrentMonth(new Date());
+          }}
+          sx={{
+            mt: 2,
+            boxShadow: "none",
+            color: "#8B0000",
+            backgroundColor: "rgba(130, 17, 1, 0.1)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            "&:hover": {
+              backgroundColor: "rgba(130, 17, 1, 0.2)",
               boxShadow: "none",
-              color: "#8B0000",
-              backgroundColor: "rgba(130, 17, 1, 0.1)",
-              "&:hover": {
-                backgroundColor: "rgba(130, 17, 1, 0.2)",
-                boxShadow: "none",
-              },
-            }}
-          >
-            TODAY
-          </Button>
-
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={handleConfirm}
-            sx={{
-              mt: 2,
-              backgroundColor: "#8B0000",
-              boxShadow: "none",
-
-              "&:hover": {
-                backgroundColor: "#660000",
-                boxShadow: "none",
-              },
-            }}
-          >
-            CONFIRM
-          </Button>
-        </DialogContent>
-      </Dialog>
+            },
+          }}
+        >
+          TODAY
+        </MenuItem>
+        <MenuItem
+          onClick={handleConfirm}
+          sx={{
+            mt: 1,
+            backgroundColor: "#8B0000",
+            color: "white",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            "&:hover": {
+              backgroundColor: "#660000",
+            },
+          }}
+        >
+          CONFIRM
+        </MenuItem>
+      </Menu>
     </>
   );
 }

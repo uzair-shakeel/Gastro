@@ -15,7 +15,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { DateSelectionModal } from "../components/popups/restaurant/date";
+import { DateSelectionDropdown } from "../components/popups/restaurant/date";
 import { CategoryModal } from "../components/popups/restaurant/category";
 import { GuestsModal } from "../components/popups/restaurant/guests";
 import { BudgetInput } from "../components/popups/restaurant/budget";
@@ -169,7 +169,7 @@ export default function RestaurantDetails() {
             mb={3} // For margin-bottom
           >
             <Box>
-              <DateSelectionModal />
+              <DateSelectionDropdown />
             </Box>
             <Box flexGrow={1}>
               <CategoryModal />
@@ -276,7 +276,7 @@ export default function RestaurantDetails() {
           </Typography>
 
           <div className="border border-[#0000001A] rounded p-4 mt-6">
-            <Typography className="mb-3 text-[#000000] text-[20px] leading-[26px] font-semibold" >
+            <Typography className="mb-3 text-[#000000] text-[20px] leading-[26px] font-semibold">
               Tags:
             </Typography>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
@@ -289,9 +289,9 @@ export default function RestaurantDetails() {
                     backgroundColor: "#82110114",
                     borderRadius: "16px",
                     fontWeight: "400",
-                    fontSize: '16px',
-                    lineHeight: '18px',
-                    letterSpacing: '0.16px',
+                    fontSize: "16px",
+                    lineHeight: "18px",
+                    letterSpacing: "0.16px",
                     padding: "4px 12px",
                   }}
                 >
@@ -420,13 +420,11 @@ export default function RestaurantDetails() {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    alignItems: 'center',
-                    paddingBottom: '16px'
+                    alignItems: "center",
+                    paddingBottom: "16px",
                   }}
                 >
-                  <Typography
-                    className="flex gap-1.5 text-[#000000] text-opacity-80 text-[16px] leading-[19.2px] tracking-[-0.02em] font-semibold"
-                  >
+                  <Typography className="flex gap-1.5 text-[#000000] text-opacity-80 text-[16px] leading-[19.2px] tracking-[-0.02em] font-semibold">
                     <img
                       src={detail.icon}
                       alt={`${detail.label} icon`}
