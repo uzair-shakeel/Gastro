@@ -9,52 +9,35 @@ import {
 } from "@mui/material";
 import { Close, ContentCopy, Share } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
+import Image from "next/image";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialog-paper": {
-    borderRadius: "16px",
-    padding: "24px",
-    maxWidth: "400px",
+    borderRadius: "4px",
+    padding: "16px",
+    maxWidth: "434px",
     width: "100%",
   },
 }));
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
   position: "absolute",
-  right: "24px",
-  top: "24px",
+  right: "10px",
+  top: "8px",
 }));
 
 const ButtonsContainer = styled("div")(({ theme }) => ({
   display: "flex",
-  gap: "16px",
-  marginTop: "24px",
+  marginTop: '48px',
+  gap: "12px",
 }));
-
-const ShareButton = styled(Button)(({ theme }) => ({
-  flex: 1,
-  backgroundColor: "#FFF1F1",
-  color: "#8B0000",
-  "&:hover": {
-    backgroundColor: "#FFE6E6",
-  },
-}));
-
-const CopyButton = styled(Button)(({ theme }) => ({
-  flex: 1,
-  backgroundColor: "#8B0000",
-  color: "white",
-  "&:hover": {
-    backgroundColor: "#660000",
-  },
-}));
+ 
 
 export function QRCodeModal({ open, onClose, url }) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false); // State to check if it's the client-side
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // This will only run on the client side
     setIsClient(true);
   }, []);
 
@@ -81,12 +64,12 @@ export function QRCodeModal({ open, onClose, url }) {
   return (
     <>
       <StyledDialog open={open} onClose={onClose} fullWidth>
-        <Typography variant="h6">Scan or Share QR code</Typography>
+        <Typography style={{ fontSize: '20px', lineHeight: '26px', letterSpacing: '-2%', fontWeight: '600' }}>Scan or Share QR code</Typography>
         <CloseButton onClick={onClose} size="large">
           <Close />
         </CloseButton>
 
-        <DialogContent>
+        <div className="pt-12">
           <div
             style={{
               display: "flex",
@@ -95,7 +78,6 @@ export function QRCodeModal({ open, onClose, url }) {
               height: "216px",
               width: "216px",
               justifyContent: "center",
-              marginBottom: "24px",
             }}
             className="mx-auto"
           >
@@ -103,23 +85,27 @@ export function QRCodeModal({ open, onClose, url }) {
           </div>
 
           <ButtonsContainer>
-            <ShareButton
+            <button
+              className="w-full h-[42px] bg-[#82110126] text-[#821101] rounded flex items-center justify-center gap-2 text-[15px] font-medium font-satoshi tracking-[0.46px] leading-[26px]"
               variant="contained"
               startIcon={<Share />}
               onClick={handleShare}
               disabled={!isClient || !navigator.share}
             >
               SHARE
-            </ShareButton>
-            <CopyButton
+              <Image src='/share.svg' alt="share" width={24} height={24} />
+            </button>
+            <button
+              className="w-full h-[42px] bg-[#821101] text-[#F9F9F9] rounded flex items-center justify-center gap-2 text-[15px] font-medium font-satoshi tracking-[0.46px] leading-[26px]"
               variant="contained"
               startIcon={<ContentCopy />}
               onClick={handleCopyLink}
             >
+              <Image src='/copy-link.svg' alt="copy-link" width={24} height={24} />
               COPY LINK
-            </CopyButton>
+            </button>
           </ButtonsContainer>
-        </DialogContent>
+        </div>
       </StyledDialog>
 
       <Snackbar

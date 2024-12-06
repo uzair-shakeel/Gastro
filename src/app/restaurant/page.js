@@ -26,13 +26,13 @@ import Image from "next/image";
 ("../globals.css");
 
 const openingHours = [
-  { day: "Monday", hours: "8AM - 1PM & 3PM - 11PM" },
-  { day: "Tuesday", hours: "8AM - 1PM & 3PM - 11PM" },
-  { day: "Wednesday", hours: "8AM - 1PM & 3PM - 11PM" },
-  { day: "Thursday", hours: "8AM - 1PM & 3PM - 11PM" },
-  { day: "Friday", hours: "11AM - 11PM" },
-  { day: "Saturday", hours: "Closed" },
-  { day: "Sunday", hours: "8AM - 1PM & 3PM - 11PM" },
+  { day: "Monday", hoursOne: "8AM - 1PM", hoursTwo: " 3PM - 11PM" },
+  { day: "Tuesday", hoursOne: "8AM - 1PM", hoursTwo: " 3PM - 11PM" },
+  { day: "Wednesday", hoursOne: "8AM - 1PM", hoursTwo: " 3PM - 11PM" },
+  { day: "Thursday", hoursOne: "8AM - 1PM ", hoursTwo: " 3PM - 11PM" },
+  { day: "Friday", hoursOne: "11AM - 11PM" },
+  { day: "Saturday", hoursOne: "Closed" },
+  { day: "Sunday", hoursOne: "8AM - 1PM ", hoursTwo: " 3PM - 11PM" },
 ];
 
 const tags = [
@@ -96,12 +96,12 @@ export default function RestaurantDetails() {
             </Typography>
             <Typography
               variant="body2"
-              style={{ display: "flex", alignItems: "center", fontWeight:'600'  }}
+              style={{ display: "flex", alignItems: "center", fontWeight: '600' }}
             >
               <img
                 src="/italian.svg"
                 alt="Italian flag"
-                style={{ width: "20px", height: "20px", marginRight: "8px",}}
+                style={{ width: "20px", height: "20px", marginRight: "8px", }}
               />
               Italian
               <Star style={{ color: "#FFD700", marginLeft: "16px" }} />
@@ -117,13 +117,23 @@ export default function RestaurantDetails() {
           </Button>
           <Button
             variant="outlined"
+            style={{
+              backgroundColor: isFavorite
+                ? '#82110126'
+                : '#8211010D',
+              border: 'none',
+              color: '#000000',
+              marginTop: '-1px',
+              fontWeight: '500',
+            }}
             startIcon={
-              isFavorite ? <Favorite color="error" /> : <FavoriteBorder />
+              isFavorite ? <Favorite style={{ color: '#821101' }} /> : <FavoriteBorder style={{ color: "#821101" }} />
             }
             onClick={() => setIsFavorite(!isFavorite)}
           >
-            ADD TO FAVOURITE
+            {isFavorite ? "ADDED TO FAVOURITE" : "ADD TO FAVOURITE"}
           </Button>
+
         </Grid>
       </Grid>
 
@@ -142,12 +152,13 @@ export default function RestaurantDetails() {
         </Grid>
         <Grid item xs="auto">
           <Button
-            variant="contained"
             fullWidth
             className="w-[137px] h-[56px] bg-[#821101] font-satoshi tracking-[0.46px] font-medium text-[15px]"
             style={{
               boxShadow: "none",
-            }} // Adjust padding for the button
+              backgroundColor: "#821101",
+              color: '#F9F9F9'
+            }}
           >
             VIEW OFFER
           </Button>
@@ -283,11 +294,12 @@ export default function RestaurantDetails() {
             }}
           >
             <CardContent>
-              <Typography variant="h6" gutterBottom className="font-bold">
+              <Typography className="text-[#000000] text-[20px] leading-[26px] font-semibold mb-4">
                 Opening Hours:
               </Typography>
               {openingHours.map((day) => {
-                const isToday = new Date().toLocaleString('en-US', { weekday: 'long' }) === day.day;
+                const isToday = new Date().toLocaleString("en-US", { weekday: "long" }) === day.day;
+                const showSeparator = day.hoursTwo && day.day !== "Friday" && day.day !== "Saturday";
                 return (
                   <div
                     key={day.day}
@@ -298,13 +310,13 @@ export default function RestaurantDetails() {
                       padding: "10px",
                       paddingLeft: "15px",
                       paddingRight: "15px",
-                      backgroundColor: isToday ? "#FFEBEB" : "#F9F9F9",
+                      backgroundColor:
+                        day.day === "Saturday" ? "rgba(255, 235, 235, 0.8)" : isToday ? "#FFEBEB" : "#F9F9F9",
                     }}
                   >
                     <Typography
-                      variant="body2"
+                      className="text-[16px] font-semibold leading-[19.2px] tracking-[-0.02em]"
                       style={{
-                        fontWeight: isToday ? "medium" : "normal",
                         color: isToday ? "black" : "inherit",
                         display: "flex",
                         gap: "5px",
@@ -319,13 +331,22 @@ export default function RestaurantDetails() {
                       </span>
                       {day.day}:
                     </Typography>
-                    <Typography variant="body2">{day.hours}</Typography>
+                    <div className={`flex items-center ${showSeparator ? "gap-1.5" : ""}`}>
+
+                      <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em]">{day.hoursOne}</Typography>
+                      {day.hoursTwo && day.day !== "Friday" && day.day !== "Saturday" && (
+                        <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em] opacity-50">
+                          &
+                        </Typography>
+                      )}
+                      <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em]">{day.hoursTwo}</Typography>
+                    </div>
                   </div>
                 );
               })}
             </CardContent>
-
           </Card>
+
           <Card
             style={{
               marginBottom: "24px",
@@ -401,6 +422,8 @@ export default function RestaurantDetails() {
             </CardContent>
           </Card>
         </Grid>
+
+
       </Grid>
       <QRCodeModal
         open={qrModalOpen}
