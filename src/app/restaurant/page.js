@@ -91,7 +91,7 @@ export default function RestaurantDetails() {
               variant="body2"
               color="#1D9BF0"
               component="a"
-              className="underline flex items-center gap-2 font-semibold"
+              className="underline flex items-center gap-2 font-semibold border-r border-[#CCCCCC] pr-4"
               href="https://mondalislamabad.com"
             >
               <img src="/link-logo.svg" alt="link-logo" />
@@ -104,6 +104,7 @@ export default function RestaurantDetails() {
                 alignItems: "center",
                 fontWeight: "600",
               }}
+              className=" border-r border-[#CCCCCC] pr-4"
             >
               <img
                 src="/italian.svg"
@@ -111,7 +112,9 @@ export default function RestaurantDetails() {
                 style={{ width: "20px", height: "20px", marginRight: "8px" }}
               />
               Italian
-              <Star style={{ color: "#FFD700", marginLeft: "16px" }} />
+            </Typography>
+            <Box style={{ display: 'flex' }}>
+              <Star style={{ color: "#FFD700", }} />
               <span style={{ fontWeight: "600", marginLeft: "4px" }}>4.7</span>
               <span
                 style={{
@@ -129,9 +132,10 @@ export default function RestaurantDetails() {
                 height={20}
                 className="ml-2"
               />
-            </Typography>
+            </Box>
           </div>
         </Grid>
+
         <Grid className="flex items-center gap-5">
           <Button onClick={() => setQrModalOpen(true)}>
             <img src="/qr_code.svg" />
@@ -142,6 +146,7 @@ export default function RestaurantDetails() {
               backgroundColor: isFavorite ? "#82110126" : "#8211010D",
               border: "none",
               color: "#000000",
+              height: '42px',
               marginTop: "-1px",
               fontWeight: "500",
             }}
@@ -194,6 +199,8 @@ export default function RestaurantDetails() {
               </Button>
             </Box>
           </Box>
+
+
           <Box className="relative mb-8 bg-purple-500 h-[400px] w-full rounded-lg overflow-hidden">
             <Swiper
               loop={true}

@@ -93,7 +93,7 @@ export function DateSelectionDropdown() {
           border: "1px solid #C4C4C4",
           borderRadius: "4px",
           height: "100%",
-          width: "200px",
+          width: "150px",
           fontWeight: 400,
           display: "flex",
           alignItems: "center",
@@ -123,8 +123,9 @@ export function DateSelectionDropdown() {
         PaperProps={{
           sx: {
             width: "100%",
-            maxWidth: "400px",
+            maxWidth: "350px",
             p: 1,
+            marginTop:1,
           },
         }}
       >
@@ -171,9 +172,8 @@ export function DateSelectionDropdown() {
             return (
               <div
                 key={day}
-                className={`day ${isTempSelected ? "selected" : ""} ${
-                  isToday ? "today" : ""
-                }`}
+                className={`day ${isTempSelected ? "selected" : ""} ${isToday ? "today" : ""
+                  }`}
                 onClick={() => handleDateSelect(day)}
               >
                 {day}
