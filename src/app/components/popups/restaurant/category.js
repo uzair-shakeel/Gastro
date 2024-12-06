@@ -66,7 +66,7 @@ export function CategoryModal() {
   };
 
   const handleCategoryToggle = (categoryId) => {
-    if (categoryId === "dinner") {
+    if (categoryId !== "breakfast") {
       setOpenAperoModal(true);
       handleClose();
     }
