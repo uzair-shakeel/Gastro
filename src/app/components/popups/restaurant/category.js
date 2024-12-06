@@ -92,6 +92,15 @@ export function CategoryModal() {
     setCourses(0);
   };
 
+  // Generate button text based on selected categories
+  const buttonText =
+    selectedCategories.length > 0
+      ? selectedCategories
+          .map((id) => categories.find((cat) => cat.id === id)?.label)
+          .filter(Boolean)
+          .join(", ")
+      : "Select";
+
   return (
     <>
       <Button
@@ -101,25 +110,26 @@ export function CategoryModal() {
         sx={{
           textTransform: "none",
           fontSize: "16px",
-          maxWidth: "300px",
           justifyContent: "space-between",
           color: "gray",
           border: "1px solid #C4C4C4",
           borderRadius: "4px",
-          // padding: "8px 12px",
           height: "100%",
-          minWidth: "200px",
           fontWeight: 400,
           display: "flex",
           alignItems: "center",
+          flexGrow: 1,
         }}
         endIcon={<ArrowDropDownIcon />}
       >
+        <legend className="absolute top-0 left-2 -translate-y-1/2 bg-white px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]">
+          Category
+        </legend>
         <span style={{ display: "flex", alignItems: "center" }}>
           <div className="mr-3">
             <img src="/category.svg" />
           </div>
-          Category
+          {buttonText}
         </span>
       </Button>
 

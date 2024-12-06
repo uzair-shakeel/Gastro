@@ -104,6 +104,9 @@ export function DateSelectionModal() {
           },
         }}
       >
+        <legend className="absolute top-0 left-2 -translate-y-1/2 bg-white px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]">
+          Date Selection
+        </legend>
         <span style={{ display: "flex", alignItems: "center" }}>
           <div className="mr-2">
             <img
@@ -111,7 +114,7 @@ export function DateSelectionModal() {
               className="w-[18px] h-[18px] min-w-[18px]"
             />
           </div>
-          {selectedDate ? selectedDate.toLocaleDateString() : "Date"}
+          {selectedDate ? selectedDate.toLocaleDateString() : "Select"}
         </span>
       </Button>
 
@@ -179,8 +182,9 @@ export function DateSelectionModal() {
               return (
                 <div
                   key={day}
-                  className={`day ${isSelected ? "selected" : ""} ${isToday ? "today" : ""
-                    }`}
+                  className={`day ${isSelected ? "selected" : ""} ${
+                    isToday ? "today" : ""
+                  }`}
                   onClick={() => handleDateSelect(day)}
                 >
                   {day}
@@ -194,16 +198,16 @@ export function DateSelectionModal() {
             variant="contained"
             onClick={() => {
               setSelectedDate(new Date());
-              setCurrentMonth(new Date());  
+              setCurrentMonth(new Date());
             }}
             sx={{
               mt: 2,
-              boxShadow: "none",  
+              boxShadow: "none",
               color: "#8B0000",
               backgroundColor: "rgba(130, 17, 1, 0.1)",
               "&:hover": {
                 backgroundColor: "rgba(130, 17, 1, 0.2)",
-                boxShadow: "none",  
+                boxShadow: "none",
               },
             }}
           >
@@ -217,11 +221,11 @@ export function DateSelectionModal() {
             sx={{
               mt: 2,
               backgroundColor: "#8B0000",
-              boxShadow: "none", 
+              boxShadow: "none",
 
               "&:hover": {
                 backgroundColor: "#660000",
-                boxShadow: "none",  
+                boxShadow: "none",
               },
             }}
           >

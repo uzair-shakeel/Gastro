@@ -78,7 +78,12 @@ export default function RestaurantDetails() {
         style={{ marginBottom: "24px" }}
       >
         <Grid item xs>
-          <Typography variant="h4" component="h1" gutterBottom className="font-semibold">
+          <Typography
+            variant="h4"
+            component="h1"
+            gutterBottom
+            className="font-semibold"
+          >
             Mondal Restaurant Islamabad
           </Typography>
           <div className="flex gap-4 items-center">
@@ -89,23 +94,41 @@ export default function RestaurantDetails() {
               className="underline flex items-center gap-2 font-semibold"
               href="https://mondalislamabad.com"
             >
-              <img src='/link-logo.svg' alt="link-logo" />
+              <img src="/link-logo.svg" alt="link-logo" />
               mondalislamabad.com
             </Typography>
             <Typography
               variant="body2"
-              style={{ display: "flex", alignItems: "center", fontWeight: '600' }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontWeight: "600",
+              }}
             >
               <img
                 src="/italian.svg"
                 alt="Italian flag"
-                style={{ width: "20px", height: "20px", marginRight: "8px", }}
+                style={{ width: "20px", height: "20px", marginRight: "8px" }}
               />
               Italian
               <Star style={{ color: "#FFD700", marginLeft: "16px" }} />
               <span style={{ fontWeight: "600", marginLeft: "4px" }}>4.7</span>
-              <span style={{ fontWeight: "600", color: "#000000", marginLeft: "4px" }}>(591)</span>
-              <Image src='/help .svg' alt="help" width={20} height={20} className="ml-2" />
+              <span
+                style={{
+                  fontWeight: "600",
+                  color: "#000000",
+                  marginLeft: "4px",
+                }}
+              >
+                (591)
+              </span>
+              <Image
+                src="/help .svg"
+                alt="help"
+                width={20}
+                height={20}
+                className="ml-2"
+              />
             </Typography>
           </div>
         </Grid>
@@ -116,55 +139,61 @@ export default function RestaurantDetails() {
           <Button
             variant="outlined"
             style={{
-              backgroundColor: isFavorite
-                ? '#82110126'
-                : '#8211010D',
-              border: 'none',
-              color: '#000000',
-              marginTop: '-1px',
-              fontWeight: '500',
+              backgroundColor: isFavorite ? "#82110126" : "#8211010D",
+              border: "none",
+              color: "#000000",
+              marginTop: "-1px",
+              fontWeight: "500",
             }}
             startIcon={
-              isFavorite ? <Favorite style={{ color: '#821101' }} /> : <FavoriteBorder style={{ color: "#821101" }} />
+              isFavorite ? (
+                <Favorite style={{ color: "#821101" }} />
+              ) : (
+                <FavoriteBorder style={{ color: "#821101" }} />
+              )
             }
             onClick={() => setIsFavorite(!isFavorite)}
           >
             {isFavorite ? "ADDED TO FAVOURITE" : "ADD TO FAVOURITE"}
-          </Button>
-
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={2} style={{ marginBottom: "24px" }}>
-        <Grid item xs="auto">
-          <DateSelectionModal />
-        </Grid>
-        <Grid item xs="auto">
-          <CategoryModal />
-        </Grid>
-        <Grid item xs="auto">
-          <GuestsModal />
-        </Grid>
-        <Grid item xs="auto">
-          <BudgetInput />
-        </Grid>
-        <Grid item xs="auto">
-          <Button
-            fullWidth
-            className="w-[137px] h-[56px] bg-[#821101] font-satoshi tracking-[0.46px] font-medium text-[15px]"
-            style={{
-              boxShadow: "none",
-              backgroundColor: "#821101",
-              color: '#F9F9F9'
-            }}
-          >
-            VIEW OFFER
           </Button>
         </Grid>
       </Grid>
 
       <Grid container spacing={4}>
         <Grid item xs={12} md={8}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            flexWrap="wrap"
+            gap={2}
+            mb={3} // For margin-bottom
+          >
+            <Box>
+              <DateSelectionModal />
+            </Box>
+            <Box flexGrow={1}>
+              <CategoryModal />
+            </Box>
+            <Box>
+              <GuestsModal />
+            </Box>
+            <Box>
+              <BudgetInput />
+            </Box>
+            <Box>
+              <Button
+                fullWidth
+                className="w-[137px] h-[56px] bg-[#821101] font-satoshi tracking-[0.46px] font-medium text-[15px]"
+                style={{
+                  boxShadow: "none",
+                  backgroundColor: "#821101",
+                  color: "#F9F9F9",
+                }}
+              >
+                VIEW OFFER
+              </Button>
+            </Box>
+          </Box>
           <Box className="relative mb-8 bg-purple-500 h-[400px] w-full rounded-lg overflow-hidden">
             <Swiper
               loop={true}
@@ -290,8 +319,13 @@ export default function RestaurantDetails() {
                 Opening Hours:
               </Typography>
               {openingHours.map((day) => {
-                const isToday = new Date().toLocaleString("en-US", { weekday: "long" }) === day.day;
-                const showSeparator = day.hoursTwo && day.day !== "Friday" && day.day !== "Saturday";
+                const isToday =
+                  new Date().toLocaleString("en-US", { weekday: "long" }) ===
+                  day.day;
+                const showSeparator =
+                  day.hoursTwo &&
+                  day.day !== "Friday" &&
+                  day.day !== "Saturday";
                 return (
                   <div
                     key={day.day}
@@ -303,7 +337,11 @@ export default function RestaurantDetails() {
                       paddingLeft: "15px",
                       paddingRight: "15px",
                       backgroundColor:
-                        day.day === "Saturday" ? "rgba(255, 235, 235, 0.8)" : isToday ? "#FFEBEB" : "#F9F9F9",
+                        day.day === "Saturday"
+                          ? "rgba(255, 235, 235, 0.8)"
+                          : isToday
+                          ? "#FFEBEB"
+                          : "#F9F9F9",
                     }}
                   >
                     <Typography
@@ -323,15 +361,24 @@ export default function RestaurantDetails() {
                       </span>
                       {day.day}:
                     </Typography>
-                    <div className={`flex items-center ${showSeparator ? "gap-1.5" : ""}`}>
-
-                      <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em]">{day.hoursOne}</Typography>
-                      {day.hoursTwo && day.day !== "Friday" && day.day !== "Saturday" && (
-                        <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em] opacity-50">
-                          &
-                        </Typography>
-                      )}
-                      <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em]">{day.hoursTwo}</Typography>
+                    <div
+                      className={`flex items-center ${
+                        showSeparator ? "gap-1.5" : ""
+                      }`}
+                    >
+                      <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em]">
+                        {day.hoursOne}
+                      </Typography>
+                      {day.hoursTwo &&
+                        day.day !== "Friday" &&
+                        day.day !== "Saturday" && (
+                          <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em] opacity-50">
+                            &
+                          </Typography>
+                        )}
+                      <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em]">
+                        {day.hoursTwo}
+                      </Typography>
                     </div>
                   </div>
                 );
@@ -410,8 +457,6 @@ export default function RestaurantDetails() {
             </CardContent>
           </Card>
         </Grid>
-
-
       </Grid>
       <QRCodeModal
         open={qrModalOpen}
