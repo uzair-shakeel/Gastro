@@ -155,6 +155,9 @@ export function GuestsModal() {
         }}
         endIcon={<ArrowDropDownIcon />}
       >
+        <legend className="absolute top-0 left-2 -translate-y-1/2 bg-white px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]">
+          Guests
+        </legend>
         <span style={{ display: "flex", alignItems: "center" }}>
           <div className="mr-3">
             <img src="/PeopleFilled.svg" />
@@ -162,7 +165,7 @@ export function GuestsModal() {
 
           {totalGuests > 0
             ? `${totalGuests} Guest${totalGuests !== 1 ? "s" : ""}`
-            : "Guests"}
+            : "0"}
         </span>
       </Button>
 
