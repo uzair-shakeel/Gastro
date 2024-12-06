@@ -1,83 +1,95 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { XIcon } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Thumbs } from "swiper/modules";
+import { RxCross2 } from "react-icons/rx";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
-import { Navigation, Thumbs } from 'swiper';
+import 'swiper/css/free-mode';
+import { Box, IconButton } from '@mui/material';
 
 export default function Modal({ isOpen, onClose, images, currentIndex }) {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'; 
-    }
-    return () => {
-      document.body.style.overflow = 'unset';  
-    };
-  }, [isOpen]);
+    const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  if (!isOpen) return null;
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
 
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div className="relative w-full max-w-4xl px-4">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute right-4 top-4 rounded-full bg-white/90 p-2 text-black shadow-lg transition-transform hover:scale-110"
+    if (!isOpen) return null;
+
+    return (
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+            onClick={(e) => {
+                if (e.target === e.currentTarget) onClose();
+            }}
         >
-          <XIcon className="h-6 w-6" />
-        </button>
+            <div className="relative w-full max-w-4xl px-4">
+                <button
+                    onClick={onClose}
+                    className="absolute right-8 top-4 z-10 bg-white/90 w-6 h-6 flex items-center justify-center rounded-full"
+                >
+                   <RxCross2 className=' text-black' />
 
-        {/* Swiper Slider */}
-        <Swiper
-          modules={[Navigation, Thumbs]}
-          navigation
-          initialSlide={currentIndex}
-          loop
-          className="w-full aspect-video"
-        >
-          {images.map((src, index) => (
-            <SwiperSlide key={index}>
-              <Image
-                src={src}
-                alt={`Image ${index + 1}`}
-                fill
-                className="object-cover"
-                priority
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                </button>
 
-        {/* Thumbnails */}
-        <div className="mt-4 flex justify-center gap-2 px-4">
-          {images.map((src, index) => (
-            <button
-              key={index}
-              className={`relative h-16 w-24 overflow-hidden rounded-lg border-2 ${
-                index === currentIndex ? 'border-white' : 'border-transparent'
-              }`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Image
-                src={src}
-                alt={`Thumbnail ${index + 1}`}
-                fill
-                className="object-cover"
-              />
-            </button>
-          ))}
+                {/* Main Swiper */}
+                <Swiper
+                    modules={[Navigation, Thumbs, Pagination]}
+                    navigation={{
+                        nextEl: `.custom-swiper-button-next`,
+                        prevEl: `.custom-swiper-button-prev`,
+                    }}
+                    loop
+                    initialSlide={currentIndex}
+                    thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+                    pagination={{ clickable: true }}
+                    className="w-full aspect-video"
+                >
+                    {images.map((src, index) => (
+                        <SwiperSlide key={index}>
+                            <div className="relative h-full w-full">
+                                <Image
+                                    src={src}
+                                    alt={`Image ${index + 1}`}
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+
+                {/* Custom Navigation Buttons */}
+                <Box className="absolute bottom-[10px] left-[20px]">
+                    <IconButton className="custom-swiper-button-prev z-10">
+                        <img
+                            src="/left-arrow.svg"
+                            alt="left-arrow"
+                            width={20}
+                            height={20}
+                        />
+                    </IconButton>
+                </Box>
+                <Box className="absolute bottom-[10px] right-[20px]">
+                    <IconButton className="custom-swiper-button-next z-50">
+                        <img
+                            src="/right-arrow.svg"
+                            alt="right-arrow"
+                            width={20}
+                            height={20}
+                        />
+                    </IconButton>
+                </Box>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }

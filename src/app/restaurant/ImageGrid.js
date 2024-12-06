@@ -25,28 +25,20 @@ export default function ImageGrid() {
         setModalOpen(false)
     }
 
-    const nextImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
-    }
-
-    const prevImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
-    }
-
     return (
         <>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 {images.map((src, index) => (
                     <div
                         key={index}
-                        className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-lg"
+                        className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-md"
                         onClick={() => openModal(index)}
                     >
                         <Image
                             src={src}
                             alt={`Image ${index + 1}`}
                             fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                            className="object-cover "
                         />
                     </div>
                 ))}
@@ -56,8 +48,6 @@ export default function ImageGrid() {
                 onClose={closeModal}
                 images={images}
                 currentIndex={currentImageIndex}
-                onNext={nextImage}
-                onPrev={prevImage}
             />
         </>
     )

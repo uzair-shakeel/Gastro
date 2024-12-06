@@ -244,9 +244,9 @@ export default function RestaurantDetails() {
             </Box>
           </Box>
 
-          <ImageGrid/>
+          <ImageGrid />
 
-          <Typography className="text-[#000000] text-[18px] leading-[27px] font-medium tracking-[-0.02em]">
+          <Typography className="mt-6 text-[#000000] text-[18px] leading-[27px] font-medium tracking-[-0.02em]">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
@@ -288,10 +288,10 @@ export default function RestaurantDetails() {
                     fontFamily: "'Roboto', sans-serif !important",
                     backgroundColor: "#82110114",
                     borderRadius: "16px",
-                    fontWeight:"400",
-                    fontSize:'16px',
-                    lineHeight:'18px',
-                    letterSpacing:'0.16px',
+                    fontWeight: "400",
+                    fontSize: '16px',
+                    lineHeight: '18px',
+                    letterSpacing: '0.16px',
                     padding: "4px 12px",
                   }}
                 >
@@ -303,9 +303,6 @@ export default function RestaurantDetails() {
 
           <Reviews />
         </Grid>
-
-
-
 
         <Grid item xs={12} md={4}>
           <Card
@@ -340,8 +337,8 @@ export default function RestaurantDetails() {
                         day.day === "Saturday"
                           ? "rgba(255, 235, 235, 0.8)"
                           : isToday
-                          ? "#FFEBEB"
-                          : "#F9F9F9",
+                            ? "#FFEBEB"
+                            : "#F9F9F9",
                     }}
                   >
                     <Typography
@@ -362,9 +359,8 @@ export default function RestaurantDetails() {
                       {day.day}:
                     </Typography>
                     <div
-                      className={`flex items-center ${
-                        showSeparator ? "gap-1.5" : ""
-                      }`}
+                      className={`flex items-center ${showSeparator ? "gap-1.5" : ""
+                        }`}
                     >
                       <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em]">
                         {day.hoursOne}
