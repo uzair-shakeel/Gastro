@@ -254,7 +254,7 @@ export default function RestaurantDetails() {
 
           <ImageGrid />
 
-          <Typography style={{marginTop:'24px !important'}} className=" text-[#000000] text-[18px] leading-[27px] font-medium tracking-[-0.02em]">
+          <Typography style={{ marginTop: '24px !important', color: 'black', fontSize: '18px', lineHeight: '27px', fontWeight: '500', letterSpacing: '-0.02em' }}>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
@@ -266,11 +266,11 @@ export default function RestaurantDetails() {
             PageMaker including versions of Lorem Ipsum.
           </Typography>
 
-          <Typography className="mt-6 text-[#000000] text-[18px] leading-[27px] font-semibold tracking-[-0.02em]">
+          <Typography style={{ marginTop: '24px !important', color: 'black', fontSize: '18px', lineHeight: '27px', fontWeight: '600', letterSpacing: '-0.02em' }}>
             Why do we use it?
           </Typography>
 
-          <Typography className="text-[#000000] text-[18px] leading-[27px] font-medium tracking-[-0.02em]">
+          <Typography style={{ color: 'black', fontSize: '18px', lineHeight: '27px', fontWeight: '500', letterSpacing: '-0.02em' }}>
             It is a long established fact that a reader will be distracted by
             the readable content of a page when looking at its layout. The point
             of using Lorem Ipsum is that it has a more-or-less normal
@@ -284,7 +284,7 @@ export default function RestaurantDetails() {
           </Typography>
 
           <div className="border border-[#0000001A] rounded p-4 mt-6">
-            <Typography className="mb-3 text-[#000000] text-[20px] leading-[26px] font-semibold">
+            <Typography style={{ marginBottom: '12px', color: '#000000', fontSize: '20px', lineHeight: '26px', fontWeight: '600' }} >
               Tags:
             </Typography>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
@@ -320,7 +320,7 @@ export default function RestaurantDetails() {
             }}
           >
             <CardContent>
-              <Typography className="text-[#000000] text-[20px] leading-[26px] font-semibold mb-4">
+              <Typography sx={{ color: 'black', fontSize:'20px', lineHeight:"26px", fontWeight:"600", marginBottom:'16px'}}>
                 Opening Hours:
               </Typography>
               {openingHours.map((day) => {
@@ -397,7 +397,7 @@ export default function RestaurantDetails() {
             }}
           >
             <CardContent>
-              <Typography className="text-[#000000] text-[20px] leading-[26px] font-semibold mb-4">
+              <Typography sx={{ color: 'black', fontSize:'20px', lineHeight:"26px", fontWeight:"600", marginBottom:'16px'}}>
                 Contact Details:
               </Typography>
               {[
