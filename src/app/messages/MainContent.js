@@ -44,6 +44,14 @@ export default function MainContent({
     };
   }, []);
 
+  const formatTime = (date) => {
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true, // Ensures time is in AM/PM format
+    });
+  };
+
   const handleSendMessage = () => {
     if (!message.trim()) return;
 
@@ -51,10 +59,7 @@ export default function MainContent({
       id: Date.now(),
       sender: "ME - FILIP",
       content: message.trim(),
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      time: formatTime(new Date()),
       date: new Date().toLocaleDateString(),
       type: "sent",
     };

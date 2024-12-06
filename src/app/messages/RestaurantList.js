@@ -43,7 +43,7 @@ export default function RestaurantList({
                 >
                   {restaurant.status}
                 </span>
-                <span className="text-[14px] text-black font-satoshi">
+                <span className="text-[14px] text-black font-satoshi uppercase">
                   {restaurant.time}
                 </span>
               </div>

@@ -17,7 +17,6 @@ export const initialOrders = [
       "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
     note: "The offer has been accepted by the restaurant.",
     isMessaged: true,
-    time: "09:10 AM",
     isUnread: false,
     isArchived: true,
     city: "Zürich",
@@ -36,7 +35,6 @@ export const initialOrders = [
     description:
       "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
     note: "The offer has been accepted by the restaurant.",
-    time: "09:10 AM",
     isUnread: false,
     isArchived: false,
     isMessaged: true,
@@ -56,7 +54,6 @@ export const initialOrders = [
     description:
       "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
     note: "The offer has been accepted by the restaurant.",
-    time: "09:10 AM",
     isUnread: false,
     isArchived: false,
     isMessaged: false,
@@ -76,7 +73,6 @@ export const initialOrders = [
     description:
       "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
     note: "The offer has been accepted by the restaurant.",
-    time: "09:10 AM",
     isUnread: false,
     isArchived: false,
     isMessaged: false,
@@ -96,7 +92,6 @@ export const initialOrders = [
     description:
       "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
     note: "The offer has been accepted by the restaurant.",
-    time: "09:10 AM",
     isUnread: false,
     isArchived: false,
     isMessaged: false,

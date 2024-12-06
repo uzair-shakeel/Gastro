@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import { Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
 import Link from "next/link";
+import { useCallback } from "react";
 
 export default function OrderCard({
   order,
@@ -20,6 +21,10 @@ export default function OrderCard({
   const handlePopupToggle = () => {
     setShowPopup((prev) => (prev === order.id ? null : order.id));
   };
+
+  const handleMessageClick = useCallback((id) => {
+    localStorage.setItem("currentOrderId", id);
+  }, []);
 
   return (
     <div
@@ -156,14 +161,21 @@ export default function OrderCard({
               <div className="flex gap-5 items-center">
                 <button>
                   {order.isMessaged ? (
-                    <Link href="/messages">
+                    <Link
+                      href="/messages"
+                      onClick={() => handleMessageClick(order.id)}
+                    >
                       <img
                         src="/chat.png"
                         className="w-[20px] h-[20px] object-cover"
+                        alt="Chat Icon"
                       />
                     </Link>
                   ) : (
-                    <Link href="/messages">
+                    <Link
+                      href="/messages"
+                      onClick={() => handleMessageClick(order.id)}
+                    >
                       <img
                         src="/chat (1).png"
                         className="w-[20px] h-[20px] object-cover"

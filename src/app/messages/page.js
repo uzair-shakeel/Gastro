@@ -5,7 +5,6 @@ import MainContent from "./MainContent";
 import { initialOrders } from "../page";
 
 const tabs = ["ALL", "ACTIVE", "CONFIRMED", "CANCELLED", "ARCHIVED"];
-
 const mockMessagesByRestaurant = {
   1: [
     {
@@ -56,6 +55,53 @@ const mockMessagesByRestaurant = {
   ],
 };
 
+const parseTime = (timeString) => {
+  const currentTime = new Date();
+
+  // Handle "LAST DAY", "5D AGO", "2D AGO"
+  if (timeString.toUpperCase().includes("D AGO")) {
+    const daysAgo = parseInt(timeString);
+    currentTime.setDate(currentTime.getDate() - daysAgo);
+    return currentTime.getTime();
+  }
+
+  // Handle "LAST DAY"
+  if (timeString.toUpperCase() === "LAST DAY") {
+    currentTime.setDate(currentTime.getDate() - 1); // Subtract 1 day
+    return currentTime.getTime();
+  }
+
+  // Handle standard time format "07:53 AM" or "7:00 AM"
+  const timeParts = timeString.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
+  if (timeParts) {
+    let [_, hours, minutes, period] = timeParts;
+    hours = parseInt(hours, 10);
+    minutes = parseInt(minutes, 10);
+    if (period.toUpperCase() === "PM" && hours !== 12) {
+      hours += 12; // Convert PM to 24-hour format
+    }
+    if (period.toUpperCase() === "AM" && hours === 12) {
+      hours = 0; // Convert 12 AM to 00
+    }
+    currentTime.setHours(hours);
+    currentTime.setMinutes(minutes);
+    currentTime.setSeconds(0);
+    return currentTime.getTime();
+  }
+
+  // If no matching format, return the timestamp for the original string
+  return new Date(timeString).getTime();
+};
+
+// Helper function to format time in 12 hour format
+const formatTime = (date) => {
+  return date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true, // Ensures time is in AM/PM format
+  });
+};
+
 export default function MessagesPage() {
   const [activeTab, setActiveTab] = useState("ALL");
   const [selectedRestaurant, setSelectedRestaurant] = useState(
@@ -69,22 +115,49 @@ export default function MessagesPage() {
     setFilteredRestaurants(getFilteredRestaurants());
   }, [restaurantsState, activeTab]);
 
+  useEffect(() => {
+    const storedOrderId = localStorage.getItem("currentOrderId");
+    if (storedOrderId) {
+      const updatedOrder = initialOrders.find(
+        (order) => order.id.toString() === storedOrderId
+      );
+      if (updatedOrder) {
+        setSelectedRestaurant(updatedOrder);
+      }
+      localStorage.removeItem("currentOrderId");
+    }
+  }, []);
+
   const getFilteredRestaurants = () => {
+    let filtered = [];
+
     switch (activeTab) {
       case "ACTIVE":
-        return restaurantsState.filter((r) =>
+        filtered = restaurantsState.filter((r) =>
           ["In Review", "Accepted", "Adjusted"].includes(r.status)
         );
+        break;
       case "CONFIRMED":
-        return restaurantsState.filter((r) => r.status === "Confirmed");
+        filtered = restaurantsState.filter((r) => r.status === "Confirmed");
+        break;
       case "CANCELLED":
-        return restaurantsState.filter((r) => r.status === "Cancelled");
+        filtered = restaurantsState.filter((r) => r.status === "Cancelled");
+        break;
       case "ARCHIVED":
-        return restaurantsState.filter((r) => r.isArchived === true);
+        filtered = restaurantsState.filter((r) => r.isArchived === true);
+        break;
       case "ALL":
       default:
-        return restaurantsState;
+        filtered = restaurantsState;
+        break;
     }
+
+    // Sort by time in descending order (latest first)
+    return filtered.sort((a, b) => {
+      const timeA = parseTime(a.time);
+      const timeB = parseTime(b.time);
+      return timeB - timeA; // Sort descending by time (latest first)
+    });
   };
 
   const onSelectAndMarkRead = (restaurant) => {
@@ -104,9 +177,9 @@ export default function MessagesPage() {
     const updatedRestaurants = restaurantsState.map((r) =>
       r.id === id
         ? {
-          ...r,
-          isArchived: !r.isArchived,
-        }
+            ...r,
+            isArchived: !r.isArchived,
+          }
         : r
     );
     setRestaurantsState(updatedRestaurants);
@@ -141,6 +214,7 @@ export default function MessagesPage() {
       return updatedRestaurants;
     });
 
+    // Re-sort filtered restaurants list after state change
     setFilteredRestaurants((prevFilteredRestaurants) => {
       const updatedFilteredRestaurants = prevFilteredRestaurants.map(
         (restaurant) =>
@@ -148,7 +222,11 @@ export default function MessagesPage() {
             ? { ...restaurant, time: newTime, isUnread }
             : restaurant
       );
-      return updatedFilteredRestaurants;
+      return updatedFilteredRestaurants.sort((a, b) => {
+        const timeA = parseTime(a.time);
+        const timeB = parseTime(b.time);
+        return timeB - timeA; // Sort by latest first
+      });
     });
   };
 
@@ -157,10 +235,7 @@ export default function MessagesPage() {
       id: Date.now() + 1,
       sender: "Restaurant",
       content: "Thank you for your message! We will get back to you shortly.",
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      time: formatTime(new Date()),
       date: new Date().toLocaleDateString(),
       type: "received",
     };
@@ -176,6 +251,19 @@ export default function MessagesPage() {
     }));
 
     updateTimeAndisUnread(selectedRestaurant.id, currentTime, true);
+
+    // After updating the restaurant state, reapply filtering and sorting
+    setRestaurantsState((prevRestaurants) => {
+      const updatedRestaurants = prevRestaurants.map((restaurant) =>
+        restaurant.id === selectedRestaurant.id
+          ? { ...restaurant, time: currentTime, isUnread: true }
+          : restaurant
+      );
+      return updatedRestaurants;
+    });
+
+    // Re-sort the restaurant list after the new message is added
+    setFilteredRestaurants(getFilteredRestaurants());
   };
 
   return (
@@ -190,10 +278,11 @@ export default function MessagesPage() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-[32px] py-[16px] font-roboto whitespace-nowrap font-[500] text-[14px] ${activeTab === tab
+              className={`px-[32px] py-[16px] font-roboto whitespace-nowrap font-[500] text-[14px] ${
+                activeTab === tab
                   ? "text-[#821101] border-b-2 border-[#821101]"
                   : "text-[#000000B2]"
-                }`}
+              }`}
             >
               {tab}
             </button>
