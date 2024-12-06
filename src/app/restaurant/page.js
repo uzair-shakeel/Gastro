@@ -9,7 +9,7 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import { Favorite, FavoriteBorder, Info, Star } from "@mui/icons-material";
+import { Favorite, FavoriteBorder, Star } from "@mui/icons-material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -21,8 +21,8 @@ import { GuestsModal } from "../components/popups/restaurant/guests";
 import { BudgetInput } from "../components/popups/restaurant/budget";
 import Reviews from "../components/reviews";
 import { QRCodeModal } from "../components/popups/restaurant/qr-code";
-import { RestaurantCarousel } from "../components/restaurant-carousel";
 import Image from "next/image";
+import ImageGrid from "./ImageGrid";
 ("../globals.css");
 
 const openingHours = [
@@ -54,12 +54,10 @@ const tags = [
 
 export default function RestaurantDetails() {
   const [isFavorite, setIsFavorite] = useState(false);
-  const [selectedDay, setSelectedDay] = useState("Monday");
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [currentUrl, setCurrentUrl] = useState("");
 
   useEffect(() => {
-    // This will only run on the client side
     if (typeof window !== "undefined") {
       setCurrentUrl(window.location.href);
     }
@@ -217,25 +215,9 @@ export default function RestaurantDetails() {
             </Box>
           </Box>
 
-          <Grid container spacing={2} style={{ marginBottom: "24px" }}>
-            {[1, 2, 3, 4, 5].map((index) => (
-              <Grid item xs={2.4} key={index}>
-                <img
-                  src={`/${index}.jpeg`}
-                  alt=""
-                  style={{
-                    width: "100%",
-                    height: "100px",
-                    objectFit: "cover",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                />
-              </Grid>
-            ))}
-          </Grid>
+          <ImageGrid/>
 
-          <Typography variant="body1" paragraph>
+          <Typography className="text-[#000000] text-[18px] leading-[27px] font-medium tracking-[-0.02em]">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
@@ -247,10 +229,11 @@ export default function RestaurantDetails() {
             PageMaker including versions of Lorem Ipsum.
           </Typography>
 
-          <Typography variant="h6" gutterBottom style={{ fontWeight: "700" }}>
+          <Typography className="mt-6 text-[#000000] text-[18px] leading-[27px] font-semibold tracking-[-0.02em]">
             Why do we use it?
           </Typography>
-          <Typography variant="body1" paragraph>
+
+          <Typography className="text-[#000000] text-[18px] leading-[27px] font-medium tracking-[-0.02em]">
             It is a long established fact that a reader will be distracted by
             the readable content of a page when looking at its layout. The point
             of using Lorem Ipsum is that it has a more-or-less normal
@@ -263,28 +246,37 @@ export default function RestaurantDetails() {
             and the like).
           </Typography>
 
-          <Typography variant="h6" gutterBottom style={{ marginTop: "24px" }}>
-            Tags:
-          </Typography>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-            {tags.map((tag, index) => (
-              <Typography
-                key={index}
-                variant="body2"
-                style={{
-                  color: "#821101",
-                  backgroundColor: "rgba(130, 17, 1, 0.08)",
-                  borderRadius: "16px",
-                  padding: "4px 12px",
-                }}
-              >
-                {tag}
-              </Typography>
-            ))}
+          <div className="border border-[#0000001A] rounded p-4 mt-6">
+            <Typography className="mb-3 text-[#000000] text-[20px] leading-[26px] font-semibold" >
+              Tags:
+            </Typography>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              {tags.map((tag, index) => (
+                <Typography
+                  key={index}
+                  style={{
+                    color: "#821101",
+                    fontFamily: "'Roboto', sans-serif !important",
+                    backgroundColor: "#82110114",
+                    borderRadius: "16px",
+                    fontWeight:"400",
+                    fontSize:'16px',
+                    lineHeight:'18px',
+                    letterSpacing:'0.16px',
+                    padding: "4px 12px",
+                  }}
+                >
+                  {tag}
+                </Typography>
+              ))}
+            </div>
           </div>
 
           <Reviews />
         </Grid>
+
+
+
 
         <Grid item xs={12} md={4}>
           <Card
@@ -354,7 +346,7 @@ export default function RestaurantDetails() {
             }}
           >
             <CardContent>
-              <Typography variant="h6" gutterBottom className="font-bold">
+              <Typography className="text-[#000000] text-[20px] leading-[26px] font-semibold mb-4">
                 Contact Details:
               </Typography>
               {[
@@ -374,7 +366,7 @@ export default function RestaurantDetails() {
                   value: "+1 234 567 8910",
                 },
                 {
-                  icon: "/schedule.svg",
+                  icon: "/distance.svg",
                   label: "Address:",
                   value:
                     "Food Street near Cricket Stadium, Islamabad, Pakistan",
@@ -385,16 +377,12 @@ export default function RestaurantDetails() {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    marginBottom: "8px",
-                    padding: "10px",
-                    paddingLeft: "15px",
-                    paddingRight: "15px",
-                    backgroundColor: "#F9F9F9",
+                    alignItems: 'center',
+                    paddingBottom: '16px'
                   }}
                 >
                   <Typography
-                    variant="body2"
-                    style={{ fontWeight: "bold", display: "flex", gap: "5px" }}
+                    className="flex gap-1.5 text-[#000000] text-opacity-80 text-[16px] leading-[19.2px] tracking-[-0.02em] font-semibold"
                   >
                     <img
                       src={detail.icon}
@@ -403,7 +391,7 @@ export default function RestaurantDetails() {
                     />
                     {detail.label}
                   </Typography>
-                  <Typography variant="body2" className="w-2/3 text-right">
+                  <Typography className="w-2/3 text-right text-[#000000] text-[16px] font-medium leading-[19.2px] tracking-[-0.02em]">
                     {detail.value}
                   </Typography>
                 </div>
