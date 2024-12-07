@@ -6,8 +6,7 @@ import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-const images = ["/3.jpeg", "/1.jpeg", "/2.jpeg", "/4.jpeg", "/2.jpeg"];
+import { images } from "../restaurant/page";
 
 export function RestaurantCarousel() {
   return (
@@ -30,7 +29,11 @@ export function RestaurantCarousel() {
         >
           {images.map((image, index) => (
             <SwiperSlide key={index}>
-              <img src={image} alt="" className="w-full h-full object-cover" />
+              <img
+                src={image}
+                alt="slide-item"
+                className="w-full h-full object-cover"
+              />
             </SwiperSlide>
           ))}
         </Swiper>

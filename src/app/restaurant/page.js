@@ -23,6 +23,7 @@ import Reviews from "../components/reviews";
 import { QRCodeModal } from "../components/popups/restaurant/qr-code";
 import Image from "next/image";
 import ImageGrid from "./ImageGrid";
+import Modal from "./Modal";
 ("../globals.css");
 
 const openingHours = [
@@ -34,6 +35,8 @@ const openingHours = [
   { day: "Saturday", hoursOne: "Closed" },
   { day: "Sunday", hoursOne: "8AM - 1PM ", hoursTwo: " 3PM - 11PM" },
 ];
+
+export const images = ["/3.jpeg", "/1.jpeg", "/2.jpeg", "/4.jpeg", "/2.jpeg"];
 
 const tags = [
   "Romantic",
@@ -56,6 +59,17 @@ export default function RestaurantDetails() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [currentUrl, setCurrentUrl] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const openModal = (index) => {
+    setCurrentImageIndex(index);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -82,7 +96,12 @@ export default function RestaurantDetails() {
             variant="h4"
             component="h1"
             gutterBottom
-            style={{ fontWeight: '600', fontSize: '28px', lineHeight: '33.6px', letterSpacing: '-0.02em' }}
+            style={{
+              fontWeight: "600",
+              fontSize: "28px",
+              lineHeight: "33.6px",
+              letterSpacing: "-0.02em",
+            }}
           >
             Mondal Restaurant Islamabad
           </Typography>
@@ -91,7 +110,7 @@ export default function RestaurantDetails() {
               variant="body2"
               color="#1D9BF0"
               component="a"
-              sx={{fontSize:'16px', fontWeight:'600'}}
+              sx={{ fontSize: "16px", fontWeight: "600" }}
               className="underline flex items-center gap-2 font-semibold border-r border-[#CCCCCC] pr-4"
               href="https://mondalislamabad.com"
             >
@@ -114,8 +133,8 @@ export default function RestaurantDetails() {
               />
               Italian
             </Typography>
-            <Box style={{ display: 'flex' }}>
-              <Star style={{ color: "#FFD700", }} />
+            <Box style={{ display: "flex" }}>
+              <Star style={{ color: "#FFD700" }} />
               <span style={{ fontWeight: "600", marginLeft: "4px" }}>4.7</span>
               <span
                 style={{
@@ -147,7 +166,7 @@ export default function RestaurantDetails() {
               backgroundColor: isFavorite ? "#82110126" : "#8211010D",
               border: "none",
               color: "#000000",
-              height: '42px',
+              height: "42px",
               marginTop: "-1px",
               fontWeight: "500",
             }}
@@ -193,18 +212,17 @@ export default function RestaurantDetails() {
                 style={{
                   boxShadow: "none",
                   backgroundColor: "#821101",
-                  fontWeight: '500',
+                  fontWeight: "500",
                   color: "#F9F9F9",
-                  width: '137px',
-                  fontSize:'15px',
-                  letterSpacing:'0.46px'
+                  width: "137px",
+                  fontSize: "15px",
+                  letterSpacing: "0.46px",
                 }}
               >
                 VIEW OFFER
               </Button>
             </Box>
           </Box>
-
 
           <Box className="relative mb-8 bg-purple-500 h-[400px] w-full rounded-lg overflow-hidden">
             <Swiper
@@ -218,20 +236,28 @@ export default function RestaurantDetails() {
               className="mySwiper h-full"
               style={{ height: "400px", marginBottom: "16px" }}
             >
-              {[1, 2, 3, 4, 5].map((index) => (
+              export{" "}
+              {images.map((image, index) => (
                 <SwiperSlide key={index}>
                   <img
-                    src={`/3.jpeg`}
-                    alt=""
+                    src={image}
+                    alt="slide-img"
                     style={{
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
                     }}
+                    onClick={() => openModal(index)}
                   />
                 </SwiperSlide>
               ))}
             </Swiper>
+            <Modal
+              isOpen={modalOpen}
+              onClose={closeModal}
+              images={images}
+              currentIndex={currentImageIndex}
+            />
             <Box className="absolute bottom-[10px] left-[10px]">
               <IconButton className={`custom-swiper-button-prev  z-10`}>
                 <img
@@ -244,7 +270,7 @@ export default function RestaurantDetails() {
             </Box>
             <Box className="absolute bottom-[10px] right-[10px]">
               <IconButton
-                className={`custom-swiper-button-next  text-white z-50 `}
+                className={`custom-swiper-button-next  text-white z-20 `}
               >
                 <img
                   src="/right-arrow.svg"
@@ -258,7 +284,16 @@ export default function RestaurantDetails() {
 
           <ImageGrid />
 
-          <Typography style={{ marginTop: '24px !important', color: 'black', fontSize: '18px', lineHeight: '27px', fontWeight: '500', letterSpacing: '-0.02em' }}>
+          <Typography
+            style={{
+              marginTop: "24px !important",
+              color: "black",
+              fontSize: "18px",
+              lineHeight: "27px",
+              fontWeight: "500",
+              letterSpacing: "-0.02em",
+            }}
+          >
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
@@ -270,11 +305,28 @@ export default function RestaurantDetails() {
             PageMaker including versions of Lorem Ipsum.
           </Typography>
 
-          <Typography style={{ marginTop: '24px !important', color: 'black', fontSize: '18px', lineHeight: '27px', fontWeight: '600', letterSpacing: '-0.02em' }}>
+          <Typography
+            style={{
+              marginTop: "24px !important",
+              color: "black",
+              fontSize: "18px",
+              lineHeight: "27px",
+              fontWeight: "600",
+              letterSpacing: "-0.02em",
+            }}
+          >
             Why do we use it?
           </Typography>
 
-          <Typography style={{ color: 'black', fontSize: '18px', lineHeight: '27px', fontWeight: '500', letterSpacing: '-0.02em' }}>
+          <Typography
+            style={{
+              color: "black",
+              fontSize: "18px",
+              lineHeight: "27px",
+              fontWeight: "500",
+              letterSpacing: "-0.02em",
+            }}
+          >
             It is a long established fact that a reader will be distracted by
             the readable content of a page when looking at its layout. The point
             of using Lorem Ipsum is that it has a more-or-less normal
@@ -288,7 +340,15 @@ export default function RestaurantDetails() {
           </Typography>
 
           <div className="border border-[#0000001A] rounded p-4 mt-6">
-            <Typography style={{ marginBottom: '12px', color: '#000000', fontSize: '20px', lineHeight: '26px', fontWeight: '600' }} >
+            <Typography
+              style={{
+                marginBottom: "12px",
+                color: "#000000",
+                fontSize: "20px",
+                lineHeight: "26px",
+                fontWeight: "600",
+              }}
+            >
               Tags:
             </Typography>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
@@ -324,7 +384,15 @@ export default function RestaurantDetails() {
             }}
           >
             <CardContent>
-              <Typography sx={{ color: 'black', fontSize: '20px', lineHeight: "26px", fontWeight: "600", marginBottom: '16px' }}>
+              <Typography
+                sx={{
+                  color: "black",
+                  fontSize: "20px",
+                  lineHeight: "26px",
+                  fontWeight: "600",
+                  marginBottom: "16px",
+                }}
+              >
                 Opening Hours:
               </Typography>
               {openingHours.map((day) => {
@@ -349,8 +417,8 @@ export default function RestaurantDetails() {
                         day.day === "Saturday"
                           ? "rgba(255, 235, 235, 0.8)"
                           : isToday
-                            ? "#FFEBEB"
-                            : "#F9F9F9",
+                          ? "#FFEBEB"
+                          : "#F9F9F9",
                     }}
                   >
                     <Typography
@@ -359,7 +427,13 @@ export default function RestaurantDetails() {
                         display: "flex",
                         gap: "5px",
                       }}
-                      sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'600', letterSpacing:'-0.02em'}}
+                      sx={{
+                        color: "black",
+                        fontSize: "16px",
+                        lineHeight: "19.2px",
+                        fontWeight: "600",
+                        letterSpacing: "-0.02em",
+                      }}
                     >
                       <span>
                         {day.day === "Saturday" ? (
@@ -371,20 +445,46 @@ export default function RestaurantDetails() {
                       {day.day}:
                     </Typography>
                     <div
-                      className={`flex items-center ${showSeparator ? "gap-1.5" : ""
-                        }`}
+                      className={`flex items-center ${
+                        showSeparator ? "gap-1.5" : ""
+                      }`}
                     >
-                      <Typography sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'500', letterSpacing:'-0.02em'}} >
+                      <Typography
+                        sx={{
+                          color: "black",
+                          fontSize: "16px",
+                          lineHeight: "19.2px",
+                          fontWeight: "500",
+                          letterSpacing: "-0.02em",
+                        }}
+                      >
                         {day.hoursOne}
                       </Typography>
                       {day.hoursTwo &&
                         day.day !== "Friday" &&
                         day.day !== "Saturday" && (
-                          <Typography sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'500', letterSpacing:'-0.02em', opacity:'50%'}} >
+                          <Typography
+                            sx={{
+                              color: "black",
+                              fontSize: "16px",
+                              lineHeight: "19.2px",
+                              fontWeight: "500",
+                              letterSpacing: "-0.02em",
+                              opacity: "50%",
+                            }}
+                          >
                             &
                           </Typography>
                         )}
-                      <Typography sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'500', letterSpacing:'-0.02em'}}>
+                      <Typography
+                        sx={{
+                          color: "black",
+                          fontSize: "16px",
+                          lineHeight: "19.2px",
+                          fontWeight: "500",
+                          letterSpacing: "-0.02em",
+                        }}
+                      >
                         {day.hoursTwo}
                       </Typography>
                     </div>
@@ -401,7 +501,15 @@ export default function RestaurantDetails() {
             }}
           >
             <CardContent>
-              <Typography sx={{ color: 'black', fontSize: '20px', lineHeight: "26px", fontWeight: "600", marginBottom: '16px' }}>
+              <Typography
+                sx={{
+                  color: "black",
+                  fontSize: "20px",
+                  lineHeight: "26px",
+                  fontWeight: "600",
+                  marginBottom: "16px",
+                }}
+              >
                 Contact Details:
               </Typography>
               {[
@@ -436,7 +544,16 @@ export default function RestaurantDetails() {
                     paddingBottom: "16px",
                   }}
                 >
-                  <Typography sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'600', letterSpacing:'-0.02em'}} className="flex gap-1.5 text-opacity-80">
+                  <Typography
+                    sx={{
+                      color: "black",
+                      fontSize: "16px",
+                      lineHeight: "19.2px",
+                      fontWeight: "600",
+                      letterSpacing: "-0.02em",
+                    }}
+                    className="flex gap-1.5 text-opacity-80"
+                  >
                     <img
                       src={detail.icon}
                       alt={`${detail.label} icon`}
@@ -444,7 +561,16 @@ export default function RestaurantDetails() {
                     />
                     {detail.label}
                   </Typography>
-                  <Typography sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'500', letterSpacing:'-0.02em'}}  className="w-2/3 text-right">
+                  <Typography
+                    sx={{
+                      color: "black",
+                      fontSize: "16px",
+                      lineHeight: "19.2px",
+                      fontWeight: "500",
+                      letterSpacing: "-0.02em",
+                    }}
+                    className="w-2/3 text-right"
+                  >
                     {detail.value}
                   </Typography>
                 </div>

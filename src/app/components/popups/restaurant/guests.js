@@ -147,7 +147,7 @@ export function GuestsModal() {
           borderColor: "rgba(0, 0, 0, 0.23)",
           color: "rgba(0, 0, 0, 0.87)",
           textTransform: "none",
-          width:'100px',
+          width: "100px",
           // padding: "6px 12px",
           "&:hover": {
             borderColor: "rgba(0, 0, 0, 0.23)",
@@ -164,9 +164,7 @@ export function GuestsModal() {
             <img src="/PeopleFilled.svg" />
           </div>
 
-          {totalGuests > 0
-            ? `${totalGuests} Guest${totalGuests !== 1 ? "s" : ""}`
-            : "0"}
+          {totalGuests > 0 ? `${totalGuests}` : "0"}
         </span>
       </Button>
 

@@ -92,9 +92,9 @@ export default function OrderCard({
         <div className="flex-grow space-y-3">
           <div className="flex justify-between items-center">
             <h2 className="text-[18px] font-[600]">{order.location}</h2>
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-2 items-center">
               <span className="text-[18px] font-[600]">{order.amount}</span>
-              <button onClick={handlePopupToggle}>
+              <button onClick={handlePopupToggle} className="px-2">
                 <img
                   src="/Vector.png"
                   className="h-[20px] w-auto object-cover"

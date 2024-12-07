@@ -218,7 +218,7 @@ export function CategoryModal() {
         <DialogContent sx={{ p: 3 }}>
           <CategoryOption>
             <Checkbox
-              checked={true}
+              checked={false}
               sx={{
                 color: "rgba(0, 0, 0, 0.54)",
                 "&.Mui-checked": {
