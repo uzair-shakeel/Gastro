@@ -91,6 +91,7 @@ export default function RestaurantDetails() {
               variant="body2"
               color="#1D9BF0"
               component="a"
+              sx={{fontSize:'16px', fontWeight:'600'}}
               className="underline flex items-center gap-2 font-semibold border-r border-[#CCCCCC] pr-4"
               href="https://mondalislamabad.com"
             >
@@ -188,13 +189,15 @@ export default function RestaurantDetails() {
             <Box>
               <Button
                 fullWidth
-                className=" h-[56px] bg-[#821101] font-satoshi tracking-[0.46px] font-medium text-[15px]"
+                className=" h-[56px] bg-[#821101] font-satoshi "
                 style={{
                   boxShadow: "none",
                   backgroundColor: "#821101",
                   fontWeight: '500',
                   color: "#F9F9F9",
-                  width: '137px'
+                  width: '137px',
+                  fontSize:'15px',
+                  letterSpacing:'0.46px'
                 }}
               >
                 VIEW OFFER
