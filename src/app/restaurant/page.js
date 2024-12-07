@@ -189,11 +189,12 @@ export default function RestaurantDetails() {
             <Box>
               <Button
                 fullWidth
-                className="min-w-[137px] h-[56px] bg-[#821101] font-satoshi tracking-[0.46px] font-medium text-[15px]"
+                className=" h-[56px] bg-[#821101] font-satoshi tracking-[0.46px] font-medium text-[15px]"
                 style={{
                   boxShadow: "none",
                   backgroundColor: "#821101",
                   color: "#F9F9F9",
+                  width:'137px'
                 }}
               >
                 VIEW OFFER
