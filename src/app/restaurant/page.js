@@ -193,6 +193,7 @@ export default function RestaurantDetails() {
                 style={{
                   boxShadow: "none",
                   backgroundColor: "#821101",
+                  fontWeight:'500',
                   color: "#F9F9F9",
                   width:'137px'
                 }}

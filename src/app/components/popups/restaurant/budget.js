@@ -34,7 +34,7 @@ export function BudgetInput() {
       placeholder="Enter"
       variant="outlined"
       sx={{
-        maxWidth: "120px",
+        width: "150px",
         display: "flex",
         justifyContent: "start",
         height: "100%",
