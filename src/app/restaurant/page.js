@@ -82,8 +82,7 @@ export default function RestaurantDetails() {
             variant="h4"
             component="h1"
             gutterBottom
-            fontWeight={600}
-            className="font-semibold text-[28px] leading-[33.6px] tracking-[-0.02em]"
+            style={{fontWeight:'600', fontSize:'28px', lineHeight:'33.6px', letterSpacing:'-0.02em'}}
           >
             Mondal Restaurant Islamabad
           </Typography>
