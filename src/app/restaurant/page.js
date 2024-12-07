@@ -82,7 +82,7 @@ export default function RestaurantDetails() {
             variant="h4"
             component="h1"
             gutterBottom
-            style={{fontWeight:'600', fontSize:'28px', lineHeight:'33.6px', letterSpacing:'-0.02em'}}
+            style={{ fontWeight: '600', fontSize: '28px', lineHeight: '33.6px', letterSpacing: '-0.02em' }}
           >
             Mondal Restaurant Islamabad
           </Typography>
@@ -192,9 +192,9 @@ export default function RestaurantDetails() {
                 style={{
                   boxShadow: "none",
                   backgroundColor: "#821101",
-                  fontWeight:'500',
+                  fontWeight: '500',
                   color: "#F9F9F9",
-                  width:'137px'
+                  width: '137px'
                 }}
               >
                 VIEW OFFER
@@ -321,7 +321,7 @@ export default function RestaurantDetails() {
             }}
           >
             <CardContent>
-              <Typography sx={{ color: 'black', fontSize:'20px', lineHeight:"26px", fontWeight:"600", marginBottom:'16px'}}>
+              <Typography sx={{ color: 'black', fontSize: '20px', lineHeight: "26px", fontWeight: "600", marginBottom: '16px' }}>
                 Opening Hours:
               </Typography>
               {openingHours.map((day) => {
@@ -351,12 +351,12 @@ export default function RestaurantDetails() {
                     }}
                   >
                     <Typography
-                      className="text-[16px] font-semibold leading-[19.2px] tracking-[-0.02em]"
                       style={{
                         color: isToday ? "black" : "inherit",
                         display: "flex",
                         gap: "5px",
                       }}
+                      sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'600', letterSpacing:'-0.02em'}}
                     >
                       <span>
                         {day.day === "Saturday" ? (
@@ -371,17 +371,17 @@ export default function RestaurantDetails() {
                       className={`flex items-center ${showSeparator ? "gap-1.5" : ""
                         }`}
                     >
-                      <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em]">
+                      <Typography sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'500', letterSpacing:'-0.02em'}} >
                         {day.hoursOne}
                       </Typography>
                       {day.hoursTwo &&
                         day.day !== "Friday" &&
                         day.day !== "Saturday" && (
-                          <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em] opacity-50">
+                          <Typography sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'500', letterSpacing:'-0.02em', opacity:'50%'}} >
                             &
                           </Typography>
                         )}
-                      <Typography className="text-[#000000] text-[16px] leading-[19.2px] font-medium tracking-[-0.02em]">
+                      <Typography sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'500', letterSpacing:'-0.02em'}}>
                         {day.hoursTwo}
                       </Typography>
                     </div>
@@ -398,7 +398,7 @@ export default function RestaurantDetails() {
             }}
           >
             <CardContent>
-              <Typography sx={{ color: 'black', fontSize:'20px', lineHeight:"26px", fontWeight:"600", marginBottom:'16px'}}>
+              <Typography sx={{ color: 'black', fontSize: '20px', lineHeight: "26px", fontWeight: "600", marginBottom: '16px' }}>
                 Contact Details:
               </Typography>
               {[
@@ -433,7 +433,7 @@ export default function RestaurantDetails() {
                     paddingBottom: "16px",
                   }}
                 >
-                  <Typography className="flex gap-1.5 text-[#000000] text-opacity-80 text-[16px] leading-[19.2px] tracking-[-0.02em] font-semibold">
+                  <Typography sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'600', letterSpacing:'-0.02em'}} className="flex gap-1.5 text-opacity-80">
                     <img
                       src={detail.icon}
                       alt={`${detail.label} icon`}
@@ -441,7 +441,7 @@ export default function RestaurantDetails() {
                     />
                     {detail.label}
                   </Typography>
-                  <Typography className="w-2/3 text-right text-[#000000] text-[16px] font-medium leading-[19.2px] tracking-[-0.02em]">
+                  <Typography sx={{color:'black', fontSize:'16px', lineHeight:'19.2px', fontWeight:'500', letterSpacing:'-0.02em'}}  className="w-2/3 text-right">
                     {detail.value}
                   </Typography>
                 </div>
