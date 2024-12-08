@@ -174,8 +174,8 @@ export function GuestsModal() {
         PaperProps={{
           sx: {
             width: "100%",
-            maxWidth: "400px",
-            p: 2,
+            maxWidth: "300px",
+            p: 0,
             borderRadius: "8px",
           },
         }}
