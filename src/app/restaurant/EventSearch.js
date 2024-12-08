@@ -24,7 +24,15 @@ const EventSearch = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", borderRadius: 1, mt: 3 }}>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "1440px",
+        margin: "0 auto",
+        borderRadius: 1,
+        mt: 3,
+      }}
+    >
       <Tabs
         value={tabValue}
         onChange={handleChange}
