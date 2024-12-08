@@ -65,7 +65,7 @@ const ConfirmButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export function GuestsModal() {
+export function GuestsModal({ legendBg = "bg-white" }) {
   const [open, setOpen] = useState(false);
   const [guests, setGuests] = useState({
     adults: 0,
@@ -156,7 +156,9 @@ export function GuestsModal() {
         }}
         endIcon={<ArrowDropDownIcon />}
       >
-        <legend className="absolute top-0 left-2 -translate-y-1/2 bg-white px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]">
+        <legend
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendBg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+        >
           Guests
         </legend>
         <span style={{ display: "flex", alignItems: "center" }}>
@@ -176,7 +178,7 @@ export function GuestsModal() {
             width: "100%",
             maxWidth: "300px",
             p: 0,
-            m:0,
+            m: 0,
             borderRadius: "8px",
           },
         }}

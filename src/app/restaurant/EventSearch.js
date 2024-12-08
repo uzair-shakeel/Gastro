@@ -14,6 +14,7 @@ import { GuestsModal } from "../components/popups/restaurant/guests";
 import { CategoryModal } from "../components/popups/restaurant/category";
 import { DateSelectionDropdown } from "../components/popups/restaurant/date";
 import Image from "next/image";
+import WhereInput from "../components/WhereInput";
 
 const EventSearch = () => {
   const [tabValue, setTabValue] = useState(0);
@@ -199,7 +200,7 @@ const EventSearch = () => {
           mt: "24px",
           p: "12px",
           bgcolor: "#F9F9F9",
-          borderRadius: "4px",
+          borderRadius: "8px",
           width: "100%",
         }}
       >
@@ -211,28 +212,16 @@ const EventSearch = () => {
           width="100%"
         >
           <Box flexGrow={1}>
-            <TextField
-              fullWidth
-              label="Where?"
-              variant="outlined"
-              sx={{ width: "100%", minHeight: "56px" }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LocationOnIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
+            <WhereInput />
           </Box>
           <Box>
-            <DateSelectionDropdown />
+            <DateSelectionDropdown legendBg="bg-[#F9F9F9]" />
           </Box>
           <Box flexGrow={1}>
-            <CategoryModal />
+            <CategoryModal legendBg="bg-[#F9F9F9]" />
           </Box>
           <Box>
-            <GuestsModal />
+            <GuestsModal legendBg="bg-[#F9F9F9]" />
           </Box>
           <Box>
             <BudgetInput />

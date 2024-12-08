@@ -51,14 +51,13 @@ const categories = [
   { id: "dinner", label: "Dinner" },
 ];
 
-export function CategoryModal() {
+export function CategoryModal({ legendBg = "bg-white" }) {
   const [open, setOpen] = useState(false);
   const [openAperoModal, setOpenAperoModal] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [courses, setCourses] = useState(0);
   const [isAperoSelected, setIsAperoSelected] = useState(false);
-
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -67,22 +66,24 @@ export function CategoryModal() {
     setSelectedTab(newValue);
   };
 
-
   const handleCategoryToggle = (categoryId) => {
     // Handle category toggling
     const currentIndex = selectedCategories.indexOf(categoryId);
     const newSelected = [...selectedCategories];
 
     if (currentIndex === -1) {
-      newSelected.push(categoryId);  
+      newSelected.push(categoryId);
     } else {
-      newSelected.splice(currentIndex, 1);  
+      newSelected.splice(currentIndex, 1);
     }
 
     setSelectedCategories(newSelected);
 
-    if ((categoryId === "lunch" || categoryId === "dinner") && !openAperoModal) {
-      setOpenAperoModal(true); 
+    if (
+      (categoryId === "lunch" || categoryId === "dinner") &&
+      !openAperoModal
+    ) {
+      setOpenAperoModal(true);
     }
   };
 
@@ -99,9 +100,9 @@ export function CategoryModal() {
   const buttonText =
     selectedCategories.length > 0
       ? selectedCategories
-        .map((id) => categories.find((cat) => cat.id === id)?.label)
-        .filter(Boolean)
-        .join(", ")
+          .map((id) => categories.find((cat) => cat.id === id)?.label)
+          .filter(Boolean)
+          .join(", ")
       : "Select";
 
   return (
@@ -125,7 +126,9 @@ export function CategoryModal() {
         }}
         endIcon={<ArrowDropDownIcon />}
       >
-        <legend className="absolute top-0 left-2 -translate-y-1/2 bg-white px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]">
+        <legend
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendBg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+        >
           Category
         </legend>
         <span style={{ display: "flex", alignItems: "center" }}>
@@ -162,9 +165,13 @@ export function CategoryModal() {
           </Tabs>
 
           {categories.map((category) => (
-            <CategoryOption sx={{padding:'8px 5px' }} key={category.id} onClick={() => handleCategoryToggle(category.id)}>
+            <CategoryOption
+              sx={{ padding: "8px 5px" }}
+              key={category.id}
+              onClick={() => handleCategoryToggle(category.id)}
+            >
               <Checkbox
-                checked={selectedCategories.includes(category.id)} 
+                checked={selectedCategories.includes(category.id)}
                 sx={{
                   color: "rgba(0, 0, 0, 0.54)",
                   "&.Mui-checked": {
@@ -175,8 +182,6 @@ export function CategoryModal() {
               <Typography>{category.label}</Typography>
             </CategoryOption>
           ))}
-
-
 
           <Typography
             variant="body2"
@@ -214,15 +219,14 @@ export function CategoryModal() {
         open={openAperoModal}
         onClose={handleAperoClose}
         PaperProps={{
-          sx: { width: "100%", maxWidth: "272px", left: '18%', top:'20%' },
+          sx: { width: "100%", maxWidth: "272px", left: "18%", top: "20%" },
         }}
       >
         <DialogContent sx={{ padding: "15px" }}>
-          <CategoryOption sx={{padding:'8px 8px' }}>
+          <CategoryOption sx={{ padding: "8px 8px" }}>
             <Checkbox
               checked={isAperoSelected}
               onChange={() => setIsAperoSelected(!isAperoSelected)}
-
               sx={{
                 color: "rgba(0, 0, 0, 0.54)",
                 "&.Mui-checked": {

@@ -32,17 +32,17 @@ const CalendarGrid = styled("div")(({ theme }) => ({
 
 const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
 
-export function DateSelectionDropdown() {
+export function DateSelectionDropdown({ legendBg = "bg-white" }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [tempSelectedDate, setTempSelectedDate] = useState(null); 
+  const [tempSelectedDate, setTempSelectedDate] = useState(null);
 
   const open = Boolean(anchorEl);
 
   const handleOpen = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => {
-    setTempSelectedDate(selectedDate); 
+    setTempSelectedDate(selectedDate);
     setAnchorEl(null);
   };
 
@@ -103,7 +103,9 @@ export function DateSelectionDropdown() {
           },
         }}
       >
-        <legend className="absolute top-0 left-2 -translate-y-1/2 bg-white px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]">
+        <legend
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendBg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+        >
           Date Selection
         </legend>
         <span style={{ display: "flex", alignItems: "center" }}>
@@ -125,7 +127,7 @@ export function DateSelectionDropdown() {
             width: "100%",
             maxWidth: "350px",
             p: 1,
-            marginTop:1,
+            marginTop: 1,
           },
         }}
       >
@@ -172,8 +174,9 @@ export function DateSelectionDropdown() {
             return (
               <div
                 key={day}
-                className={`day ${isTempSelected ? "selected" : ""} ${isToday ? "today" : ""
-                  }`}
+                className={`day ${isTempSelected ? "selected" : ""} ${
+                  isToday ? "today" : ""
+                }`}
                 onClick={() => handleDateSelect(day)}
               >
                 {day}
