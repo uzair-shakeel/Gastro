@@ -25,6 +25,7 @@ import Image from "next/image";
 import ImageGrid from "./ImageGrid";
 import Modal from "./Modal";
 import Navbar from "../components/Navbar";
+import EventSearch from "./EventSearch";
 ("../globals.css");
 
 const openingHours = [
@@ -80,14 +81,16 @@ export default function RestaurantDetails() {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div
         className="container"
         style={{
           margin: "0 auto",
-          padding: "24px",
+          padding: "0px 24px 24px",
         }}
       >
+
+
         <Grid
           container
           spacing={2}
@@ -186,6 +189,7 @@ export default function RestaurantDetails() {
             </Button>
           </Grid>
         </Grid>
+
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>

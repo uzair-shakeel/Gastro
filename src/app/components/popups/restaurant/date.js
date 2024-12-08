@@ -36,13 +36,13 @@ export function DateSelectionDropdown() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [tempSelectedDate, setTempSelectedDate] = useState(null); // Temporary date for confirmation
+  const [tempSelectedDate, setTempSelectedDate] = useState(null); 
 
   const open = Boolean(anchorEl);
 
   const handleOpen = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => {
-    setTempSelectedDate(selectedDate); // Reset to the previously confirmed date on close
+    setTempSelectedDate(selectedDate); 
     setAnchorEl(null);
   };
 
