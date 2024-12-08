@@ -176,12 +176,13 @@ export function GuestsModal() {
             width: "100%",
             maxWidth: "300px",
             p: 0,
+            m:0,
             borderRadius: "8px",
           },
         }}
       >
         <DialogContent>
-          <Typography variant="h6" sx={{ mb: 3 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
             {showExtended ? "Guests - extended" : "Guests"}
           </Typography>
 
