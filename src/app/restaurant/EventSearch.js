@@ -200,29 +200,31 @@ const EventSearch = () => {
           p: "12px",
           bgcolor: "#F9F9F9",
           borderRadius: "4px",
+          width: "100%",
         }}
       >
-        <Box sx={{ width: "302px", minHeight: "56px" }}>
-          <TextField
-            fullWidth
-            label="Where?"
-            variant="outlined"
-            sx={{ width: "100%", minHeight: "56px" }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <LocationOnIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Box>
         <Box
           display="flex"
           justifyContent="space-between"
           flexWrap="wrap"
           gap={2}
+          width="100%"
         >
+          <Box flexGrow={1}>
+            <TextField
+              fullWidth
+              label="Where?"
+              variant="outlined"
+              sx={{ width: "100%", minHeight: "56px" }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LocationOnIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
           <Box>
             <DateSelectionDropdown />
           </Box>
@@ -234,23 +236,6 @@ const EventSearch = () => {
           </Box>
           <Box>
             <BudgetInput />
-          </Box>
-          <Box>
-            <Button
-              fullWidth
-              className=" h-[56px] bg-[#821101] font-satoshi "
-              style={{
-                boxShadow: "none",
-                backgroundColor: "#821101",
-                fontWeight: "500",
-                color: "#F9F9F9",
-                width: "137px",
-                fontSize: "15px",
-                letterSpacing: "0.46px",
-              }}
-            >
-              VIEW OFFER
-            </Button>
           </Box>
         </Box>
         {/* Buttons */}
