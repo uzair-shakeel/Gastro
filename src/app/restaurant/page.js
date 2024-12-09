@@ -16,8 +16,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { DateSelectionDropdown } from "../components/popups/restaurant/date";
-import { CategoryModal } from "../components/popups/restaurant/category";
-import { GuestsModal } from "../components/popups/restaurant/guests";
+import { CategoryDropdown } from "../components/popups/restaurant/category";
 import { BudgetInput } from "../components/popups/restaurant/budget";
 import Reviews from "../components/reviews";
 import { QRCodeModal } from "../components/popups/restaurant/qr-code";
@@ -25,7 +24,7 @@ import Image from "next/image";
 import ImageGrid from "./ImageGrid";
 import Modal from "./Modal";
 import Navbar from "../components/Navbar";
-import EventSearch from "./EventSearch";
+import { GuestsDropdown } from "../components/popups/restaurant/guests";
 ("../globals.css");
 
 const openingHours = [
@@ -89,8 +88,6 @@ export default function RestaurantDetails() {
           padding: "0px 24px 24px",
         }}
       >
-
-
         <Grid
           container
           spacing={2}
@@ -141,7 +138,9 @@ export default function RestaurantDetails() {
               </Typography>
               <Box style={{ display: "flex" }}>
                 <Star style={{ color: "#FFD700" }} />
-                <span style={{ fontWeight: "600", marginLeft: "4px" }}>4.7</span>
+                <span style={{ fontWeight: "600", marginLeft: "4px" }}>
+                  4.7
+                </span>
                 <span
                   style={{
                     fontWeight: "600",
@@ -190,7 +189,6 @@ export default function RestaurantDetails() {
           </Grid>
         </Grid>
 
-
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
             <Box
@@ -204,10 +202,10 @@ export default function RestaurantDetails() {
                 <DateSelectionDropdown />
               </Box>
               <Box flexGrow={1}>
-                <CategoryModal />
+                <CategoryDropdown generalSearch={false} />
               </Box>
               <Box>
-                <GuestsModal />
+                <GuestsDropdown />
               </Box>
               <Box>
                 <BudgetInput />
@@ -231,7 +229,7 @@ export default function RestaurantDetails() {
               </Box>
             </Box>
 
-            <Box className="relative mb-8 bg-purple-500 h-[400px] w-full rounded-lg overflow-hidden">
+            <Box className="relative mb-8 bg-purple-500 h-[400px] w-full rounded-lg overflow-hidden cursor-pointer">
               <Swiper
                 loop={true}
                 pagination={{ clickable: true }}
@@ -303,13 +301,14 @@ export default function RestaurantDetails() {
             >
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of type
-              and scrambled it to make a type specimen book. It has survived not
-              only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s
-              with the release of Letraset sheets containing Lorem Ipsum passages,
-              and more recently with desktop publishing software like Aldus
-              PageMaker including versions of Lorem Ipsum.
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. It was
+              popularised in the 1960s with the release of Letraset sheets
+              containing Lorem Ipsum passages, and more recently with desktop
+              publishing software like Aldus PageMaker including versions of
+              Lorem Ipsum.
             </Typography>
 
             <Typography
@@ -335,15 +334,15 @@ export default function RestaurantDetails() {
               }}
             >
               It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The point
-              of using Lorem Ipsum is that it has a more-or-less normal
-              distribution of letters, as opposed to using 'Content here, content
-              here', making it look like readable English. Many desktop publishing
-              packages and web page editors now use Lorem Ipsum as their default
-              model text, and a search for 'lorem ipsum' will uncover many web
-              sites still in their infancy. Various versions have evolved over the
-              years, sometimes by accident, sometimes on purpose (injected humour
-              and the like).
+              the readable content of a page when looking at its layout. The
+              point of using Lorem Ipsum is that it has a more-or-less normal
+              distribution of letters, as opposed to using 'Content here,
+              content here', making it look like readable English. Many desktop
+              publishing packages and web page editors now use Lorem Ipsum as
+              their default model text, and a search for 'lorem ipsum' will
+              uncover many web sites still in their infancy. Various versions
+              have evolved over the years, sometimes by accident, sometimes on
+              purpose (injected humour and the like).
             </Typography>
 
             <div className="border border-[#0000001A] rounded p-4 mt-6">
@@ -424,14 +423,14 @@ export default function RestaurantDetails() {
                           day.day === "Saturday"
                             ? "#F9F9F9"
                             : isToday
-                              ? "#FFEBEB"
-                              : "#F9F9F9",
+                            ? "#FFEBEB"
+                            : "#F9F9F9",
                         opacity:
                           day.day === "Saturday"
                             ? "80%"
                             : isToday
-                              ? "100%"
-                              : "100%",
+                            ? "100%"
+                            : "100%",
                       }}
                     >
                       <Typography
@@ -450,7 +449,10 @@ export default function RestaurantDetails() {
                       >
                         <span>
                           {day.day === "Saturday" ? (
-                            <img src="/schedule-black.svg" alt="Schedule Icon" />
+                            <img
+                              src="/schedule-black.svg"
+                              alt="Schedule Icon"
+                            />
                           ) : (
                             <img src="/schedule.svg" alt="Schedule Icon" />
                           )}
@@ -458,8 +460,9 @@ export default function RestaurantDetails() {
                         {day.day}:
                       </Typography>
                       <div
-                        className={`flex items-center ${showSeparator ? "gap-1.5" : ""
-                          }`}
+                        className={`flex items-center ${
+                          showSeparator ? "gap-1.5" : ""
+                        }`}
                       >
                         <Typography
                           sx={{

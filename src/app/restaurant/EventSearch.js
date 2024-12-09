@@ -10,11 +10,11 @@ import {
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { BudgetInput } from "../components/popups/restaurant/budget";
-import { GuestsModal } from "../components/popups/restaurant/guests";
-import { CategoryModal } from "../components/popups/restaurant/category";
+import { CategoryDropdown } from "../components/popups/restaurant/category";
 import { DateSelectionDropdown } from "../components/popups/restaurant/date";
 import Image from "next/image";
 import WhereInput from "../components/WhereInput";
+import { GuestsDropdown } from "../components/popups/restaurant/guests";
 
 const EventSearch = () => {
   const [tabValue, setTabValue] = useState(0);
@@ -223,16 +223,16 @@ const EventSearch = () => {
             <WhereInput />
           </Box>
           <Box>
-            <DateSelectionDropdown legendBg="bg-[#F9F9F9]" />
+            <DateSelectionDropdown legend="Date" legendBg="bg-[#F9F9F9]" />
           </Box>
           <Box flexGrow={1}>
-            <CategoryModal legendBg="bg-[#F9F9F9]" />
+            <CategoryDropdown generalSearch={true} legendBg="bg-[#F9F9F9]" />
           </Box>
           <Box>
-            <GuestsModal legendBg="bg-[#F9F9F9]" />
+            <GuestsDropdown legendBg="bg-[#F9F9F9]" />
           </Box>
           <Box>
-            <BudgetInput />
+            <BudgetInput legend="Budget" legendBg="#F9F9F9" />
           </Box>
         </Box>
         {/* Buttons */}

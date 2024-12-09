@@ -3,9 +3,9 @@ import { TextField, InputAdornment } from "@mui/material";
 import { CreditCard } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
+const StyledTextField = styled(TextField)(({ legendBg }) => ({
   "& .MuiOutlinedInput-root": {
-    backgroundColor: "#fff",
+    backgroundColor: legendBg,
     "& fieldset": {
       borderColor: "rgba(0, 0, 0, 0.23)",
     },
@@ -27,7 +27,10 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-export function BudgetInput() {
+export function BudgetInput({
+  legendBg = "#ffffff",
+  legend = "Budget in CHF",
+}) {
   return (
     <StyledTextField
       fullWidth
@@ -38,6 +41,7 @@ export function BudgetInput() {
         display: "flex",
         justifyContent: "start",
         height: "100%",
+        background: legendBg,
       }}
       InputProps={{
         startAdornment: (
@@ -49,7 +53,8 @@ export function BudgetInput() {
       InputLabelProps={{
         shrink: true,
       }}
-      label="Budget"
+      label={legend}
+      legendBg={legendBg}
     />
   );
 }

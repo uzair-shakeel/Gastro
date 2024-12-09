@@ -1,12 +1,6 @@
-import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  Typography,
-  IconButton,
-} from "@mui/material";
-import { Add, Remove, Person } from "@mui/icons-material";
+import React, { useState, useEffect, useRef } from "react";
+import { Button, Typography, IconButton } from "@mui/material";
+import { Add, Remove } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
@@ -65,7 +59,19 @@ const ConfirmButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export function GuestsModal({ legendBg = "bg-white" }) {
+const DropdownContainer = styled("div")(({ theme }) => ({
+  position: "absolute",
+  zIndex: 1000,
+  backgroundColor: "white",
+  border: "1px solid rgba(0, 0, 0, 0.23)",
+  borderRadius: "4px",
+  padding: "16px",
+  boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+  maxWidth: "300px",
+  width: "100%",
+}));
+
+export function GuestsDropdown({ legendBg = "bg-white" }) {
   const [open, setOpen] = useState(false);
   const [guests, setGuests] = useState({
     adults: 0,
@@ -77,6 +83,20 @@ export function GuestsModal({ legendBg = "bg-white" }) {
     vegan: 0,
   });
   const [showExtended, setShowExtended] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (guests.adults > 0) {
@@ -86,12 +106,8 @@ export function GuestsModal({ legendBg = "bg-white" }) {
     }
   }, [guests.adults]);
 
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => {
-    setOpen(false);
-    if (guests.adults === 0) {
-      setShowExtended(false);
-    }
+  const handleToggleDropdown = () => {
+    setOpen((prev) => !prev);
   };
 
   const handleIncrement = (type) => {
@@ -140,7 +156,7 @@ export function GuestsModal({ legendBg = "bg-white" }) {
     <>
       <Button
         variant="outlined"
-        onClick={handleClickOpen}
+        onClick={handleToggleDropdown}
         sx={{
           height: "100%",
           justifyContent: "flex-start",
@@ -148,7 +164,6 @@ export function GuestsModal({ legendBg = "bg-white" }) {
           color: "rgba(0, 0, 0, 0.87)",
           textTransform: "none",
           width: "100px",
-          // padding: "6px 12px",
           "&:hover": {
             borderColor: "rgba(0, 0, 0, 0.23)",
             backgroundColor: "transparent",
@@ -165,25 +180,12 @@ export function GuestsModal({ legendBg = "bg-white" }) {
           <div className="mr-3">
             <img src="/PeopleFilled.svg" />
           </div>
-
           {totalGuests > 0 ? `${totalGuests}` : "0"}
         </span>
       </Button>
 
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          sx: {
-            width: "100%",
-            maxWidth: "300px",
-            p: 0,
-            m: 0,
-            borderRadius: "8px",
-          },
-        }}
-      >
-        <DialogContent>
+      {open && (
+        <DropdownContainer ref={dropdownRef}>
           <Typography variant="h6" sx={{ mb: 2 }}>
             {showExtended ? "Guests - extended" : "Guests"}
           </Typography>
@@ -219,11 +221,15 @@ export function GuestsModal({ legendBg = "bg-white" }) {
 
           <ResetButton onClick={handleReset}>Reset to default</ResetButton>
 
-          <ConfirmButton fullWidth variant="contained" onClick={handleClose}>
+          <ConfirmButton
+            fullWidth
+            variant="contained"
+            onClick={() => setOpen(false)}
+          >
             CONFIRM
           </ConfirmButton>
-        </DialogContent>
-      </Dialog>
+        </DropdownContainer>
+      )}
     </>
   );
 }
