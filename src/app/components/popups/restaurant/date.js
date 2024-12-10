@@ -30,7 +30,16 @@ const CalendarGrid = styled("div")(({ theme }) => ({
   },
 }));
 
-const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
+const weekDays = [
+  { label: "S", key: "sun" },
+  { label: "M", key: "mon" },
+  { label: "T", key: "tue" },
+  { label: "W", key: "wed" },
+  { label: "T", key: "thu" },
+  { label: "F", key: "fri" },
+  { label: "S", key: "sat" },
+];
+
 
 export function DateSelectionDropdown({
   legendbg = "bg-white",
@@ -157,10 +166,11 @@ export function DateSelectionDropdown({
         </div>
         <CalendarGrid>
           {weekDays.map((day) => (
-            <div key={day} className="weekday">
-              {day}
+            <div key={day.key} className="weekday">
+              {day.label}
             </div>
           ))}
+
           {[...Array(firstDay)].map((_, index) => (
             <div key={`empty-${index}`} />
           ))}
@@ -177,9 +187,8 @@ export function DateSelectionDropdown({
             return (
               <div
                 key={day}
-                className={`day ${isTempSelected ? "selected" : ""} ${
-                  isToday ? "today" : ""
-                }`}
+                className={`day ${isTempSelected ? "selected" : ""} ${isToday ? "today" : ""
+                  }`}
                 onClick={() => handleDateSelect(day)}
               >
                 {day}

@@ -43,7 +43,7 @@ const UserProfile = () => {
 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                    <div className="custom-shadow absolute top-10 -right-5 w-[220px] bg-[#FFFFFF] z-20 rounded pt-3">
+                    <div className="custom-shadow absolute z-50 top-10 -right-5 w-[220px] bg-[#FFFFFF] rounded pt-3">
                         {/* User Info */}
                         <div className="pb-5 border-b border-[#0000005a] px-4">
                             <h2 className="text-[#000000B2] text-[16px] leading-[24px] roboto font-normal tracking-[0.15px]">

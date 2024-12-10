@@ -66,7 +66,9 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
   const [openAperoDropdown, setOpenAperoDropdown] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [courses, setCourses] = useState(0);
+  const [lunchCourses, setLunchCourses] = useState(0);
+  const [dinnerCourses, setDinnerCourses] = useState(0);
+  const [activeCategory, setActiveCategory] = useState(null);
   const dropdownRef = useRef(null);
 
   const handleClickOutside = (event) => {
@@ -88,45 +90,57 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
     const newSelected = [...selectedCategories];
 
     if (currentIndex === -1) {
-      // Add the category if it's not selected
       newSelected.push(categoryId);
     } else {
-      // Remove the category if it's already selected
       newSelected.splice(currentIndex, 1);
     }
 
     setSelectedCategories(newSelected);
 
-    // If the category is being selected and it's "Lunch" or "Dinner", open the apero dropdown
     if (
       (categoryId === "lunch" || categoryId === "dinner") &&
-      currentIndex === -1 && // Only open if it's being selected
+      currentIndex === -1 &&
       !openAperoDropdown
     ) {
       setOpenAperoDropdown(true);
+      setActiveCategory(categoryId);
     }
 
-    // If "Lunch" or "Dinner" is being deselected, ensure the apero dropdown doesn't open
     if (
       (categoryId === "lunch" || categoryId === "dinner") &&
-      currentIndex !== -1 // If it's being deselected
+      currentIndex !== -1
     ) {
-      setOpenAperoDropdown(false);
+      if (categoryId === activeCategory) {
+        setOpenAperoDropdown(false);
+        setActiveCategory(null);
+      }
     }
   };
 
   const handleReset = () => {
     setSelectedCategories([]);
-    setCourses(0);
+    setLunchCourses(0);
+    setDinnerCourses(0);
+    setActiveCategory(null);
   };
 
-  const buttonText =
-    selectedCategories.length > 0
-      ? selectedCategories
-          .map((id) => categories.find((cat) => cat.id === id)?.label)
-          .filter(Boolean)
-          .join(", ")
-      : "Select";
+  const buttonText = selectedCategories.length > 0
+    ? selectedCategories
+        .map((id) => {
+          const category = categories.find((cat) => cat.id === id);
+          if (category) {
+            if (id === 'lunch' && lunchCourses > 0) {
+              return `${category.label} (${lunchCourses})`;
+            } else if (id === 'dinner' && dinnerCourses > 0) {
+              return `${category.label} (${dinnerCourses})`;
+            }
+            return category.label;
+          }
+          return null;
+        })
+        .filter(Boolean)
+        .join(", ")
+    : "Select";
 
   return (
     <>
@@ -157,7 +171,7 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
           </legend>
           <span style={{ display: "flex", alignItems: "center" }}>
             <div className="mr-3">
-              <img src="/category.svg" />
+              <img src="/category.svg" alt="Category icon" />
             </div>
             {buttonText}
           </span>
@@ -236,25 +250,42 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
             style={{
               top: "218px",
               width: "272px",
-              right: generalSearch ? "-243px" : "-153px",
+              right: generalSearch ? "-205px" : "-153px",
             }}
           >
             <Typography variant="subtitle2" sx={{ mt: 3, mb: 1 }}>
               Courses
             </Typography>
 
-            <CoursesCounter>
-              <IconButton
-                onClick={() => setCourses(Math.max(0, courses - 1))}
-                size="small"
-              >
-                <Remove />
-              </IconButton>
-              <Typography variant="body1">{courses}</Typography>
-              <IconButton onClick={() => setCourses(courses + 1)} size="small">
-                <Add />
-              </IconButton>
-            </CoursesCounter>
+            {activeCategory === 'lunch' && (
+              <CoursesCounter>
+                <IconButton
+                  onClick={() => setLunchCourses(Math.max(0, lunchCourses - 1))}
+                  size="small"
+                >
+                  <Remove />
+                </IconButton>
+                <Typography variant="body1">{lunchCourses}</Typography>
+                <IconButton onClick={() => setLunchCourses(lunchCourses + 1)} size="small">
+                  <Add />
+                </IconButton>
+              </CoursesCounter>
+            )}
+
+            {activeCategory === 'dinner' && (
+              <CoursesCounter>
+                <IconButton
+                  onClick={() => setDinnerCourses(Math.max(0, dinnerCourses - 1))}
+                  size="small"
+                >
+                  <Remove />
+                </IconButton>
+                <Typography variant="body1">{dinnerCourses}</Typography>
+                <IconButton onClick={() => setDinnerCourses(dinnerCourses + 1)} size="small">
+                  <Add />
+                </IconButton>
+              </CoursesCounter>
+            )}
 
             <Typography
               variant="body2"
@@ -290,3 +321,4 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
     </>
   );
 }
+

@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !event.target.closest('button')) {
       setIsOpen(false);
     }
   };
@@ -22,21 +22,29 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
+  const handleEscapeKey = (event) => {
+    if (event.key === 'Escape') {
+      setIsOpen(false);
+    }
+  };
+
   useEffect(() => {
     // Add event listeners
     document.addEventListener("mousedown", handleClickOutside);
     window.addEventListener("scroll", handleScroll);
+    document.addEventListener("keydown", handleEscapeKey);
 
     // Cleanup event listeners on component unmount
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
   }, []);
 
   return (
     <div className="w-full px-6">
-      <div className="max-w-full mx-auto w-full flex items-center justify-between py-[22px]">
+      <div className="max-w-[1490px] mx-auto w-full flex items-center justify-between py-[22px]">
         <div className="w-full">
           <Image src="/logo-website.svg" alt="navbar" width={250} height={34} />
         </div>
@@ -84,8 +92,8 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="w-full p-6" ref={dropdownRef}>
-          <div className="border absolute bg-white p-4 top-20 left-0 min-w-full w-full max-w-[1440px] transform translate-x-0 m-auto z-40">
+        <div className="w-full p-6">
+          <div   className="border absolute bg-white p-4 top-20 left-0 min-w-full w-full max-w-[1440px] transform translate-x-0 m-auto z-40">
             <EventSearch />
           </div>
         </div>
@@ -95,3 +103,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Typography, IconButton } from "@mui/material";
+import { Button, Typography, IconButton, Box } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -159,11 +159,12 @@ export function GuestsDropdown({ legendbg = "bg-white" }) {
         onClick={handleToggleDropdown}
         sx={{
           height: "100%",
-          justifyContent: "flex-start",
+          justifyContent: "space-between",
           borderColor: "rgba(0, 0, 0, 0.23)",
           color: "rgba(0, 0, 0, 0.87)",
           textTransform: "none",
-          width: "100px",
+          width: "120px",
+          p:'0 10px 0 10px',
           "&:hover": {
             borderColor: "rgba(0, 0, 0, 0.23)",
             backgroundColor: "transparent",
@@ -177,10 +178,10 @@ export function GuestsDropdown({ legendbg = "bg-white" }) {
           Guests
         </legend>
         <span style={{ display: "flex", alignItems: "center" }}>
-          <div className="mr-3">
+          <div className="mr-1.5">
             <img src="/PeopleFilled.svg" />
           </div>
-          {totalGuests > 0 ? `${totalGuests}` : "0"}
+          {totalGuests > 0 ? `${totalGuests}` : "Select"}
         </span>
       </Button>
 
@@ -201,6 +202,7 @@ export function GuestsDropdown({ legendbg = "bg-white" }) {
             </>
           ) : (
             <>
+              <Box sx={{height:"100px", minHeight:"250px", overflow:'auto'}}>
               <GuestCounter
                 label="Adults"
                 value={guests.adults}
@@ -216,6 +218,7 @@ export function GuestsDropdown({ legendbg = "bg-white" }) {
               />
               <GuestCounter label="Vegan" value={guests.vegan} type="vegan" />
               <GuestCounter label="Kids" value={guests.kids} type="kids" />
+              </Box>
             </>
           )}
 
