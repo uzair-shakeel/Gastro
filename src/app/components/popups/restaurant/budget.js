@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TextField, InputAdornment } from "@mui/material";
 import { CreditCard } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
@@ -30,7 +30,11 @@ const StyledTextField = styled(TextField)(({ legendbg }) => ({
 export function BudgetInput({
   legendbg = "#ffffff",
   legend = "Budget in CHF",
+  onInputChange,
 }) {
+  const handleChange = (event) => {
+    onInputChange(event.target.value);
+  };
   return (
     <StyledTextField
       fullWidth
@@ -43,6 +47,7 @@ export function BudgetInput({
         height: "100%",
         background: legendbg,
       }}
+      onChange={handleChange}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

@@ -1,14 +1,5 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Tabs,
-  Tab,
-  TextField,
-  InputAdornment,
-  Button,
-  Grid,
-} from "@mui/material";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import React, { useCallback, useEffect, useState } from "react";
+import { Box, Tabs, Tab, Button, Grid } from "@mui/material";
 import { BudgetInput } from "../components/popups/restaurant/budget";
 import { CategoryDropdown } from "../components/popups/restaurant/category";
 import { DateSelectionDropdown } from "../components/popups/restaurant/date";
@@ -18,10 +9,66 @@ import { GuestsDropdown } from "../components/popups/restaurant/guests";
 
 const EventSearch = () => {
   const [tabValue, setTabValue] = useState(0);
+  const [locationData, setLocationData] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [isBudgetFilled, setIsBudgetFilled] = useState(false);
+  const [isGuestsFilled, setIsGuestsFilled] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  const handleLocationChange = (updatedData) => {
+    setLocationData(updatedData);
+  };
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
+
+  const handleCategoryChange = (categories) => {
+    setSelectedCategories(categories);
+  };
+
+  const handleBudgetChange = (value) => {
+    setIsBudgetFilled(value.trim() !== "");
+  };
+
+  const handleGuestsChange = (guestCount) => {
+    setIsGuestsFilled(guestCount > 0);
+  };
+
+  const handleDateChange = useCallback((newDate) => {
+    setSelectedDate(newDate);
+  }, []);
+
+  useEffect(() => {
+    console.log("Checking button enable state:", {
+      locationData,
+      selectedDate,
+      isBudgetFilled,
+      isGuestsFilled,
+      selectedCategories,
+      buttonEnabled:
+        locationData &&
+        selectedDate &&
+        isBudgetFilled &&
+        isGuestsFilled &&
+        selectedCategories.length > 0,
+    });
+
+    setIsButtonEnabled(
+      locationData &&
+        selectedDate &&
+        isBudgetFilled &&
+        isGuestsFilled &&
+        selectedCategories.length > 0
+    );
+  }, [
+    locationData,
+    selectedDate,
+    isBudgetFilled,
+    isGuestsFilled,
+    selectedCategories,
+  ]);
 
   return (
     <Box
@@ -220,37 +267,56 @@ const EventSearch = () => {
           width="100%"
         >
           <Box flexGrow={1}>
-            <WhereInput />
+            <WhereInput onLocationChange={handleLocationChange} />
           </Box>
           <Box>
-            <DateSelectionDropdown legend="Date" legendbg="bg-[#F9F9F9]" />
+            <DateSelectionDropdown
+              legend="Date"
+              legendbg="bg-[#F9F9F9]"
+              onDateChange={handleDateChange}
+            />
           </Box>
           <Box flexGrow={1}>
-            <CategoryDropdown generalSearch={true} legendbg="bg-[#F9F9F9]" />
+            <CategoryDropdown
+              generalSearch={true}
+              legendbg="bg-[#F9F9F9]"
+              onCategoryChange={handleCategoryChange}
+            />
           </Box>
           <Box>
-            <GuestsDropdown legendbg="bg-[#F9F9F9]" />
+            <GuestsDropdown
+              legendbg="bg-[#F9F9F9]"
+              onSelectionChange={handleGuestsChange}
+            />
           </Box>
           <Box>
-            <BudgetInput legend="Budget" legendbg="#F9F9F9" />
+            <BudgetInput
+              legend="Budget"
+              legendbg="#F9F9F9"
+              onInputChange={handleBudgetChange}
+            />
           </Box>
         </Box>
         {/* Buttons */}
         <Grid item xs={12} sm={6} md={2}>
           <Button
             fullWidth
-            variant="outlined"
-            sx={{
-              width: "161px",
-              textTransform: "uppercase",
-              bgcolor: "#CCCCCC",
-              border: "none",
-              height: "56px",
-              color: "#000000B2",
-              fontWeight: "600",
+            className={`h-[56px] font-satoshi ${
+              isButtonEnabled
+                ? "bg-[#821101] hover:bg-[#6a0e01]"
+                : "bg-[#c17a6f] cursor-not-allowed"
+            }`}
+            style={{
+              boxShadow: "none",
+              fontWeight: "500",
+              color: "#F9F9F9",
+              width: "137px",
+              fontSize: "15px",
+              letterSpacing: "0.46px",
             }}
+            disabled={!isButtonEnabled}
           >
-            More Options
+            VIEW OFFER
           </Button>
         </Grid>
 

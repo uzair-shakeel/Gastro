@@ -80,12 +80,47 @@ export default function RestaurantDetails() {
 
   // Disable Button
   const [selectedDate, setSelectedDate] = useState(null);
+  const [isBudgetFilled, setIsBudgetFilled] = useState(false);
+  const [isGuestsFilled, setIsGuestsFilled] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  const handleCategoryChange = (categories) => {
+    setSelectedCategories(categories);
+  };
+
+  const handleBudgetChange = (value) => {
+    setIsBudgetFilled(value.trim() !== "");
+  };
+
+  const handleGuestsChange = (guestCount) => {
+    setIsGuestsFilled(guestCount > 0);
+  };
 
   const handleDateChange = useCallback((newDate) => {
     setSelectedDate(newDate);
   }, []);
 
-  const isButtonEnabled = selectedDate;
+  useEffect(() => {
+    console.log("Checking button enable state:", {
+      selectedDate,
+      isBudgetFilled,
+      isGuestsFilled,
+      selectedCategories,
+      buttonEnabled:
+        selectedDate &&
+        isBudgetFilled &&
+        isGuestsFilled &&
+        selectedCategories.length > 0,
+    });
+
+    setIsButtonEnabled(
+      selectedDate &&
+        isBudgetFilled &&
+        isGuestsFilled &&
+        selectedCategories.length > 0
+    );
+  }, [selectedDate, isBudgetFilled, isGuestsFilled, selectedCategories]);
 
   return (
     <div>
@@ -200,7 +235,6 @@ export default function RestaurantDetails() {
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
-
             <Box
               display="flex"
               justifyContent="space-between"
@@ -212,19 +246,25 @@ export default function RestaurantDetails() {
                 <DateSelectionDropdown onDateChange={handleDateChange} />
               </Box>
               <Box flexGrow={1}>
-                <CategoryDropdown generalSearch={false} />
+                <CategoryDropdown
+                  generalSearch={false}
+                  onCategoryChange={handleCategoryChange}
+                />
               </Box>
               <Box>
-                <GuestsDropdown />
+                <GuestsDropdown onSelectionChange={handleGuestsChange} />
               </Box>
               <Box>
-                <BudgetInput />
+                <BudgetInput onInputChange={handleBudgetChange} />
               </Box>
               <Box>
                 <Button
                   fullWidth
-                  className={`h-[56px] font-satoshi ${isButtonEnabled ? 'bg-[#821101] hover:bg-[#6a0e01]' : 'bg-[#c17a6f] cursor-not-allowed'
-                    }`}
+                  className={`h-[56px] font-satoshi ${
+                    isButtonEnabled
+                      ? "bg-[#821101] hover:bg-[#6a0e01]"
+                      : "bg-[#c17a6f] cursor-not-allowed"
+                  }`}
                   style={{
                     boxShadow: "none",
                     fontWeight: "500",
@@ -237,7 +277,6 @@ export default function RestaurantDetails() {
                 >
                   VIEW OFFER
                 </Button>
-
               </Box>
             </Box>
 
@@ -263,7 +302,7 @@ export default function RestaurantDetails() {
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
-                        userSelect:'none'
+                        userSelect: "none",
                       }}
                       onClick={() => openModal(index)}
                     />
@@ -436,14 +475,14 @@ export default function RestaurantDetails() {
                           day.day === "Saturday"
                             ? "#F9F9F9"
                             : isToday
-                              ? "#FFEBEB"
-                              : "#F9F9F9",
+                            ? "#FFEBEB"
+                            : "#F9F9F9",
                         opacity:
                           day.day === "Saturday"
                             ? "80%"
                             : isToday
-                              ? "100%"
-                              : "100%",
+                            ? "100%"
+                            : "100%",
                       }}
                     >
                       <Typography
@@ -473,8 +512,9 @@ export default function RestaurantDetails() {
                         {day.day}:
                       </Typography>
                       <div
-                        className={`flex items-center ${showSeparator ? "gap-1.5" : ""
-                          }`}
+                        className={`flex items-center ${
+                          showSeparator ? "gap-1.5" : ""
+                        }`}
                       >
                         <Typography
                           sx={{

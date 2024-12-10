@@ -71,7 +71,7 @@ const DropdownContainer = styled("div")(({ theme }) => ({
   width: "100%",
 }));
 
-export function GuestsDropdown({ legendbg = "bg-white" }) {
+export function GuestsDropdown({ legendbg = "bg-white", onSelectionChange }) {
   const [open, setOpen] = useState(false);
   const [guests, setGuests] = useState({
     adults: 0,
@@ -105,6 +105,11 @@ export function GuestsDropdown({ legendbg = "bg-white" }) {
       setShowExtended(false);
     }
   }, [guests.adults]);
+
+  useEffect(() => {
+    const totalGuests = guests.adults + guests.kids;
+    onSelectionChange(totalGuests); // Notify parent of total guest count
+  }, [guests, onSelectionChange]);
 
   const handleToggleDropdown = () => {
     setOpen((prev) => !prev);
@@ -164,7 +169,7 @@ export function GuestsDropdown({ legendbg = "bg-white" }) {
           color: "rgba(0, 0, 0, 0.87)",
           textTransform: "none",
           width: "120px",
-          p:'0 10px 0 10px',
+          p: "0 10px 0 10px",
           "&:hover": {
             borderColor: "rgba(0, 0, 0, 0.23)",
             backgroundColor: "transparent",
@@ -202,22 +207,24 @@ export function GuestsDropdown({ legendbg = "bg-white" }) {
             </>
           ) : (
             <>
-              <Box sx={{height:"100px", minHeight:"250px", overflow:'auto'}}>
-              <GuestCounter
-                label="Adults"
-                value={guests.adults}
-                type="adults"
-              />
-              <GuestCounter label="All" value={guests.all} type="all" />
-              <GuestCounter label="Meat" value={guests.meat} type="meat" />
-              <GuestCounter label="Fish" value={guests.fish} type="fish" />
-              <GuestCounter
-                label="Vegetarian"
-                value={guests.vegetarian}
-                type="vegetarian"
-              />
-              <GuestCounter label="Vegan" value={guests.vegan} type="vegan" />
-              <GuestCounter label="Kids" value={guests.kids} type="kids" />
+              <Box
+                sx={{ height: "100px", minHeight: "250px", overflow: "auto" }}
+              >
+                <GuestCounter
+                  label="Adults"
+                  value={guests.adults}
+                  type="adults"
+                />
+                <GuestCounter label="All" value={guests.all} type="all" />
+                <GuestCounter label="Meat" value={guests.meat} type="meat" />
+                <GuestCounter label="Fish" value={guests.fish} type="fish" />
+                <GuestCounter
+                  label="Vegetarian"
+                  value={guests.vegetarian}
+                  type="vegetarian"
+                />
+                <GuestCounter label="Vegan" value={guests.vegan} type="vegan" />
+                <GuestCounter label="Kids" value={guests.kids} type="kids" />
               </Box>
             </>
           )}

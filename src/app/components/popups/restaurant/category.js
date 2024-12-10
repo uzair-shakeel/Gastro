@@ -61,7 +61,11 @@ const categories = [
   { id: "dinner", label: "Dinner" },
 ];
 
-export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
+export function CategoryDropdown({
+  legendbg = "bg-white",
+  generalSearch,
+  onCategoryChange,
+}) {
   const [open, setOpen] = useState(false);
   const [openAperoDropdown, setOpenAperoDropdown] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -97,6 +101,9 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
 
     setSelectedCategories(newSelected);
 
+    // Notify the parent of category changes (pass the updated list)
+    onCategoryChange && onCategoryChange(newSelected);
+
     if (
       (categoryId === "lunch" || categoryId === "dinner") &&
       currentIndex === -1 &&
@@ -122,25 +129,28 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
     setLunchCourses(0);
     setDinnerCourses(0);
     setActiveCategory(null);
+    // Notify the parent that categories have been reset
+    onCategoryChange && onCategoryChange([]);
   };
 
-  const buttonText = selectedCategories.length > 0
-    ? selectedCategories
-        .map((id) => {
-          const category = categories.find((cat) => cat.id === id);
-          if (category) {
-            if (id === 'lunch' && lunchCourses > 0) {
-              return `${category.label} (${lunchCourses})`;
-            } else if (id === 'dinner' && dinnerCourses > 0) {
-              return `${category.label} (${dinnerCourses})`;
+  const buttonText =
+    selectedCategories.length > 0
+      ? selectedCategories
+          .map((id) => {
+            const category = categories.find((cat) => cat.id === id);
+            if (category) {
+              if (id === "lunch" && lunchCourses > 0) {
+                return `${category.label} (${lunchCourses})`;
+              } else if (id === "dinner" && dinnerCourses > 0) {
+                return `${category.label} (${dinnerCourses})`;
+              }
+              return category.label;
             }
-            return category.label;
-          }
-          return null;
-        })
-        .filter(Boolean)
-        .join(", ")
-    : "Select";
+            return null;
+          })
+          .filter(Boolean)
+          .join(", ")
+      : "Select";
 
   return (
     <>
@@ -257,7 +267,7 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
               Courses
             </Typography>
 
-            {activeCategory === 'lunch' && (
+            {activeCategory === "lunch" && (
               <CoursesCounter>
                 <IconButton
                   onClick={() => setLunchCourses(Math.max(0, lunchCourses - 1))}
@@ -266,22 +276,30 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
                   <Remove />
                 </IconButton>
                 <Typography variant="body1">{lunchCourses}</Typography>
-                <IconButton onClick={() => setLunchCourses(lunchCourses + 1)} size="small">
+                <IconButton
+                  onClick={() => setLunchCourses(lunchCourses + 1)}
+                  size="small"
+                >
                   <Add />
                 </IconButton>
               </CoursesCounter>
             )}
 
-            {activeCategory === 'dinner' && (
+            {activeCategory === "dinner" && (
               <CoursesCounter>
                 <IconButton
-                  onClick={() => setDinnerCourses(Math.max(0, dinnerCourses - 1))}
+                  onClick={() =>
+                    setDinnerCourses(Math.max(0, dinnerCourses - 1))
+                  }
                   size="small"
                 >
                   <Remove />
                 </IconButton>
                 <Typography variant="body1">{dinnerCourses}</Typography>
-                <IconButton onClick={() => setDinnerCourses(dinnerCourses + 1)} size="small">
+                <IconButton
+                  onClick={() => setDinnerCourses(dinnerCourses + 1)}
+                  size="small"
+                >
                   <Add />
                 </IconButton>
               </CoursesCounter>
@@ -321,4 +339,3 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
     </>
   );
 }
-

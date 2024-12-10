@@ -2,12 +2,17 @@
 
 import { InputBase, IconButton } from "@mui/material";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 
-export default function WhereInput() {
+export default function WhereInput({ onLocationChange }) {
   const [distance, setDistance] = useState(0);
   const [inputValue, setInputValue] = useState("");
+
+  // Call the parent's callback whenever distance or inputValue changes
+  useEffect(() => {
+    onLocationChange({ distance, inputValue });
+  }, [distance, inputValue]);
 
   const handleIncrement = () => {
     setDistance((prev) => prev + 1);
