@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Typography,
   Button,
@@ -77,6 +77,15 @@ export default function RestaurantDetails() {
       setCurrentUrl(window.location.href);
     }
   }, []);
+
+  // Disable Button
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const handleDateChange = useCallback((newDate) => {
+    setSelectedDate(newDate);
+  }, []);
+
+  const isButtonEnabled = selectedDate;
 
   return (
     <div>
@@ -175,7 +184,7 @@ export default function RestaurantDetails() {
                 marginTop: "-1px",
                 fontWeight: "500",
               }}
-              startIcon={
+              starticon={
                 isFavorite ? (
                   <Favorite style={{ color: "#821101" }} />
                 ) : (
@@ -191,6 +200,7 @@ export default function RestaurantDetails() {
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
+
             <Box
               display="flex"
               justifyContent="space-between"
@@ -199,7 +209,7 @@ export default function RestaurantDetails() {
               mb={3}
             >
               <Box>
-                <DateSelectionDropdown />
+                <DateSelectionDropdown onDateChange={handleDateChange} />
               </Box>
               <Box flexGrow={1}>
                 <CategoryDropdown generalSearch={false} />
@@ -213,19 +223,21 @@ export default function RestaurantDetails() {
               <Box>
                 <Button
                   fullWidth
-                  className=" h-[56px] bg-[#821101] font-satoshi "
+                  className={`h-[56px] font-satoshi ${isButtonEnabled ? 'bg-[#821101] hover:bg-[#6a0e01]' : 'bg-[#c17a6f] cursor-not-allowed'
+                    }`}
                   style={{
                     boxShadow: "none",
-                    backgroundColor: "#821101",
                     fontWeight: "500",
                     color: "#F9F9F9",
                     width: "137px",
                     fontSize: "15px",
                     letterSpacing: "0.46px",
                   }}
+                  disabled={!isButtonEnabled}
                 >
                   VIEW OFFER
                 </Button>
+
               </Box>
             </Box>
 
@@ -251,6 +263,7 @@ export default function RestaurantDetails() {
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
+                        userSelect:'none'
                       }}
                       onClick={() => openModal(index)}
                     />
@@ -423,14 +436,14 @@ export default function RestaurantDetails() {
                           day.day === "Saturday"
                             ? "#F9F9F9"
                             : isToday
-                            ? "#FFEBEB"
-                            : "#F9F9F9",
+                              ? "#FFEBEB"
+                              : "#F9F9F9",
                         opacity:
                           day.day === "Saturday"
                             ? "80%"
                             : isToday
-                            ? "100%"
-                            : "100%",
+                              ? "100%"
+                              : "100%",
                       }}
                     >
                       <Typography
@@ -460,9 +473,8 @@ export default function RestaurantDetails() {
                         {day.day}:
                       </Typography>
                       <div
-                        className={`flex items-center ${
-                          showSeparator ? "gap-1.5" : ""
-                        }`}
+                        className={`flex items-center ${showSeparator ? "gap-1.5" : ""
+                          }`}
                       >
                         <Typography
                           sx={{

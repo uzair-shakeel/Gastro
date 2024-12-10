@@ -88,7 +88,7 @@ export function QRCodeModal({ open, onClose, url }) {
             <button
               className="w-full h-[42px] bg-[#82110126] text-[#821101] rounded flex items-center justify-center gap-2 text-[15px] font-medium font-satoshi tracking-[0.46px] leading-[26px]"
               variant="contained"
-              startIcon={<Share />}
+              starticon={<Share />}
               onClick={handleShare}
               disabled={!isClient || !navigator.share}
             >
@@ -98,7 +98,7 @@ export function QRCodeModal({ open, onClose, url }) {
             <button
               className="w-full h-[42px] bg-[#821101] text-[#F9F9F9] rounded flex items-center justify-center gap-2 text-[15px] font-medium font-satoshi tracking-[0.46px] leading-[26px]"
               variant="contained"
-              startIcon={<ContentCopy />}
+              starticon={<ContentCopy />}
               onClick={handleCopyLink}
             >
               <Image src='/copy-link.svg' alt="copy-link" width={24} height={24} />

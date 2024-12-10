@@ -40,10 +40,10 @@ const weekDays = [
   { label: "S", key: "sat" },
 ];
 
-
 export function DateSelectionDropdown({
   legendbg = "bg-white",
   legend = "Date Selection",
+  onDateChange,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -87,7 +87,8 @@ export function DateSelectionDropdown({
   };
 
   const handleConfirm = () => {
-    setSelectedDate(tempSelectedDate); // Set the selected date
+    setSelectedDate(tempSelectedDate);
+    onDateChange(tempSelectedDate);
     setAnchorEl(null);
   };
 
@@ -187,8 +188,9 @@ export function DateSelectionDropdown({
             return (
               <div
                 key={day}
-                className={`day ${isTempSelected ? "selected" : ""} ${isToday ? "today" : ""
-                  }`}
+                className={`day ${isTempSelected ? "selected" : ""} ${
+                  isToday ? "today" : ""
+                }`}
                 onClick={() => handleDateSelect(day)}
               >
                 {day}
@@ -238,3 +240,4 @@ export function DateSelectionDropdown({
     </>
   );
 }
+
