@@ -223,16 +223,16 @@ const EventSearch = () => {
             <WhereInput />
           </Box>
           <Box>
-            <DateSelectionDropdown legend="Date" legendBg="bg-[#F9F9F9]" />
+            <DateSelectionDropdown legend="Date" legendbg="bg-[#F9F9F9]" />
           </Box>
           <Box flexGrow={1}>
-            <CategoryDropdown generalSearch={true} legendBg="bg-[#F9F9F9]" />
+            <CategoryDropdown generalSearch={true} legendbg="bg-[#F9F9F9]" />
           </Box>
           <Box>
-            <GuestsDropdown legendBg="bg-[#F9F9F9]" />
+            <GuestsDropdown legendbg="bg-[#F9F9F9]" />
           </Box>
           <Box>
-            <BudgetInput legend="Budget" legendBg="#F9F9F9" />
+            <BudgetInput legend="Budget" legendbg="#F9F9F9" />
           </Box>
         </Box>
         {/* Buttons */}

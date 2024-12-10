@@ -61,7 +61,7 @@ const categories = [
   { id: "dinner", label: "Dinner" },
 ];
 
-export function CategoryDropdown({ legendBg = "bg-white", generalSearch }) {
+export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
   const [open, setOpen] = useState(false);
   const [openAperoDropdown, setOpenAperoDropdown] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -151,7 +151,7 @@ export function CategoryDropdown({ legendBg = "bg-white", generalSearch }) {
           endIcon={<ArrowDropDownIcon />}
         >
           <legend
-            className={`absolute top-0 left-2 -translate-y-1/2 ${legendBg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+            className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
           >
             Category
           </legend>

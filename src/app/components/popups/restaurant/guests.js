@@ -71,7 +71,7 @@ const DropdownContainer = styled("div")(({ theme }) => ({
   width: "100%",
 }));
 
-export function GuestsDropdown({ legendBg = "bg-white" }) {
+export function GuestsDropdown({ legendbg = "bg-white" }) {
   const [open, setOpen] = useState(false);
   const [guests, setGuests] = useState({
     adults: 0,
@@ -172,7 +172,7 @@ export function GuestsDropdown({ legendBg = "bg-white" }) {
         endIcon={<ArrowDropDownIcon />}
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendBg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
         >
           Guests
         </legend>

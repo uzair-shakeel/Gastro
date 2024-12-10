@@ -33,7 +33,7 @@ const CalendarGrid = styled("div")(({ theme }) => ({
 const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
 
 export function DateSelectionDropdown({
-  legendBg = "bg-white",
+  legendbg = "bg-white",
   legend = "Date Selection",
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -107,7 +107,7 @@ export function DateSelectionDropdown({
         }}
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendBg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
         >
           {legend}
         </legend>
