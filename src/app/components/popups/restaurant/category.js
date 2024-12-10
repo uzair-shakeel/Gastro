@@ -250,7 +250,7 @@ export function CategoryDropdown({ legendbg = "bg-white", generalSearch }) {
             style={{
               top: "218px",
               width: "272px",
-              right: generalSearch ? "-205px" : "-153px",
+              right: generalSearch ? "-220px" : "-180px",
             }}
           >
             <Typography variant="subtitle2" sx={{ mt: 3, mb: 1 }}>
