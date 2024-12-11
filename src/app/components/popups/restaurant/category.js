@@ -12,11 +12,13 @@ import { Add, Remove } from "@mui/icons-material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const StyledTab = styled(Tab)(({ theme }) => ({
-  color: "#8B0000",
-  borderBottom: "2px solid transparent",
+  color: "#821101",
+  textTransform: "uppercase",
+  fontSize: "14px",
+  fontWeight: 500,
+  padding: "12px 24px",
   "&.Mui-selected": {
-    color: "#8B0000",
-    borderBottom: "2px solid #8B0000",
+    color: "#821101",
   },
 }));
 
@@ -24,41 +26,67 @@ const DropdownContainer = styled("div")(({ theme }) => ({
   position: "absolute",
   zIndex: 1000,
   backgroundColor: "white",
-  border: "1px solid rgba(0, 0, 0, 0.23)",
-  borderRadius: "4px",
-  padding: "16px",
+  border: "1px solid rgba(0, 0, 0, 0.12)",
+  borderRadius: "8px",
+  padding: "24px",
   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-  maxWidth: "300px",
-  width: "100%",
+  width: "360px",
 }));
 
 const CategoryOption = styled("div")(({ theme }) => ({
-  border: "1px solid rgba(0, 0, 0, 0.23)",
-  borderRadius: "4px",
-  padding: "8px 16px",
-  marginBottom: "8px",
   display: "flex",
   alignItems: "center",
+  padding: "12px 16px",
+  borderRadius: "8px",
+  border: "1px solid rgba(0, 0, 0, 0.12)",
+  marginBottom: "12px",
   cursor: "pointer",
-  "&:hover": {
-    borderColor: "#000",
-  },
+  position: "relative", // Added for absolute positioning of label
+   
 }));
 
-const CoursesCounter = styled("div")(({ theme }) => ({
-  border: "1px solid rgba(0, 0, 0, 0.23)",
-  borderRadius: "4px",
-  padding: "8px 16px",
+const CoursesSection = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  marginTop: "8px",
+  padding: "8px 0", // Removed horizontal padding
+  borderLeft: "1px solid rgba(0, 0, 0, 0.12)",
+  marginLeft: "16px",
+  position: "relative", // Added for absolute positioning of label
+  outline: "none",
+  flex: 1,
+  "&::before": {
+    content: '"Courses"',
+    position: "absolute",
+    top: "-20px",
+    left: "25%",
+    transform: "translateX(-50%)",
+    background: "white",
+    padding: "0 8px",
+    fontSize: "12px",
+    color: "rgba(0, 0, 0, 0.6)",
+    fontWeight: 400,
+  },
+}));
+
+const CounterButton = styled(IconButton)(({ theme }) => ({
+  padding: "4px",
+  backgroundColor: "#F5F5F5",
+  borderRadius: "4px",
+  color: "#000",
+  "&:hover": {
+    backgroundColor: "#EEEEEE",
+  },
+  "&.Mui-disabled": {
+    backgroundColor: "#F5F5F5",
+    color: "rgba(0, 0, 0, 0.26)",
+  },
 }));
 
 const categories = [
   { id: "breakfast", label: "Breakfast" },
-  { id: "lunch", label: "Lunch" },
-  { id: "dinner", label: "Dinner" },
+  { id: "lunch", label: "Lunch", hasCourses: true },
+  { id: "dinner", label: "Dinner", hasCourses: true },
 ];
 
 export function CategoryDropdown({
@@ -67,18 +95,17 @@ export function CategoryDropdown({
   onCategoryChange,
 }) {
   const [open, setOpen] = useState(false);
-  const [openAperoDropdown, setOpenAperoDropdown] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [lunchCourses, setLunchCourses] = useState(0);
-  const [dinnerCourses, setDinnerCourses] = useState(0);
-  const [activeCategory, setActiveCategory] = useState(null);
+  const [courses, setCourses] = useState({
+    lunch: 3,
+    dinner: 2,
+  });
   const dropdownRef = useRef(null);
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setOpen(false);
-      setOpenAperoDropdown(false);
     }
   };
 
@@ -100,37 +127,20 @@ export function CategoryDropdown({
     }
 
     setSelectedCategories(newSelected);
+    onCategoryChange?.(newSelected);
+  };
 
-    // Notify the parent of category changes (pass the updated list)
-    onCategoryChange && onCategoryChange(newSelected);
-
-    if (
-      (categoryId === "lunch" || categoryId === "dinner") &&
-      currentIndex === -1 &&
-      !openAperoDropdown
-    ) {
-      setOpenAperoDropdown(true);
-      setActiveCategory(categoryId);
-    }
-
-    if (
-      (categoryId === "lunch" || categoryId === "dinner") &&
-      currentIndex !== -1
-    ) {
-      if (categoryId === activeCategory) {
-        setOpenAperoDropdown(false);
-        setActiveCategory(null);
-      }
-    }
+  const handleCourseChange = (category, delta) => {
+    setCourses((prev) => ({
+      ...prev,
+      [category]: Math.max(0, prev[category] + delta),
+    }));
   };
 
   const handleReset = () => {
     setSelectedCategories([]);
-    setLunchCourses(0);
-    setDinnerCourses(0);
-    setActiveCategory(null);
-    // Notify the parent that categories have been reset
-    onCategoryChange && onCategoryChange([]);
+    setCourses({ lunch: 3, dinner: 2 });
+    onCategoryChange?.([]);
   };
 
   const buttonText =
@@ -138,204 +148,159 @@ export function CategoryDropdown({
       ? selectedCategories
           .map((id) => {
             const category = categories.find((cat) => cat.id === id);
-            if (category) {
-              if (id === "lunch" && lunchCourses > 0) {
-                return `${category.label} (${lunchCourses})`;
-              } else if (id === "dinner" && dinnerCourses > 0) {
-                return `${category.label} (${dinnerCourses})`;
-              }
-              return category.label;
+            if (category?.hasCourses) {
+              return `${category.label} (${courses[id]})`;
             }
-            return null;
+            return category?.label;
           })
-          .filter(Boolean)
           .join(", ")
       : "Select";
 
   return (
-    <>
-      <div style={{ position: "relative", height: "100%", minWidth: "272px" }}>
-        <Button
-          variant="outlined"
-          onClick={() => setOpen((prev) => !prev)}
-          fullWidth
-          sx={{
-            textTransform: "none",
-            fontSize: "16px",
-            justifyContent: "space-between",
-            color: "gray",
-            border: "1px solid #C4C4C4",
-            borderRadius: "4px",
-            height: "100%",
-            fontWeight: 400,
-            display: "flex",
-            alignItems: "center",
-            flexGrow: 1,
-          }}
-          endIcon={<ArrowDropDownIcon />}
+    <div style={{ position: "relative", height: "100%", minWidth: "272px" }}>
+      <Button
+        variant="outlined"
+        onClick={() => setOpen((prev) => !prev)}
+        fullWidth
+        sx={{
+          height: "100%",
+          justifyContent: "space-between",
+          borderColor: "rgba(0, 0, 0, 0.23)",
+          color: "rgba(0, 0, 0, 0.87)",
+          textTransform: "none",
+          p: "0 10px",
+          "&:hover": {
+            borderColor: "rgba(0, 0, 0, 0.23)",
+            backgroundColor: "transparent",
+          },
+        }}
+        endIcon={<ArrowDropDownIcon />}
+      >
+        <legend
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
         >
-          <legend
-            className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+          Category
+        </legend>
+        <span style={{ display: "flex", alignItems: "center" }}>
+          <div className="mr-3">
+            <img src="/category.svg" alt="Category icon" />
+          </div>
+          {buttonText}
+        </span>
+      </Button>
+
+      {open && (
+        <DropdownContainer ref={dropdownRef}>
+          <Tabs
+            value={selectedTab}
+            onChange={(_, newValue) => setSelectedTab(newValue)}
+            sx={{
+              mb: 3,
+              borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#821101",
+                height: "2px",
+              },
+            }}
           >
-            Category
-          </legend>
-          <span style={{ display: "flex", alignItems: "center" }}>
-            <div className="mr-3">
-              <img src="/category.svg" alt="Category icon" />
-            </div>
-            {buttonText}
-          </span>
-        </Button>
+            <StyledTab label="TABLE SERVICE" />
+            <StyledTab label="SELF SERVICE" />
+          </Tabs>
 
-        {open && (
-          <DropdownContainer ref={dropdownRef} style={{ width: "272px" }}>
-            <Tabs
-              value={selectedTab}
-              onChange={(event, newValue) => setSelectedTab(newValue)}
-              sx={{
-                borderBottom: 1,
-                borderColor: "divider",
-                mb: 3,
-                "& .MuiTabs-indicator": {
-                  backgroundColor: "#8B0000",
-                },
-              }}
-            >
-              <StyledTab sx={{ paddingX: "8px" }} label="TABLE SERVICE" />
-              <StyledTab sx={{ paddingX: "8px" }} label="SELF SERVICE" />
-            </Tabs>
-
-            {categories.map((category) => (
-              <CategoryOption
-                key={category.id}
-                onClick={() => handleCategoryToggle(category.id)}
-              >
+          {categories.map((category) => (
+            <CategoryOption key={category.id}>
+              <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
                 <Checkbox
                   checked={selectedCategories.includes(category.id)}
+                  onChange={() => handleCategoryToggle(category.id)}
                   sx={{
                     color: "rgba(0, 0, 0, 0.54)",
                     "&.Mui-checked": {
-                      color: "#8B0000",
+                      color: "#821101",
                     },
                   }}
                 />
-                <Typography>{category.label}</Typography>
-              </CategoryOption>
-            ))}
+                <Typography sx={{ fontSize: "16px", color: "#000000DE" }}>
+                  {category.label}
+                </Typography>
+              </div>
+              {category.hasCourses &&
+                selectedCategories.includes(category.id) && (
+                  <CoursesSection>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        width: "100%",
+                        justifyContent: "center",
+                        padding: "0 16px",
+                      }}
+                    >
+                      <CounterButton
+                        size="small"
+                        onClick={() => handleCourseChange(category.id, -1)}
+                        disabled={courses[category.id] === 0}
+                      >
+                        <Remove fontSize="small" />
+                      </CounterButton>
+                      <Typography
+                        sx={{
+                          fontSize: "16px",
+                          minWidth: "20px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {courses[category.id]}
+                      </Typography>
+                      <CounterButton
+                        size="small"
+                        onClick={() => handleCourseChange(category.id, 1)}
+                      >
+                        <Add fontSize="small" />
+                      </CounterButton>
+                    </div>
+                  </CoursesSection>
+                )}
+            </CategoryOption>
+          ))}
 
-            <Typography
-              variant="body2"
-              sx={{
-                textAlign: "center",
-                mt: 2,
-                mb: 2,
-                color: "#8B0000",
-                cursor: "pointer",
-                "&:hover": { textDecoration: "underline" },
-              }}
-              onClick={handleReset}
-            >
-              Reset to default
-            </Typography>
-
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={() => setOpen(false)}
-              sx={{
-                backgroundColor: "#8B0000",
-                "&:hover": {
-                  backgroundColor: "#660000",
-                },
-              }}
-            >
-              CONFIRM
-            </Button>
-          </DropdownContainer>
-        )}
-
-        {openAperoDropdown && (
-          <DropdownContainer
-            ref={dropdownRef}
-            style={{
-              top: "218px",
-              width: "272px",
-              right: generalSearch ? "-220px" : "-180px",
+          <Typography
+            onClick={handleReset}
+            sx={{
+              textAlign: "center",
+              mt: 2,
+              mb: 3,
+              color: "#821101",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: 500,
+              "&:hover": { textDecoration: "underline" },
             }}
           >
-            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1 }}>
-              Courses
-            </Typography>
+            Reset to default
+          </Typography>
 
-            {activeCategory === "lunch" && (
-              <CoursesCounter>
-                <IconButton
-                  onClick={() => setLunchCourses(Math.max(0, lunchCourses - 1))}
-                  size="small"
-                >
-                  <Remove />
-                </IconButton>
-                <Typography variant="body1">{lunchCourses}</Typography>
-                <IconButton
-                  onClick={() => setLunchCourses(lunchCourses + 1)}
-                  size="small"
-                >
-                  <Add />
-                </IconButton>
-              </CoursesCounter>
-            )}
-
-            {activeCategory === "dinner" && (
-              <CoursesCounter>
-                <IconButton
-                  onClick={() =>
-                    setDinnerCourses(Math.max(0, dinnerCourses - 1))
-                  }
-                  size="small"
-                >
-                  <Remove />
-                </IconButton>
-                <Typography variant="body1">{dinnerCourses}</Typography>
-                <IconButton
-                  onClick={() => setDinnerCourses(dinnerCourses + 1)}
-                  size="small"
-                >
-                  <Add />
-                </IconButton>
-              </CoursesCounter>
-            )}
-
-            <Typography
-              variant="body2"
-              sx={{
-                textAlign: "center",
-                mt: 2,
-                mb: 2,
-                color: "#8B0000",
-                cursor: "pointer",
-                "&:hover": { textDecoration: "underline" },
-              }}
-              onClick={handleReset}
-            >
-              Reset to default
-            </Typography>
-
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={() => setOpenAperoDropdown(false)}
-              sx={{
-                backgroundColor: "#8B0000",
-                "&:hover": {
-                  backgroundColor: "#660000",
-                },
-              }}
-            >
-              CONFIRM
-            </Button>
-          </DropdownContainer>
-        )}
-      </div>
-    </>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => setOpen(false)}
+            sx={{
+              backgroundColor: "#821101",
+              color: "#fff",
+              fontSize: "16px",
+              fontWeight: 500,
+              padding: "16px",
+              borderRadius: "8px",
+              "&:hover": {
+                backgroundColor: "#6a0e01",
+              },
+            }}
+          >
+            CONFIRM
+          </Button>
+        </DropdownContainer>
+      )}
+    </div>
   );
 }

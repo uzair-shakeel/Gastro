@@ -9,53 +9,67 @@ const CounterWrapper = styled("div")(({ theme }) => ({
 }));
 
 const CounterLabel = styled(Typography)(({ theme }) => ({
-  fontSize: "14px",
-  color: "rgba(0, 0, 0, 0.87)",
-  marginBottom: "4px",
+  fontSize: "16px",
+  color: "#000",
+  fontWeight: 500,
+  marginBottom: "0px",
 }));
 
 const CounterContainer = styled("div")(({ theme }) => ({
-  border: "1px solid rgba(0, 0, 0, 0.23)",
-  borderRadius: "4px",
-  padding: "8px 12px",
+  border: "1px solid rgba(0, 0, 0, 0.12)",
+  borderRadius: "8px",
+  padding: "8px 16px",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
   backgroundColor: "#fff",
+  marginTop: "8px",
 }));
 
 const CounterButton = styled(IconButton)(({ theme }) => ({
   padding: "4px",
-  color: "rgba(0, 0, 0, 0.54)",
+  color: "#000",
+  backgroundColor: "#F5F5F5",
+  borderRadius: "4px",
+  "&:hover": {
+    backgroundColor: "#EEEEEE",
+  },
   "&.Mui-disabled": {
+    backgroundColor: "#F5F5F5",
     color: "rgba(0, 0, 0, 0.26)",
   },
 }));
 
 const CounterValue = styled(Typography)(({ theme }) => ({
-  fontSize: "16px",
+  fontSize: "24px",
   fontWeight: 400,
   minWidth: "40px",
   textAlign: "center",
+  color: "#000",
 }));
 
 const ResetButton = styled(Typography)(({ theme }) => ({
-  color: "#8B0000",
+  color: "#821101",
   textAlign: "center",
   cursor: "pointer",
-  marginTop: "16px",
-  marginBottom: "16px",
+  marginTop: "24px",
+  marginBottom: "24px",
+  fontSize: "14px",
+  fontWeight: 500,
   "&:hover": {
     textDecoration: "underline",
   },
 }));
 
 const ConfirmButton = styled(Button)(({ theme }) => ({
-  backgroundColor: "#8B0000",
+  backgroundColor: "#821101",
   color: "#fff",
-  padding: "12px",
+  padding: "16px",
+  borderRadius: "8px",
+  fontSize: "16px",
+  fontWeight: 500,
   "&:hover": {
-    backgroundColor: "#660000",
+    backgroundColor: "#6a0e01",
   },
 }));
 
@@ -63,11 +77,11 @@ const DropdownContainer = styled("div")(({ theme }) => ({
   position: "absolute",
   zIndex: 1000,
   backgroundColor: "white",
-  border: "1px solid rgba(0, 0, 0, 0.23)",
-  borderRadius: "4px",
-  padding: "16px",
+  border: "1px solid rgba(0, 0, 0, 0.12)",
+  borderRadius: "8px",
+  padding: "24px",
   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-  maxWidth: "300px",
+  maxWidth: "360px",
   width: "100%",
 }));
 
@@ -137,9 +151,16 @@ export function GuestsDropdown({ legendbg = "bg-white", onSelectionChange }) {
   };
 
   const GuestCounter = ({ label, value, type }) => (
-    <CounterWrapper>
+    <CounterWrapper
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        overflow: "hidden",
+      }}
+    >
       <CounterLabel>{label}</CounterLabel>
-      <CounterContainer>
+      <CounterContainer sx={{ overflow: "hidden" }}>
         <CounterButton
           onClick={() => handleDecrement(type)}
           disabled={value === 0}

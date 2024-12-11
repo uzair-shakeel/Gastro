@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import EventSearch from "../restaurant/EventSearch";
 import UserProfile from "./UserProfile";
+import LanguageSelector from "./language-selector";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +14,11 @@ const Navbar = () => {
   };
 
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !event.target.closest('button')) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      !event.target.closest("button")
+    ) {
       setIsOpen(false);
     }
   };
@@ -23,18 +28,16 @@ const Navbar = () => {
   };
 
   const handleEscapeKey = (event) => {
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       setIsOpen(false);
     }
   };
 
   useEffect(() => {
-    // Add event listeners
     document.addEventListener("mousedown", handleClickOutside);
     window.addEventListener("scroll", handleScroll);
     document.addEventListener("keydown", handleEscapeKey);
 
-    // Cleanup event listeners on component unmount
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       window.removeEventListener("scroll", handleScroll);
@@ -78,22 +81,14 @@ const Navbar = () => {
               />
             </button>
             <UserProfile />
-            <button>
-              <Image
-                src="/public.svg"
-                alt="public"
-                width={24}
-                height={24}
-                className="min-w-[24px]"
-              />
-            </button>
+            <LanguageSelector />
           </div>
         </div>
       </div>
 
       {isOpen && (
         <div className="w-full p-6">
-          <div   className="border absolute bg-white p-4 top-20 left-0 min-w-full w-full max-w-[1440px] transform translate-x-0 m-auto z-40">
+          <div className="border absolute bg-white p-4 top-20 left-0 min-w-full w-full max-w-[1440px] transform translate-x-0 m-auto z-40">
             <EventSearch />
           </div>
         </div>
@@ -103,4 +98,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
