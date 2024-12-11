@@ -260,12 +260,13 @@ export default function RestaurantDetails() {
               <Box>
                 <Button
                   fullWidth
-                  className={`h-[56px] font-satoshi ${
-                    isButtonEnabled
-                      ? "bg-[#821101] hover:bg-[#6a0e01]"
-                      : "bg-[#c17a6f] cursor-not-allowed"
-                  }`}
+                 
                   style={{
+                    height: 56,
+                    fontFamily: 'Satoshi, sans-serif',
+                    background: isButtonEnabled ? '#821101' : '#c17a6f',
+                    boxShadow: 'none',
+                    fontWeight: 500,
                     boxShadow: "none",
                     fontWeight: "500",
                     color: "#F9F9F9",
