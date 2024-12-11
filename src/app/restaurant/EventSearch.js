@@ -727,6 +727,7 @@ const EventSearch = () => {
               <Box
                 sx={{
                   display: "flex",
+                  padding:'10px',
                   flexDirection: "column",
                   gap: 1.5,
                 }}
@@ -736,7 +737,7 @@ const EventSearch = () => {
                     key={cuisine}
                     control={
                       <Radio
-                        size="small"
+                        size="medium"
                         sx={{
                           color: "#666666",
                           "&.Mui-checked": {
@@ -788,6 +789,7 @@ const EventSearch = () => {
                   sx={{
                     display: "flex",
                     flexDirection: "column",
+                    padding:'10px',
                     gap: 1.5,
                   }}
                 >
@@ -801,7 +803,7 @@ const EventSearch = () => {
                       key={cuisine}
                       control={
                         <Radio
-                          size="small"
+                          size="medium"
                           sx={{
                             color: "#666666",
                             "&.Mui-checked": {
@@ -840,7 +842,7 @@ const EventSearch = () => {
                       key={cuisine}
                       control={
                         <Radio
-                          size="small"
+                          size="medium"
                           sx={{
                             color: "#666666",
                             "&.Mui-checked": {
