@@ -42,7 +42,6 @@ const CategoryOption = styled("div")(({ theme }) => ({
   marginBottom: "12px",
   cursor: "pointer",
   position: "relative", // Added for absolute positioning of label
-   
 }));
 
 const CoursesSection = styled("div")(({ theme }) => ({
@@ -93,14 +92,18 @@ export function CategoryDropdown({
   legendbg = "bg-white",
   generalSearch,
   onCategoryChange,
+  selectedCategories,
+  setSelectedCategories,
+  courses,
+  setCourses,
 }) {
   const [open, setOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [courses, setCourses] = useState({
-    lunch: 3,
-    dinner: 2,
-  });
+  // const [selectedCategories, setSelectedCategories] = useState([]);
+  // const [courses, setCourses] = useState({
+  //   lunch: 3,
+  //   dinner: 2,
+  // });
   const dropdownRef = useRef(null);
 
   const handleClickOutside = (event) => {

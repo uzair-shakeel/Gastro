@@ -56,13 +56,36 @@ const tags = [
   "Child-friendly",
 ];
 
+const matter = {
+  name: "Mondal Restaurant Islamabad",
+  email: "mondalislamabad.com",
+  rating: 4.7,
+  reviews: 521,
+  title: "Why do we use it?",
+  category: "Italian",
+  desc1: `Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text
+          ever since the 1500s, when an unknown printer took a galley of
+          type and scrambled it to make a type specimen book. It has
+          survived not only five centuries, but also the leap into
+          electronic typesetting, remaining essentially unchanged. It was
+          popularised in the 1960s with the release of Letraset sheets
+          containing Lorem Ipsum passages, and more recently with desktop
+          publishing software like Aldus PageMaker including versions of
+          Lorem Ipsum.`,
+};
+
 export default function RestaurantDetails() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [currentUrl, setCurrentUrl] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
+  const [courses, setCourses] = useState({
+    lunch: 3,
+    dinner: 2,
+  });
   const openModal = (index) => {
     setCurrentImageIndex(index);
     setModalOpen(true);
@@ -150,7 +173,7 @@ export default function RestaurantDetails() {
                 letterSpacing: "-0.02em",
               }}
             >
-              Mondal Restaurant Islamabad
+              {matter.name}
             </Typography>
             <div className="flex gap-4 items-center">
               <Typography
@@ -162,7 +185,7 @@ export default function RestaurantDetails() {
                 href="https://mondalislamabad.com"
               >
                 <img src="/link-logo.svg" alt="link-logo" />
-                mondalislamabad.com
+                {matter.email}
               </Typography>
               <Typography
                 variant="body2"
@@ -178,12 +201,12 @@ export default function RestaurantDetails() {
                   alt="Italian flag"
                   style={{ width: "20px", height: "20px", marginRight: "8px" }}
                 />
-                Italian
+                {matter.category}
               </Typography>
               <Box style={{ display: "flex" }}>
                 <Star style={{ color: "#FFD700" }} />
                 <span style={{ fontWeight: "600", marginLeft: "4px" }}>
-                  4.7
+                  {matter.rating}
                 </span>
                 <span
                   style={{
@@ -192,7 +215,7 @@ export default function RestaurantDetails() {
                     marginLeft: "4px",
                   }}
                 >
-                  (591)
+                  {matter.reviews}
                 </span>
                 <Image
                   src="/help .svg"
@@ -247,6 +270,10 @@ export default function RestaurantDetails() {
               </Box>
               <Box flexGrow={1}>
                 <CategoryDropdown
+                  courses={courses}
+                  setCourses={setCourses}
+                  selectedCategories={selectedCategories}
+                  setSelectedCategories={setSelectedCategories}
                   generalSearch={false}
                   onCategoryChange={handleCategoryChange}
                 />
@@ -260,12 +287,11 @@ export default function RestaurantDetails() {
               <Box>
                 <Button
                   fullWidth
-                 
                   style={{
                     height: 56,
-                    fontFamily: 'Satoshi, sans-serif',
-                    background: isButtonEnabled ? '#821101' : '#c17a6f',
-                    boxShadow: 'none',
+                    fontFamily: "Satoshi, sans-serif",
+                    background: isButtonEnabled ? "#821101" : "#c17a6f",
+                    boxShadow: "none",
                     fontWeight: 500,
                     boxShadow: "none",
                     fontWeight: "500",
@@ -352,16 +378,7 @@ export default function RestaurantDetails() {
                 letterSpacing: "-0.02em",
               }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
+              {matter.desc1}
             </Typography>
 
             <Typography
@@ -374,7 +391,7 @@ export default function RestaurantDetails() {
                 letterSpacing: "-0.02em",
               }}
             >
-              Why do we use it?
+              {matter.title}
             </Typography>
 
             <Typography
@@ -386,16 +403,7 @@ export default function RestaurantDetails() {
                 letterSpacing: "-0.02em",
               }}
             >
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The
-              point of using Lorem Ipsum is that it has a more-or-less normal
-              distribution of letters, as opposed to using 'Content here,
-              content here', making it look like readable English. Many desktop
-              publishing packages and web page editors now use Lorem Ipsum as
-              their default model text, and a search for 'lorem ipsum' will
-              uncover many web sites still in their infancy. Various versions
-              have evolved over the years, sometimes by accident, sometimes on
-              purpose (injected humour and the like).
+              {matter.desc1}
             </Typography>
 
             <div className="border border-[#0000001A] rounded p-4 mt-6">

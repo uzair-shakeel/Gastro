@@ -33,8 +33,13 @@ export function BudgetInput({
   onInputChange,
 }) {
   const handleChange = (event) => {
-    onInputChange(event.target.value);
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      // Allow only numeric values
+      onInputChange(value);
+    }
   };
+
   return (
     <StyledTextField
       fullWidth
