@@ -1,53 +1,36 @@
 "use client";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import EventSearch from "../restaurant/EventSearch";
 import UserProfile from "./UserProfile";
 import LanguageSelector from "./language-selector";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
 
   const toggleDropdownSearch = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const handleClickOutside = (event) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target) &&
-      !event.target.closest("button")
-    ) {
-      setIsOpen(false);
-    }
-  };
-
-  const handleScroll = () => {
-    setIsOpen(false);
-  };
-
-  const handleEscapeKey = (event) => {
-    if (event.key === "Escape") {
-      setIsOpen(false);
-    }
-  };
-
+  // Close dropdown on scroll if the user scrolls more than 150px
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    window.addEventListener("scroll", handleScroll);
-    document.addEventListener("keydown", handleEscapeKey);
+    const handleScroll = () => {
+      if (window.scrollY > 150) {
+        setIsOpen(false);
+      }
+    };
 
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup event listener on component unmount
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
       window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("keydown", handleEscapeKey);
     };
   }, []);
 
   return (
     <div className="w-full px-6">
-      <div className="max-w-[1490px] mx-auto w-full flex items-center justify-between py-[22px]">
+      <div className="max-w-[1440px] mx-auto w-full flex items-center justify-between py-[22px]">
         <div className="w-full">
           <Image src="/logo-website.svg" alt="navbar" width={250} height={34} />
         </div>

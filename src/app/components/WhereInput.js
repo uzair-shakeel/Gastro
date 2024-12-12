@@ -24,17 +24,17 @@ export default function WhereInput({ onLocationChange }) {
 
   return (
     <div className="relative">
-      <div className="absolute -top-3 left-4 px-2 bg-[#F9F9F9]">
+      <div className="absolute -top-3 left-4 px-1 bg-white">
         <label
           htmlFor="location-input"
-          className="text-[12px] text-[#000000B2] font-[400] font-roboto"
+          className="text-[12px] text-[#000000B2] font-[400] font-roboto tracking-[0.15px]"
         >
-          Where?
+          Where
         </label>
       </div>
-      <div className="border border-[#BBBBBB] rounded-[4px] overflow-hidden bg-[#F9F9F9]">
+      <div className="border border-[#BBBBBB] rounded-[4px] overflow-hidden bg-white">
         <div className="flex items-stretch">
-          <div className="flex-1 border-r-2">
+          <div className="flex-1 ">
             <div className="px-4 py-3 flex items-center">
               <IoMdSearch className="text-[#0000008C] text-2xl mr-[10px]" />
               <InputBase
@@ -53,7 +53,7 @@ export default function WhereInput({ onLocationChange }) {
           </div>
           {/* Show distance adjustment only if input has content */}
           {inputValue && (
-            <div className="flex items-center px-1 ">
+            <div className="flex items-center px-1 border-l border-[#BBBBBB]">
               <IconButton
                 onClick={handleDecrement}
                 className="text-[#0000008F] hover:text-gray-600 p-1"

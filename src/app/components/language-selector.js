@@ -16,7 +16,7 @@ const DropdownContainer = styled(Box)(({ theme }) => ({
   top: "100%",
   right: 0,
   width: "240px",
-  backgroundColor: "#FDF7F7",
+  backgroundColor: "#FFFFFF",
   borderRadius: "8px",
   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
   zIndex: 1000,
@@ -24,9 +24,13 @@ const DropdownContainer = styled(Box)(({ theme }) => ({
   padding: "8px 0",
 }));
 
-const StyledListItem = styled(ListItem)(({ theme }) => ({
+// Use a forwardRef to ensure props are passed correctly
+const StyledListItem = styled(
+  ({ isActive, ...props }) => <ListItem {...props} />
+)(({ isActive }) => ({
   padding: "12px 16px",
   cursor: "pointer",
+  backgroundColor: isActive ? "rgba(130, 17, 1, 0.1)" : "transparent",
   "&:hover": {
     backgroundColor: "rgba(130, 17, 1, 0.04)",
   },
@@ -84,25 +88,26 @@ export default function LanguageSelector() {
       </Button>
 
       {isOpen && (
-        <DropdownContainer ref={dropdownRef}>
+        <DropdownContainer ref={dropdownRef} sx={{minWidth:"220px"}}>
           <List sx={{ padding: 0 }}>
             {languages.map((language) => (
               <StyledListItem
                 key={language.code}
                 onClick={() => handleLanguageSelect(language.code)}
+                isActive={selectedLanguage === language.code}
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
                 }}
               >
                 <div className="flex items-center">
-                  <ListItemIcon sx={{ minWidth: 40 }}>
+                  <ListItemIcon sx={{ minWidth: 35 }}>
                     <Image
                       src={language.flag}
                       alt={language.name}
-                      width={36}
-                      height={36}
-                      className="min-h-[36px] min-w-[36px]"
+                      width={24}
+                      height={24}
+                      className="min-h-[24px] min-w-[24px]"
                       style={{
                         borderRadius: "50%",
                       }}
@@ -114,8 +119,10 @@ export default function LanguageSelector() {
                     sx={{
                       "& .MuiListItemText-primary": {
                         fontSize: "16px",
-                        fontWeight: 400,
-                        color: "#000000DE",
+                        fontWeight: 500,
+                        color: "#000000",
+                        letterSpacing:"0.15px",
+                        fontFamily: 'Roboto, sans-serif'
                       },
                     }}
                   />

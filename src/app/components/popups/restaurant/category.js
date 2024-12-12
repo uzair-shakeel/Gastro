@@ -41,17 +41,17 @@ const CategoryOption = styled("div")(({ theme }) => ({
   border: "1px solid rgba(0, 0, 0, 0.12)",
   marginBottom: "12px",
   cursor: "pointer",
-  position: "relative", // Added for absolute positioning of label
+  position: "relative",
 }));
 
 const CoursesSection = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: "8px 0", // Removed horizontal padding
+  padding: "8px 0",
   borderLeft: "1px solid rgba(0, 0, 0, 0.12)",
   marginLeft: "16px",
-  position: "relative", // Added for absolute positioning of label
+  position: "relative",
   outline: "none",
   flex: 1,
   "&::before": {
@@ -99,11 +99,6 @@ export function CategoryDropdown({
 }) {
   const [open, setOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
-  // const [selectedCategories, setSelectedCategories] = useState([]);
-  // const [courses, setCourses] = useState({
-  //   lunch: 3,
-  //   dinner: 2,
-  // });
   const dropdownRef = useRef(null);
 
   const handleClickOutside = (event) => {
@@ -149,14 +144,14 @@ export function CategoryDropdown({
   const buttonText =
     selectedCategories.length > 0
       ? selectedCategories
-          .map((id) => {
-            const category = categories.find((cat) => cat.id === id);
-            if (category?.hasCourses) {
-              return `${category.label} (${courses[id]})`;
-            }
-            return category?.label;
-          })
-          .join(", ")
+        .map((id) => {
+          const category = categories.find((cat) => cat.id === id);
+          if (category?.hasCourses) {
+            return `${category.label} (${courses[id]})`;
+          }
+          return category?.label;
+        })
+        .join(", ")
       : "Select";
 
   return (
@@ -169,7 +164,7 @@ export function CategoryDropdown({
           height: "100%",
           justifyContent: "space-between",
           borderColor: "rgba(0, 0, 0, 0.23)",
-          color: "rgba(0, 0, 0, 0.87)",
+          color: "rgba(0, 0, 0, 0.70)",
           textTransform: "none",
           p: "0 10px",
           "&:hover": {
@@ -177,42 +172,65 @@ export function CategoryDropdown({
             backgroundColor: "transparent",
           },
         }}
-        endIcon={<ArrowDropDownIcon />}
+        endIcon={<img
+          src="/arrow-dropdown-filled.svg"
+          alt="dropdown"
+          style={{ width: "24px", height: "24px", marginRight: '0px' }}
+        />}
       >
         <legend
           className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
         >
           Category
         </legend>
-        <span style={{ display: "flex", alignItems: "center" }}>
+        <span className=" text-[#000000B2]" style={{ display: "flex", alignItems: "center" }}>
           <div className="mr-3">
-            <img src="/category.svg" alt="Category icon" />
+            <img src="/category-icon.svg" alt="Category icon" />
           </div>
           {buttonText}
         </span>
       </Button>
 
       {open && (
-        <DropdownContainer ref={dropdownRef}>
+        <DropdownContainer ref={dropdownRef} sx={{ p: "15px !important", width: '272px !important' }}>
           <Tabs
             value={selectedTab}
             onChange={(_, newValue) => setSelectedTab(newValue)}
             sx={{
               mb: 3,
-              borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
               "& .MuiTabs-indicator": {
                 backgroundColor: "#821101",
                 height: "2px",
+                display:"flex"
               },
             }}
           >
-            <StyledTab label="TABLE SERVICE" />
-            <StyledTab label="SELF SERVICE" />
+            <StyledTab
+              label="TABLE SERVICE"
+              sx={{
+                color: selectedTab === 0 ? "#821101" : "#000000B2",  
+                fontWeight: selectedTab === 0 ? "500" : "500",
+                p:"0px !important",
+                flex:1,
+                fontFamily: "Roboto, sans-serif !important", 
+              }}
+            />
+            <StyledTab
+              label="SELF SERVICE"
+              sx={{
+                color: selectedTab === 1 ? "#821101" : "#000000B2",  
+                fontWeight: selectedTab === 1 ? "500" : "500",
+                p:"0px !important",
+                flex:1,
+                fontFamily: "Roboto, sans-serif !important", 
+              }}
+            />
           </Tabs>
 
+
           {categories.map((category) => (
-            <CategoryOption key={category.id}>
-              <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
+            <CategoryOption key={category.id} sx={{ p: '0px !important', height: '56px', paddingLeft: '5px !important' }}>
+              <div style={{ display: "flex", alignItems: "center", flex: 1, }}>
                 <Checkbox
                   checked={selectedCategories.includes(category.id)}
                   onChange={() => handleCategoryToggle(category.id)}
@@ -223,18 +241,20 @@ export function CategoryDropdown({
                     },
                   }}
                 />
-                <Typography sx={{ fontSize: "16px", color: "#000000DE" }}>
+                <Typography sx={{ fontSize: "16px", color: "#000000", fontFamily: "Roboto, sans-serif !important", fontWeight: "400" }}>
                   {category.label}
                 </Typography>
               </div>
               {category.hasCourses &&
                 selectedCategories.includes(category.id) && (
-                  <CoursesSection>
+                  <div className="border-l border-[#00000040] relative max-w-[110px] min-w-[110px]">
+                    <span className="text-[#000000B2] text-[12px] font-roboto font-normal tracking-[0.15px] absolute -top-[22px] bg-white px-1 left-2">Courses</span>
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "12px",
+                        gap: "8px",
+                        height:"100%",
                         width: "100%",
                         justifyContent: "center",
                         padding: "0 16px",
@@ -244,13 +264,14 @@ export function CategoryDropdown({
                         size="small"
                         onClick={() => handleCourseChange(category.id, -1)}
                         disabled={courses[category.id] === 0}
+                        sx={{bgcolor:"transparent"}}
                       >
                         <Remove fontSize="small" />
                       </CounterButton>
                       <Typography
                         sx={{
                           fontSize: "16px",
-                          minWidth: "20px",
+                          // minWidth: "20px",
                           textAlign: "center",
                         }}
                       >
@@ -259,30 +280,15 @@ export function CategoryDropdown({
                       <CounterButton
                         size="small"
                         onClick={() => handleCourseChange(category.id, 1)}
+                        sx={{bgcolor:"transparent"}}
                       >
                         <Add fontSize="small" />
                       </CounterButton>
                     </div>
-                  </CoursesSection>
+                  </div>
                 )}
             </CategoryOption>
           ))}
-
-          <Typography
-            onClick={handleReset}
-            sx={{
-              textAlign: "center",
-              mt: 2,
-              mb: 3,
-              color: "#821101",
-              cursor: "pointer",
-              fontSize: "14px",
-              fontWeight: 500,
-              "&:hover": { textDecoration: "underline" },
-            }}
-          >
-            Reset to default
-          </Typography>
 
           <Button
             fullWidth
@@ -291,10 +297,12 @@ export function CategoryDropdown({
             sx={{
               backgroundColor: "#821101",
               color: "#fff",
+              marginTop: "5px",
               fontSize: "16px",
               fontWeight: 500,
-              padding: "16px",
+              padding: "8px",
               borderRadius: "8px",
+              fontFamily: 'Satoshi, sans-serif',
               "&:hover": {
                 backgroundColor: "#6a0e01",
               },

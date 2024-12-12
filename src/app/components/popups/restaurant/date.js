@@ -42,7 +42,7 @@ const weekDays = [
 
 export function DateSelectionDropdown({
   legendbg = "bg-white",
-  legend = "Date Selection",
+  legend = "Date",
   onDateChange,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);

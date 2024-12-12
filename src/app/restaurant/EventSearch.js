@@ -6,18 +6,14 @@ import {
   Button,
   Grid,
   Collapse,
-  Typography,
-  Radio,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material";
 import { BudgetInput } from "../components/popups/restaurant/budget";
 import { CategoryDropdown } from "../components/popups/restaurant/category";
 import { DateSelectionDropdown } from "../components/popups/restaurant/date";
 import Image from "next/image";
 import WhereInput from "../components/WhereInput";
-import Input from "../components/Input";
-import { GuestsDropdown } from "../components/popups/restaurant/guests";
+import MoreOptions from "./MoreOptions";
+import GuestsDropdown from "../components/popups/restaurant/guests-dropdown";
 
 const EventSearch = () => {
   const [tabValue, setTabValue] = useState(0);
@@ -76,10 +72,10 @@ const EventSearch = () => {
 
     setIsButtonEnabled(
       locationData &&
-        selectedDate &&
-        isBudgetFilled &&
-        isGuestsFilled &&
-        selectedCategories.length > 0
+      selectedDate &&
+      isBudgetFilled &&
+      isGuestsFilled &&
+      selectedCategories.length > 0
     );
   }, [
     locationData,
@@ -88,6 +84,8 @@ const EventSearch = () => {
     isGuestsFilled,
     selectedCategories,
   ]);
+
+
 
   return (
     <Box
@@ -267,13 +265,11 @@ const EventSearch = () => {
 
       <Grid
         sx={{
-          border: "1px solid #CCCCCC33",
           display: "flex",
           alignItems: "center",
           gap: "12px",
           mt: "24px",
           p: "12px",
-          bgcolor: "#F9F9F9",
           borderRadius: "8px",
           width: "100%",
         }}
@@ -290,8 +286,8 @@ const EventSearch = () => {
           </Box>
           <Box>
             <DateSelectionDropdown
-              legend="Date"
-              legendbg="bg-[#F9F9F9]"
+              legend="Date Selection"
+              legendbg="bg-white"
               onDateChange={handleDateChange}
             />
           </Box>
@@ -302,20 +298,20 @@ const EventSearch = () => {
               selectedCategories={selectedCategories}
               setSelectedCategories={setSelectedCategories}
               generalSearch={true}
-              legendbg="bg-[#F9F9F9]"
+              legendbg="bg-white"
               onCategoryChange={handleCategoryChange}
             />
           </Box>
           <Box>
             <GuestsDropdown
-              legendbg="bg-[#F9F9F9]"
+              legendbg="bg-white"
               onSelectionChange={handleGuestsChange}
             />
           </Box>
           <Box>
             <BudgetInput
-              legend="Budget"
-              legendbg="#F9F9F9"
+              legend="Budget in CHF"
+              legendbg="white"
               onInputChange={handleBudgetChange}
             />
           </Box>
@@ -327,13 +323,13 @@ const EventSearch = () => {
             variant="contained"
             sx={{
               width: "137px",
+              whiteSpace: "nowrap",
               height: "56px",
               textTransform: "uppercase",
-              bgcolor: "#94A3B8",
-              color: "#F9F9F9",
-              "&:hover": {
-                bgcolor: "#94A3B8",
-              },
+              fontWeight: "500",
+              bgcolor: showMoreOptions ? "#5E5D3E" : "#CCCCCC",
+              color: showMoreOptions ? "white" : "#000000B2",
+              fontFamily: "Satoshi, sans-serif"
             }}
             onClick={() => setShowMoreOptions(!showMoreOptions)}
           >
@@ -357,183 +353,9 @@ const EventSearch = () => {
           </Button>
         </Grid>
       </Grid>
+
       <Collapse in={showMoreOptions}>
-        <Grid
-          container
-          spacing={2}
-          direction="row"
-          sx={{ mt: 2, px: 2, pb: 2, flexWrap: "nowrap" }}
-        >
-          {/* Cuisine Type */}
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                border: "1px solid #E0E0E0",
-                borderRadius: "12px",
-                p: 2,
-                bgcolor: "#FFFFFF",
-                boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  mb: 2,
-                  color: "#333333",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                }}
-              >
-                Cuisine Type
-              </Typography>
-              <Input
-                label={"Cuisine"}
-                onLocationChange={handleLocationChange}
-              />
-              <Box
-                sx={{
-                  display: "flex",
-                  padding: "10px",
-                  flexDirection: "column",
-                  gap: 1.5,
-                }}
-              >
-                {["Italian", "French", "German", "Chinese"].map((cuisine) => (
-                  <FormControlLabel
-                    key={cuisine}
-                    control={
-                      <Radio
-                        size="medium"
-                        sx={{
-                          color: "#666666",
-                          "&.Mui-checked": {
-                            color: "#821101",
-                          },
-                        }}
-                      />
-                    }
-                    label={
-                      <Typography
-                        sx={{
-                          fontSize: "14px",
-                          color: "#333333",
-                        }}
-                      >
-                        {cuisine}
-                      </Typography>
-                    }
-                  />
-                ))}
-              </Box>
-            </Box>
-          </Grid>
-          ;{/* Others */}
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                border: "1px solid #E0E0E0",
-                borderRadius: "12px",
-                p: 2,
-                bgcolor: "#FFFFFF",
-                boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  mb: 2,
-                  color: "#333333",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                }}
-              >
-                Others
-              </Typography>
-              <Input label={"Others"} onLocationChange={handleLocationChange} />
-              <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "10px",
-                    gap: 1.5,
-                  }}
-                >
-                  {[
-                    "Child-friendly",
-                    "Highchairs (for children)",
-                    "Wheelchair accessible",
-                    "Parking Available",
-                  ].map((cuisine) => (
-                    <FormControlLabel
-                      key={cuisine}
-                      control={
-                        <Radio
-                          size="medium"
-                          sx={{
-                            color: "#666666",
-                            "&.Mui-checked": {
-                              color: "#821101",
-                            },
-                          }}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: "14px",
-                            color: "#333333",
-                          }}
-                        >
-                          {cuisine}
-                        </Typography>
-                      }
-                    />
-                  ))}
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 1.5,
-                  }}
-                >
-                  {[
-                    "Child-friendly",
-                    "Highchairs (for children)",
-                    "Wheelchair accessible",
-                    "Parking Available",
-                  ].map((cuisine) => (
-                    <FormControlLabel
-                      key={cuisine}
-                      control={
-                        <Radio
-                          size="medium"
-                          sx={{
-                            color: "#666666",
-                            "&.Mui-checked": {
-                              color: "#821101",
-                            },
-                          }}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: "14px",
-                            color: "#333333",
-                          }}
-                        >
-                          {cuisine}
-                        </Typography>
-                      }
-                    />
-                  ))}
-                </Box>
-              </Box>
-            </Box>
-          </Grid>
-        </Grid>
+        <MoreOptions />
       </Collapse>
     </Box>
   );

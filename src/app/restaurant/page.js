@@ -24,7 +24,7 @@ import Image from "next/image";
 import ImageGrid from "./ImageGrid";
 import Modal from "./Modal";
 import Navbar from "../components/Navbar";
-import { GuestsDropdown } from "../components/popups/restaurant/guests";
+import GuestsDropdown from "../components/popups/restaurant/guests-dropdown";
 ("../globals.css");
 
 const openingHours = [
@@ -103,17 +103,12 @@ export default function RestaurantDetails() {
 
   // Disable Button
   const [selectedDate, setSelectedDate] = useState(null);
-  const [isBudgetFilled, setIsBudgetFilled] = useState(false);
   const [isGuestsFilled, setIsGuestsFilled] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   const handleCategoryChange = (categories) => {
     setSelectedCategories(categories);
-  };
-
-  const handleBudgetChange = (value) => {
-    setIsBudgetFilled(value.trim() !== "");
   };
 
   const handleGuestsChange = (guestCount) => {
@@ -127,32 +122,30 @@ export default function RestaurantDetails() {
   useEffect(() => {
     console.log("Checking button enable state:", {
       selectedDate,
-      isBudgetFilled,
       isGuestsFilled,
       selectedCategories,
       buttonEnabled:
         selectedDate &&
-        isBudgetFilled &&
         isGuestsFilled &&
         selectedCategories.length > 0,
     });
 
     setIsButtonEnabled(
       selectedDate &&
-        isBudgetFilled &&
+        // isBudgetFilled &&
         isGuestsFilled &&
         selectedCategories.length > 0
     );
-  }, [selectedDate, isBudgetFilled, isGuestsFilled, selectedCategories]);
+  }, [selectedDate, isGuestsFilled, selectedCategories]);
 
   return (
     <div>
       <Navbar />
       <div
-        className="container"
+        className="max-w-[1470px] w-full mx-auto"
         style={{
           margin: "0 auto",
-          padding: "0px 24px 24px",
+          padding: "0px 10px 24px 20px",
         }}
       >
         <Grid
@@ -240,14 +233,15 @@ export default function RestaurantDetails() {
                 color: "#000000",
                 height: "42px",
                 marginTop: "-1px",
+                fontFamily: "Satoshi, sans-serif",
                 fontWeight: "500",
               }}
-              starticon={
-                isFavorite ? (
-                  <Favorite style={{ color: "#821101" }} />
-                ) : (
-                  <FavoriteBorder style={{ color: "#821101" }} />
-                )
+              startIcon={
+                <img
+                  src={isFavorite ? "/favorite-outline.svg" : "/favorite-two.svg"}
+                  alt="Favorite Icon"
+                  style={{ width: "24px", height: "24px" }}
+                />
               }
               onClick={() => setIsFavorite(!isFavorite)}
             >
@@ -282,7 +276,7 @@ export default function RestaurantDetails() {
                 <GuestsDropdown onSelectionChange={handleGuestsChange} />
               </Box>
               <Box>
-                <BudgetInput onInputChange={handleBudgetChange} />
+                <BudgetInput />
               </Box>
               <Box>
                 <Button
