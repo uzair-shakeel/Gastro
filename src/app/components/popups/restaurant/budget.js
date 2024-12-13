@@ -40,7 +40,7 @@ const StyledTextField = styled(TextField)(({ legendbg }) => ({
     color: "#000000B2 ",
     transition: "color 0.3s ease",
   },
-  "&. Mui-focused .MuiInputLabel-root": {
+  "&.Mui-focused .MuiInputLabel-root": {
     color: "#821101 !important",
   },
   "&:hover .MuiInputLabel-root": {
