@@ -109,6 +109,11 @@ export default function GuestsDropdown({ legendbg = "bg-white", opacity = "opaci
     onSelectionChange(totalGuests)
   }, [guests, onSelectionChange])
 
+  const validateMealCounts = (newGuests) => {
+    const totalMealCount = newGuests.meat + newGuests.fish + newGuests.vegetarian + newGuests.vegan;
+    return totalMealCount <= newGuests.adults;
+  }
+
   const handleIncrement = (type) => {
     setGuests(prev => {
       const newGuests = { ...prev }
@@ -116,7 +121,14 @@ export default function GuestsDropdown({ legendbg = "bg-white", opacity = "opaci
         newGuests.adults += 1
         newGuests.all = newGuests.adults
       } else if (type === 'all') {
-        newGuests.all += 1
+        if (newGuests.all < newGuests.adults) {
+          newGuests.all += 1
+        }
+      } else if (['meat', 'fish', 'vegetarian', 'vegan'].includes(type)) {
+        const totalMealCount = newGuests.meat + newGuests.fish + newGuests.vegetarian + newGuests.vegan;
+        if (totalMealCount < newGuests.adults) {
+          newGuests[type] += 1
+        }
       } else {
         newGuests[type] += 1
       }
@@ -146,43 +158,49 @@ export default function GuestsDropdown({ legendbg = "bg-white", opacity = "opaci
     })
   }
 
-  const GuestCounter = ({ label, value, type }) => (
-    <CounterWrapper>
-      <CounterLabel
-        sx={{
-          fontSize: "16px",
-          color: "#000000",
-          fontFamily: "Roboto, sans-serif !important",
-          fontWeight: !showExtended ? "400" : "400"
-        }}
-      >
-        {label}
-      </CounterLabel>
-      <CounterContainer>
-        <CounterButton
-          onClick={() => handleDecrement(type)}
-          disabled={value === 0}
-          size="small"
-          sx={{
-            width: "24px",
-            height: "24px",
-            backgroundImage: `url('/remove-icon.svg')`,
-          }}
-        />
-        <CounterValue sx={{ color: "#000000", fontSize: "16px" }}>{value}</CounterValue>
-        <CounterButton
-          onClick={() => handleIncrement(type)}
-          size="small"
-          sx={{
-            width: "24px",
-            height: "24px",
-            backgroundImage: `url('/add-icon.svg')`,
-          }}
-        />
-      </CounterContainer>
-    </CounterWrapper>
+  const GuestCounter = ({ label, value, type }) => {
+    const isMealType = ['meat', 'fish', 'vegetarian', 'vegan'].includes(type);
+    const totalMealCount = guests.meat + guests.fish + guests.vegetarian + guests.vegan;
+    const disableIncrement = isMealType && totalMealCount >= guests.adults;
 
-  )
+    return (
+      <CounterWrapper>
+        <CounterLabel
+          sx={{
+            fontSize: "16px",
+            color: "#000000",
+            fontFamily: "Roboto, sans-serif !important",
+            fontWeight: !showExtended ? "400" : "400"
+          }}
+        >
+          {label}
+        </CounterLabel>
+        <CounterContainer>
+          <CounterButton
+            onClick={() => handleDecrement(type)}
+            disabled={value === 0}
+            size="small"
+            sx={{
+              width: "24px",
+              height: "24px",
+              backgroundImage: `url('/remove-icon.svg')`,
+            }}
+          />
+          <CounterValue sx={{ color: "#000000", fontSize: "16px" }}>{value}</CounterValue>
+          <CounterButton
+            onClick={() => handleIncrement(type)}
+            disabled={disableIncrement}
+            size="small"
+            sx={{
+              width: "24px",
+              height: "24px",
+              backgroundImage: `url('/add-icon.svg')`,
+            }}
+          />
+        </CounterContainer>
+      </CounterWrapper>
+    )
+  }
 
   const totalGuests = guests.adults + guests.kids
 

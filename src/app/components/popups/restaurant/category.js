@@ -38,35 +38,12 @@ const CategoryOption = styled("div")(({ theme }) => ({
   alignItems: "center",
   padding: "12px 16px",
   borderRadius: "8px",
-  border: "1px solid rgba(0, 0, 0, 0.12)",
+  border: "1px solid #BFBFBF",
   marginBottom: "12px",
   cursor: "pointer",
   position: "relative",
 }));
 
-const CoursesSection = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  padding: "8px 0",
-  borderLeft: "1px solid rgba(0, 0, 0, 0.12)",
-  marginLeft: "16px",
-  position: "relative",
-  outline: "none",
-  flex: 1,
-  "&::before": {
-    content: '"Courses"',
-    position: "absolute",
-    top: "-20px",
-    left: "25%",
-    transform: "translateX(-50%)",
-    background: "white",
-    padding: "0 8px",
-    fontSize: "12px",
-    color: "rgba(0, 0, 0, 0.6)",
-    fontWeight: 400,
-  },
-}));
 
 const CounterButton = styled(IconButton)(({ theme }) => ({
   padding: "4px",
@@ -95,7 +72,7 @@ export function CategoryDropdown({
   onCategoryChange,
   selectedCategories,
   setSelectedCategories,
-  courses,
+  courses = { lunch: 3, dinner: 3 },
   setCourses,
 }) {
   const [open, setOpen] = useState(false);
@@ -115,12 +92,28 @@ export function CategoryDropdown({
     };
   }, []);
 
+  useEffect(() => {
+    // Force both lunch and dinner to start with 3 courses
+    setCourses({
+      ...courses,
+      lunch: 3,
+      dinner: 3,
+    });
+  }, []);
+
   const handleCategoryToggle = (categoryId) => {
     const currentIndex = selectedCategories.indexOf(categoryId);
     const newSelected = [...selectedCategories];
 
     if (currentIndex === -1) {
       newSelected.push(categoryId);
+      // Ensure course count is 3 when category is selected
+      if (categoryId === "lunch" || categoryId === "dinner") {
+        setCourses((prev) => ({
+          ...prev,
+          [categoryId]: 3,
+        }));
+      }
     } else {
       newSelected.splice(currentIndex, 1);
     }
@@ -132,7 +125,7 @@ export function CategoryDropdown({
   const handleCourseChange = (category, delta) => {
     setCourses((prev) => ({
       ...prev,
-      [category]: Math.max(0, prev[category] + delta),
+      [category]: Math.min(Math.max(1, prev[category] + delta), 9),
     }));
   };
 
@@ -145,15 +138,15 @@ export function CategoryDropdown({
   const buttonText =
     selectedCategories.length > 0
       ? selectedCategories
-        .map((id) => {
-          const category = categories.find((cat) => cat.id === id);
-          if (category?.hasCourses) {
-            return `${category.label} (${courses[id]})`;
-          }
-          return category?.label;
-        })
-        .join(", ")
-      : "Select"
+          .map((id) => {
+            const category = categories.find((cat) => cat.id === id);
+            if (category?.hasCourses) {
+              return `${category.label} (${courses[id]})`;
+            }
+            return category?.label;
+          })
+          .join(", ")
+      : "Select";
 
   return (
     <div style={{ position: "relative", height: "100%", minWidth: "272px" }}>
@@ -176,11 +169,13 @@ export function CategoryDropdown({
             backgroundColor: "transparent",
           },
         }}
-        endIcon={<img
-          src="/arrow-dropdown-filled.svg"
-          alt="dropdown"
-          style={{ width: "24px", height: "24px", marginRight: '0px' }}
-        />}
+        endIcon={
+          <img
+            src="/arrow-dropdown-filled.svg"
+            alt="dropdown"
+            style={{ width: "24px", height: "24px", marginRight: "0px" }}
+          />
+        }
       >
         <legend
           className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
@@ -198,7 +193,7 @@ export function CategoryDropdown({
       </Button>
 
       {open && (
-        <DropdownContainer ref={dropdownRef} sx={{ p: "15px !important", width: '272px !important' }}>
+        <DropdownContainer ref={dropdownRef} sx={{ p: "15px !important", width: "272px !important" }}>
           <Tabs
             value={selectedTab}
             onChange={(_, newValue) => setSelectedTab(newValue)}
@@ -207,7 +202,7 @@ export function CategoryDropdown({
               "& .MuiTabs-indicator": {
                 backgroundColor: "#821101",
                 height: "2px",
-                display: "flex"
+                display: "flex",
               },
             }}
           >
@@ -233,10 +228,9 @@ export function CategoryDropdown({
             />
           </Tabs>
 
-
           {categories.map((category) => (
-            <CategoryOption key={category.id} sx={{ p: '0px !important', height: '56px', paddingLeft: '5px !important' }}>
-              <div style={{ display: "flex", alignItems: "center", flex: 1, }}>
+            <CategoryOption key={category.id} sx={{ p: "0px !important", height: "56px", paddingLeft: "5px !important" }}>
+              <div style={{ display: "flex", alignItems: "center", flex: 1 }} className="h-full">
                 <Checkbox
                   checked={selectedCategories.includes(category.id)}
                   onChange={() => handleCategoryToggle(category.id)}
@@ -253,8 +247,10 @@ export function CategoryDropdown({
               </div>
               {category.hasCourses &&
                 selectedCategories.includes(category.id) && (
-                  <div className="border-l border-[#00000040] relative max-w-[110px] min-w-[110px]">
-                    <span className="text-[#000000B2] text-[12px] font-roboto font-normal tracking-[0.15px] absolute -top-[22px] bg-white px-1 left-2">Courses</span>
+                  <div className="border-l border-[#BFBFBF] h-full relative max-w-[110px] min-w-[110px]">
+                    <span className="text-[#000000B2] text-[12px] !font-roboto font-normal tracking-[0.15px] absolute -top-[9.5px] bg-white px-1 left-2">
+                      Courses
+                    </span>
                     <div
                       style={{
                         display: "flex",
@@ -266,28 +262,11 @@ export function CategoryDropdown({
                         padding: "0 16px",
                       }}
                     >
-                      <CounterButton
-                        size="small"
-                        onClick={() => handleCourseChange(category.id, -1)}
-                        disabled={courses[category.id] === 0}
-                        sx={{ bgcolor: "transparent" }}
-                      >
+                      <CounterButton size="small" onClick={() => handleCourseChange(category.id, -1)} disabled={courses[category.id] === 1} sx={{ bgcolor: "transparent" }}>
                         <Remove fontSize="small" />
                       </CounterButton>
-                      <Typography
-                        sx={{
-                          fontSize: "16px",
-                          // minWidth: "20px",
-                          textAlign: "center",
-                        }}
-                      >
-                        {courses[category.id]}
-                      </Typography>
-                      <CounterButton
-                        size="small"
-                        onClick={() => handleCourseChange(category.id, 1)}
-                        sx={{ bgcolor: "transparent" }}
-                      >
+                      <Typography sx={{ fontSize: "16px", textAlign: "center" }}>{courses[category.id]}</Typography>
+                      <CounterButton size="small" onClick={() => handleCourseChange(category.id, 1)} sx={{ bgcolor: "transparent" }}>
                         <Add fontSize="small" />
                       </CounterButton>
                     </div>
@@ -308,7 +287,7 @@ export function CategoryDropdown({
               fontWeight: 500,
               padding: "8px",
               borderRadius: "8px",
-              fontFamily: 'Satoshi, sans-serif',
+              fontFamily: "Satoshi, sans-serif",
               "&:hover": {
                 backgroundColor: "#6a0e01",
               },
@@ -321,3 +300,4 @@ export function CategoryDropdown({
     </div>
   );
 }
+
