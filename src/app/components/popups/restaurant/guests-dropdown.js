@@ -84,71 +84,32 @@ export default function GuestsDropdown({
   const [open, setOpen] = useState(false);
   const [showExtended, setShowExtended] = useState(false);
   const dropdownRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
-  // const handleIncrement = (type) => {
-  //   setGuests((prev) => {
-  //     const newGuests = { ...prev };
-  //     if (type === "adults") {
-  //       newGuests.adults += 1;
-  //       newGuests.all = newGuests.adults;
-  //     } else if (type === "all") {
-  //       if (newGuests.all < newGuests.adults) {
-  //         newGuests.all += 1;
-  //       }
-  //     } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
-  //       const totalMealCount =
-  //         newGuests.meat +
-  //         newGuests.fish +
-  //         newGuests.vegetarian +
-  //         newGuests.vegan;
-  //       if (totalMealCount < newGuests.adults) {
-  //         newGuests[type] += 1;
-  //       }
-  //     } else {
-  //       newGuests[type] += 1;
-  //     }
-  //     return newGuests;
-  //   });
-  // };
-
-  // const handleDecrement = (type) => {
-  //   setGuests((prev) => {
-  //     const newGuests = { ...prev };
-  //     if (type === "adults" && newGuests.adults > 0) {
-  //       newGuests.adults -= 1;
-  //       newGuests.all = newGuests.adults;
-  //       // Reset meal counts if adults becomes 0
-  //       if (newGuests.adults === 0) {
-  //         newGuests.meat = 0;
-  //         newGuests.fish = 0;
-  //         newGuests.vegetarian = 0;
-  //         newGuests.vegan = 0;
-  //       }
-  //     } else if (type === "all" && newGuests.all > 0) {
-  //       newGuests.all -= 1;
-  //     } else if (newGuests[type] > 0) {
-  //       newGuests[type] -= 1;
-  //     }
-  //     return newGuests;
-  //   });
-  // };
+  const getGuestsIcon = () => {
+    if (isFocused) {
+      return "/PeopleFilled2.svg";
+    } else if (isHovered) {
+      return "/PeopleFilled2.svg";
+    } else {
+      return "/PeopleFilled.svg";
+    }
+  };
 
   const handleIncrement = (type) => {
     setGuests((prev) => {
       const newGuests = { ...prev };
 
       if (["all", "meat", "fish", "vegetarian", "vegan"].includes(type)) {
-        // Increment the subfield
         newGuests[type] += 1;
 
-        // Adjust adults count only if it's more than the initial count of 1
         if (newGuests.adults > 1) {
           newGuests.adults += 1;
         } else if (newGuests.adults === 1 && newGuests[type] > 1) {
           newGuests.adults += 1;
         }
       } else {
-        // Increment for non-subfield types
         newGuests[type] += 1;
       }
 
@@ -162,21 +123,17 @@ export default function GuestsDropdown({
 
       if (["all", "meat", "fish", "vegetarian", "vegan"].includes(type)) {
         if (newGuests[type] > 0) {
-          // Decrement the subfield
           newGuests[type] -= 1;
 
-          // Adjust adults count only if it's more than the initial count of 1
           if (newGuests.adults > 1) {
             newGuests.adults -= 1;
           }
         }
       } else if (type === "adults" && newGuests.adults > 1) {
-        // Prevent adults from going below subfield sum
         console.warn(
           "Cannot decrement adults directly. Adjust subfields instead."
         );
       } else if (newGuests[type] > 0) {
-        // Decrement for non-subfield types
         newGuests[type] -= 1;
       }
 
@@ -264,10 +221,14 @@ export default function GuestsDropdown({
       <Button
         variant="outlined"
         onClick={() => setOpen(true)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         sx={{
-          height: "100%",
+          height: "56px",
           justifyContent: "space-between",
-          borderColor: "rgba(0, 0, 0, 0.23)",
+          borderColor: isFocused || isHovered ? "#821101" : "rgba(0, 0, 0, 0.23)",
           color: "rgba(0, 0, 0, 0.87)",
           textTransform: "none",
           width: "125px",
@@ -275,7 +236,7 @@ export default function GuestsDropdown({
           minWidth: "125px",
           p: "0 10px 0 10px",
           "&:hover": {
-            borderColor: "#821101",
+            border: "1.5px solid #821101",
             backgroundColor: "transparent",
           },
         }}
@@ -288,13 +249,14 @@ export default function GuestsDropdown({
         }
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${isFocused || isHovered ? "text-[#821101]" : "text-[#000000B2]"
+            }`}
         >
           Guests
         </legend>
         <span style={{ display: "flex", alignItems: "center" }}>
           <div className="mr-2">
-            <img src="/PeopleFilled.svg" alt="people" width={24} height={24} />
+            <img src={getGuestsIcon()} alt="people" width={24} height={24} />
           </div>
           <h3
             className={`text-[#000000B2] text-[16px] !font-roboto font-normal tracking-[0.15px] ${opacity}`}
@@ -355,3 +317,4 @@ export default function GuestsDropdown({
     </>
   );
 }
+

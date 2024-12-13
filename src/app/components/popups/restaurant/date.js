@@ -43,13 +43,14 @@ const weekDays = [
 export function DateSelectionDropdown({
   legendbg = "bg-white",
   legend = "Date",
-  opacity ="opacity-100",
+  opacity = "opacity-100",
   onDateChange,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [tempSelectedDate, setTempSelectedDate] = useState(null);
+  const [focused, setFocused] = useState(false);
 
   const open = Boolean(anchorEl);
 
@@ -58,6 +59,9 @@ export function DateSelectionDropdown({
     setTempSelectedDate(selectedDate);
     setAnchorEl(null);
   };
+
+  const handleHover = () => setFocused(true);
+  const handleBlur = () => setFocused(false);
 
   const getDaysInMonth = (date) => {
     const year = date.getFullYear();
@@ -98,42 +102,65 @@ export function DateSelectionDropdown({
       <Button
         variant="outlined"
         onClick={handleOpen}
+        onMouseEnter={handleHover}
+        onMouseLeave={handleBlur}
+        onFocus={handleHover}
+        onBlur={handleBlur}
         sx={{
           textTransform: "none",
           minWidth: "121px",
           maxWidth: "121px",
           fontSize: "16px",
           justifyContent: "space-between",
-          color: "gray",
-          border: "1px solid #C4C4C4",
+          color: focused ? "#8B0000" : "gray",
+          border: focused ? "1.5px solid #8B0000" : "1px solid #C4C4C4",
           borderRadius: "4px",
           height: "56px",
-          minHeight: "56px",
-          maxHeight: "56px",
           width: "121px",
           fontWeight: 400,
           display: "flex",
           alignItems: "center",
-          "&:hover": {
-            borderColor: "rgba(0, 0, 0, 0.23)",
-            backgroundColor: "transparent",
-          },
+          transition: "border-color 0.3s, color 0.3s",
+          bgcolor:"transparent"
         }}
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
+            focused ? "text-[#8B0000]" : "text-[#000000B2]"
+          }`}
         >
           {legend}
         </legend>
-        <span style={{ display: "flex", alignItems: "center", justifyContent:"center" }}>
-          <div className="">
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div>
             <img
-              src="/CalendarTodayFilled.svg"
-              className="w-[24px] h-[24px] min-w-[24px]"
+              src={
+                focused
+                  ? "/red-date.svg"
+                  : "/CalendarTodayFilled.svg"
+              }
+              className="w-[24px] h-[24px] min-w-[24px] max-w-[24px] max-h-[24px] min-h-[24px]"
+              alt="calendar icon"
             />
           </div>
-          <h3 className={`text-[#000000B2] ${opacity} tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto`}>
-            {selectedDate ? selectedDate.toLocaleDateString(undefined, { month: '2-digit', day: '2-digit' }) : "Select"}
+          <h3
+            className={`$
+              text-[#000000B2]
+              ${opacity} tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto`
+            }
+          >
+            {selectedDate
+              ? selectedDate.toLocaleDateString(undefined, {
+                  month: "2-digit",
+                  day: "2-digit",
+                })
+              : "Select"}
           </h3>
         </span>
       </Button>
