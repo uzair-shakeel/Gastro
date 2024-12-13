@@ -86,6 +86,16 @@ export default function RestaurantDetails() {
     lunch: 3,
     dinner: 2,
   });
+  const [guests, setGuests] = useState({
+      adults: 0,
+      kids: 0,
+      all: 0,
+      meat: 0,
+      fish: 0,
+      vegetarian: 0,
+      vegan: 0,
+    });
+    
   const openModal = (index) => {
     setCurrentImageIndex(index);
     setModalOpen(true);
@@ -125,9 +135,7 @@ export default function RestaurantDetails() {
       isGuestsFilled,
       selectedCategories,
       buttonEnabled:
-        selectedDate &&
-        isGuestsFilled &&
-        selectedCategories.length > 0,
+        selectedDate && isGuestsFilled && selectedCategories.length > 0,
     });
 
     setIsButtonEnabled(
@@ -238,7 +246,9 @@ export default function RestaurantDetails() {
               }}
               startIcon={
                 <img
-                  src={isFavorite ? "/favorite-outline.svg" : "/favorite-two.svg"}
+                  src={
+                    isFavorite ? "/favorite-outline.svg" : "/favorite-two.svg"
+                  }
                   alt="Favorite Icon"
                   style={{ width: "24px", height: "24px" }}
                 />
@@ -273,7 +283,11 @@ export default function RestaurantDetails() {
                 />
               </Box>
               <Box>
-                <GuestsDropdown onSelectionChange={handleGuestsChange} />
+                <GuestsDropdown
+                  setGuests={setGuests}
+                  guests={guests}
+                  onSelectionChange={handleGuestsChange}
+                />
               </Box>
               <Box>
                 <BudgetInput />

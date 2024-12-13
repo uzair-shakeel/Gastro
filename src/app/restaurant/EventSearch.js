@@ -1,12 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  Box,
-  Tabs,
-  Tab,
-  Button,
-  Grid,
-  Collapse,
-} from "@mui/material";
+import { Box, Tabs, Tab, Button, Grid, Collapse } from "@mui/material";
 import { BudgetInput } from "../components/popups/restaurant/budget";
 import { CategoryDropdown } from "../components/popups/restaurant/category";
 import { DateSelectionDropdown } from "../components/popups/restaurant/date";
@@ -28,6 +21,15 @@ const EventSearch = () => {
   const [courses, setCourses] = useState({
     lunch: 3,
     dinner: 2,
+  });
+  const [guests, setGuests] = useState({
+    adults: 0,
+    kids: 0,
+    all: 0,
+    meat: 0,
+    fish: 0,
+    vegetarian: 0,
+    vegan: 0,
   });
 
   const handleLocationChange = (updatedData) => {
@@ -72,10 +74,10 @@ const EventSearch = () => {
 
     setIsButtonEnabled(
       locationData &&
-      selectedDate &&
-      isBudgetFilled &&
-      isGuestsFilled &&
-      selectedCategories.length > 0
+        selectedDate &&
+        isBudgetFilled &&
+        isGuestsFilled &&
+        selectedCategories.length > 0
     );
   }, [
     locationData,
@@ -84,8 +86,6 @@ const EventSearch = () => {
     isGuestsFilled,
     selectedCategories,
   ]);
-
-
 
   return (
     <Box
@@ -288,11 +288,14 @@ const EventSearch = () => {
             maxHeight: "56px",
           }}
         >
-          <Box flexGrow={1} sx={{
-            height: "56px",
-            minHeight: "56px",
-            maxHeight: "56px",
-          }}>
+          <Box
+            flexGrow={1}
+            sx={{
+              height: "56px",
+              minHeight: "56px",
+              maxHeight: "56px",
+            }}
+          >
             <WhereInput onLocationChange={handleLocationChange} />
           </Box>
           <Box>
@@ -317,8 +320,10 @@ const EventSearch = () => {
           </Box>
           <Box>
             <GuestsDropdown
+              setGuests={setGuests}
+              guests={guests}
               legendbg="bg-white"
-              opacity='opacity-40'
+              opacity="opacity-40"
               onSelectionChange={handleGuestsChange}
             />
           </Box>
@@ -339,20 +344,19 @@ const EventSearch = () => {
             sx={{
               width: "161px",
               whiteSpace: "nowrap",
-              fontSize: '15px',
+              fontSize: "15px",
               height: "56px",
               textTransform: "uppercase",
               fontWeight: "500 !important",
               bgcolor: showMoreOptions ? "#5E5D3E" : "#CCCCCC",
               color: showMoreOptions ? "white" : "#000000B2",
-              fontFamily: "Satoshi, sans-serif !important"
+              fontFamily: "Satoshi, sans-serif !important",
             }}
             onClick={() => setShowMoreOptions(!showMoreOptions)}
           >
             MORE OPTIONS
           </Button>
         </Grid>
-
 
         <Grid item xs={12} sm={6} md={2}>
           <Button
@@ -371,7 +375,6 @@ const EventSearch = () => {
             Search
           </Button>
         </Grid>
-
       </Grid>
 
       <Collapse in={showMoreOptions}>

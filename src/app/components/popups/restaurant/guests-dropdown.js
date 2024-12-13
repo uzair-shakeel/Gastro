@@ -78,18 +78,11 @@ export default function GuestsDropdown({
   legendbg = "bg-white",
   opacity = "opacity-100",
   onSelectionChange,
+  setGuests,
+  guests,
 }) {
   const [open, setOpen] = useState(false);
   const [showExtended, setShowExtended] = useState(false);
-  const [guests, setGuests] = useState({
-    adults: 0,
-    kids: 0,
-    all: 0,
-    meat: 0,
-    fish: 0,
-    vegetarian: 0,
-    vegan: 0,
-  });
   const dropdownRef = useRef(null);
 
   // const handleIncrement = (type) => {
