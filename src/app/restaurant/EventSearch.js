@@ -349,6 +349,7 @@ const EventSearch = () => {
           </Button>
         </Grid>
 
+
         <Grid item xs={12} sm={6} md={2}>
           <Button
             fullWidth
