@@ -7,19 +7,19 @@ const StyledTextField = styled(TextField)(({ legendbg }) => ({
   "& .MuiOutlinedInput-root": {
     backgroundColor: legendbg,
     "& fieldset": {
-      borderColor: "rgba(0, 0, 0, 0.23)",
+      borderColor: "#00000040",
     },
     "&:hover fieldset": {
-      border:"1.5px solid #821101 !important",
+      border: "1.5px solid #821101 !important",
     },
     "&.Mui-focused fieldset": {
-      border:"1.5px solid #821101 !important",
+      border: "1.5px solid #821101 !important",
     },
   },
   "& .MuiOutlinedInput-input": {
     paddingLeft: 0,
     color: "#000000B2",
-    fontFamily: "Roboto, sans-serif",
+    fontFamily: "Roboto, sans-serif !important",
     fontSize: "16px",
     fontWeight: "normal",
     letterSpacing: "0.15px",
@@ -40,7 +40,7 @@ const StyledTextField = styled(TextField)(({ legendbg }) => ({
     color: "#000000B2 ",
     transition: "color 0.3s ease",
   },
-  "&.Mui-focused .MuiInputLabel-root": {
+  "&. Mui-focused .MuiInputLabel-root": {
     color: "#821101 !important",
   },
   "&:hover .MuiInputLabel-root": {
@@ -81,6 +81,9 @@ export function BudgetInput({
         justifyContent: "start",
         height: "100%",
         background: legendbg,
+        "&:hover .MuiInputAdornment-root svg": {
+          color: "#821101B2", // change icon color on hover
+        },
       }}
       value={value}
       onChange={handleChange}
@@ -91,7 +94,7 @@ export function BudgetInput({
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <CreditCard />
+            <CreditCard sx={{ color: "#0000008C" }} />
           </InputAdornment>
         ),
       }}

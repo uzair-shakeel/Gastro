@@ -133,7 +133,7 @@ export function DateSelectionDropdown({
             />
           </div>
           <h3 className={`text-[#000000B2] ${opacity} tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto`}>
-            {selectedDate ? selectedDate.toLocaleDateString() : "Select"}
+            {selectedDate ? selectedDate.toLocaleDateString(undefined, { month: '2-digit', day: '2-digit' }) : "Select"}
           </h3>
         </span>
       </Button>

@@ -26,7 +26,7 @@ const DropdownContainer = styled("div")(({ theme }) => ({
   position: "absolute",
   zIndex: 1000,
   backgroundColor: "white",
-  border: "1px solid rgba(0, 0, 0, 0.12)",
+  border: "1px solid #BFBFBF",
   borderRadius: "8px",
   padding: "24px",
   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
