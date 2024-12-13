@@ -269,11 +269,9 @@ const EventSearch = () => {
           alignItems: "center",
           gap: "12px",
           mt: "24px",
-          // p: "12px",
           height:"60px",
           minHeight:"60px",
           maxHeight:"60px",
-          // overflow:"hidden",
           borderRadius: "8px",
           width: "100%",
         }}
@@ -322,7 +320,7 @@ const EventSearch = () => {
           </Box>
           <Box>
             <BudgetInput
-              legend="Budget in CHF"
+              legend="Budget"
               legendbg="white"
               opacityInput={40}
               onInputChange={handleBudgetChange}
@@ -335,14 +333,15 @@ const EventSearch = () => {
             fullWidth
             variant="contained"
             sx={{
-              width: "137px",
+              width: "161px",
               whiteSpace: "nowrap",
+              fontSize:'15px',
               height: "56px",
               textTransform: "uppercase",
-              fontWeight: "500",
+              fontWeight:"500 !important",
               bgcolor: showMoreOptions ? "#5E5D3E" : "#CCCCCC",
               color: showMoreOptions ? "white" : "#000000B2",
-              fontFamily: "Satoshi, sans-serif"
+              fontFamily: "Satoshi, sans-serif !important"
             }}
             onClick={() => setShowMoreOptions(!showMoreOptions)}
           >
@@ -359,7 +358,9 @@ const EventSearch = () => {
               textTransform: "uppercase",
               bgcolor: "#821101",
               height: "56px",
+              fontWeight:"500 !important",
               color: "#F9F9F9",
+               fontFamily: "Satoshi, sans-serif !important"
             }}
           >
             Search
