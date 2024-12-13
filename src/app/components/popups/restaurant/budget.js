@@ -10,20 +10,41 @@ const StyledTextField = styled(TextField)(({ legendbg }) => ({
       borderColor: "rgba(0, 0, 0, 0.23)",
     },
     "&:hover fieldset": {
-      borderColor: "rgba(0, 0, 0, 0.23)",
+      border:"1.5px solid #821101 !important",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "rgba(0, 0, 0, 0.23)",
+      border:"1.5px solid #821101 !important",
     },
   },
   "& .MuiOutlinedInput-input": {
-    // padding: "10.5px 14px",
     paddingLeft: 0,
+    color: "#000000B2",
+    fontFamily: "Roboto, sans-serif",
+    fontSize: "16px",
+    fontWeight: "normal",
+    letterSpacing: "0.15px",
   },
   "& .MuiInputAdornment-root": {
     marginRight: "8px",
     marginLeft: "2px",
     color: "rgba(0, 0, 0, 0.54)",
+  },
+  "& .MuiInputBase-input::placeholder": {
+    opacity: 1,
+    color: "#000000B2",
+    fontFamily: "Roboto, sans-serif",
+    fontSize: "16px",
+    fontWeight: "normal",
+  },
+  "& .MuiInputLabel-root": {
+    color: "#000000B2 ",
+    transition: "color 0.3s ease",
+  },
+  "&.Mui-focused .MuiInputLabel-root": {
+    color: "#821101 !important",
+  },
+  "&:hover .MuiInputLabel-root": {
+    color: "#821101 !important",
   },
 }));
 
@@ -32,12 +53,19 @@ export function BudgetInput({
   legend = "Budget in CHF",
   onInputChange,
 }) {
+  const [value, setValue] = useState("");
+
+  const formatCurrency = (amount) => {
+    const numericValue = amount.replace(/[^\d]/g, "");
+    if (!numericValue) return "";
+    return `$${Number(numericValue).toLocaleString("en-US")}`;
+  };
+
   const handleChange = (event) => {
-    const value = event.target.value;
-    if (/^\d*$/.test(value)) {
-      // Allow only numeric values
-      onInputChange(value);
-    }
+    const inputValue = event.target.value;
+    const formattedValue = formatCurrency(inputValue);
+    setValue(formattedValue);
+    onInputChange?.(formattedValue);
   };
 
   return (
@@ -47,12 +75,19 @@ export function BudgetInput({
       variant="outlined"
       sx={{
         width: "150px",
+        maxWidth: "150px",
+        minWidth: "150px",
         display: "flex",
         justifyContent: "start",
         height: "100%",
         background: legendbg,
       }}
+      value={value}
       onChange={handleChange}
+      inputProps={{
+        inputMode: "text",
+        pattern: "\\d*",
+      }}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Add, Remove } from "@mui/icons-material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Image from "next/image";
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   color: "#821101",
@@ -91,6 +91,7 @@ const categories = [
 export function CategoryDropdown({
   legendbg = "bg-white",
   generalSearch,
+  opacity = "opacity-100",
   onCategoryChange,
   selectedCategories,
   setSelectedCategories,
@@ -137,7 +138,7 @@ export function CategoryDropdown({
 
   const handleReset = () => {
     setSelectedCategories([]);
-    setCourses({ lunch: 3, dinner: 2 });
+    setCourses({ lunch: 3, dinner: 3 });
     onCategoryChange?.([]);
   };
 
@@ -152,7 +153,7 @@ export function CategoryDropdown({
           return category?.label;
         })
         .join(", ")
-      : "Select";
+      : "Select"
 
   return (
     <div style={{ position: "relative", height: "100%", minWidth: "272px" }}>
@@ -162,6 +163,9 @@ export function CategoryDropdown({
         fullWidth
         sx={{
           height: "100%",
+          height: "56px",
+          minHeight: "56px",
+          maxHeight: "56px",
           justifyContent: "space-between",
           borderColor: "rgba(0, 0, 0, 0.23)",
           color: "rgba(0, 0, 0, 0.70)",
@@ -183,11 +187,13 @@ export function CategoryDropdown({
         >
           Category
         </legend>
-        <span className=" text-[#000000B2]" style={{ display: "flex", alignItems: "center" }}>
-          <div className="mr-3">
-            <img src="/category-icon.svg" alt="Category icon" />
+        <span className=" text-[#000000B2] mt-1" style={{ display: "flex", alignItems: "center" }}>
+          <div className="mr-2">
+            <Image src="/category-icon.svg" alt="Category icon" width={24} height={24} />
           </div>
-          {buttonText}
+          <h3 className={`text-[#000000B2] text-[16px]  ${opacity} font-normal !font-roboto tracking-[0.15px] mt-0.5`}>
+            {buttonText}
+          </h3>
         </span>
       </Button>
 
@@ -201,28 +207,28 @@ export function CategoryDropdown({
               "& .MuiTabs-indicator": {
                 backgroundColor: "#821101",
                 height: "2px",
-                display:"flex"
+                display: "flex"
               },
             }}
           >
             <StyledTab
               label="TABLE SERVICE"
               sx={{
-                color: selectedTab === 0 ? "#821101" : "#000000B2",  
+                color: selectedTab === 0 ? "#821101" : "#000000B2",
                 fontWeight: selectedTab === 0 ? "500" : "500",
-                p:"0px !important",
-                flex:1,
-                fontFamily: "Roboto, sans-serif !important", 
+                p: "0px !important",
+                flex: 1,
+                fontFamily: "Roboto, sans-serif !important",
               }}
             />
             <StyledTab
               label="SELF SERVICE"
               sx={{
-                color: selectedTab === 1 ? "#821101" : "#000000B2",  
+                color: selectedTab === 1 ? "#821101" : "#000000B2",
                 fontWeight: selectedTab === 1 ? "500" : "500",
-                p:"0px !important",
-                flex:1,
-                fontFamily: "Roboto, sans-serif !important", 
+                p: "0px !important",
+                flex: 1,
+                fontFamily: "Roboto, sans-serif !important",
               }}
             />
           </Tabs>
@@ -254,7 +260,7 @@ export function CategoryDropdown({
                         display: "flex",
                         alignItems: "center",
                         gap: "8px",
-                        height:"100%",
+                        height: "100%",
                         width: "100%",
                         justifyContent: "center",
                         padding: "0 16px",
@@ -264,7 +270,7 @@ export function CategoryDropdown({
                         size="small"
                         onClick={() => handleCourseChange(category.id, -1)}
                         disabled={courses[category.id] === 0}
-                        sx={{bgcolor:"transparent"}}
+                        sx={{ bgcolor: "transparent" }}
                       >
                         <Remove fontSize="small" />
                       </CounterButton>
@@ -280,7 +286,7 @@ export function CategoryDropdown({
                       <CounterButton
                         size="small"
                         onClick={() => handleCourseChange(category.id, 1)}
-                        sx={{bgcolor:"transparent"}}
+                        sx={{ bgcolor: "transparent" }}
                       >
                         <Add fontSize="small" />
                       </CounterButton>

@@ -23,11 +23,11 @@ export default function WhereInput({ onLocationChange }) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative h-[56px]">
       <div className="absolute -top-3 left-4 px-1 bg-white">
         <label
           htmlFor="location-input"
-          className="text-[12px] text-[#000000B2] font-[400] font-roboto tracking-[0.15px]"
+          className="text-[12px] text-[#000000B2] !font-roboto font-[400] tracking-[0.15px]"
         >
           Where
         </label>
@@ -44,14 +44,14 @@ export default function WhereInput({ onLocationChange }) {
                 className="text-[16px]"
                 inputProps={{
                   "aria-label": "Search location",
-                  className: "text-black placeholder-[#0000008F]",
+                  className: "text-black placeholder-[#0000008F] !font-roboto font-normal tracking-[0.15px]",
                 }}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
               />
             </div>
           </div>
-          {/* Show distance adjustment only if input has content */}
+
           {inputValue && (
             <div className="flex items-center px-1 border-l border-[#BBBBBB]">
               <IconButton

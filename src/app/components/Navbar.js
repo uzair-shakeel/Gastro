@@ -47,6 +47,7 @@ const Navbar = () => {
             />
           </button>
 
+
           <div className="px-6 border-x border-[#CCCCCC]">
             <h2 className="text-[#5E5D3E] font-medium font-satoshi text-center uppercase text-[15px] leading-[26px] tracking-[0.46px] w-[190px]">
               List your Service

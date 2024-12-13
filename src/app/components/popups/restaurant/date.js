@@ -43,6 +43,7 @@ const weekDays = [
 export function DateSelectionDropdown({
   legendbg = "bg-white",
   legend = "Date",
+  opacity ="opacity-100",
   onDateChange,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -99,14 +100,17 @@ export function DateSelectionDropdown({
         onClick={handleOpen}
         sx={{
           textTransform: "none",
-          maxWidth: "140px",
+          minWidth: "121px",
+          maxWidth: "121px",
           fontSize: "16px",
           justifyContent: "space-between",
           color: "gray",
           border: "1px solid #C4C4C4",
           borderRadius: "4px",
-          height: "100%",
-          width: "150px",
+          height: "56px",
+          minHeight: "56px",
+          maxHeight: "56px",
+          width: "121px",
           fontWeight: 400,
           display: "flex",
           alignItems: "center",
@@ -121,14 +125,16 @@ export function DateSelectionDropdown({
         >
           {legend}
         </legend>
-        <span style={{ display: "flex", alignItems: "center" }}>
-          <div className="mr-2">
+        <span style={{ display: "flex", alignItems: "center", justifyContent:"center" }}>
+          <div className="">
             <img
               src="/CalendarTodayFilled.svg"
-              className="w-[18px] h-[18px] min-w-[18px]"
+              className="w-[24px] h-[24px] min-w-[24px]"
             />
           </div>
-          {selectedDate ? selectedDate.toLocaleDateString() : "Select"}
+          <h3 className={`text-[#000000B2] ${opacity} tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto`}>
+            {selectedDate ? selectedDate.toLocaleDateString() : "Select"}
+          </h3>
         </span>
       </Button>
       <Menu

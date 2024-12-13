@@ -75,7 +75,7 @@ const ConfirmButton = styled(Button)({
   }
 })
 
-export default function GuestsDropdown({ legendbg = "bg-white", onSelectionChange }) {
+export default function GuestsDropdown({ legendbg = "bg-white", opacity = "opacity-100", onSelectionChange }) {
   const [open, setOpen] = useState(false)
   const [showExtended, setShowExtended] = useState(false)
   const [guests, setGuests] = useState({
@@ -197,9 +197,14 @@ export default function GuestsDropdown({ legendbg = "bg-white", onSelectionChang
           borderColor: 'rgba(0, 0, 0, 0.23)',
           color: 'rgba(0, 0, 0, 0.87)',
           textTransform: 'none',
-          width: '120px',
+          width: '125px',
+          maxWidth: '125px',
+          minWidth: '125px',
           p: '0 10px 0 10px',
-
+          "&:hover": {
+            borderColor: "#821101",
+            backgroundColor: "transparent",
+          },
         }}
         endIcon={
           <img
@@ -213,10 +218,12 @@ export default function GuestsDropdown({ legendbg = "bg-white", onSelectionChang
           Guests
         </legend>
         <span style={{ display: 'flex', alignItems: 'center' }}>
-          <div className="mr-1.5">
-            <img src="/PeopleFilled.svg" alt="people" />
+          <div className="mr-2">
+            <img src="/PeopleFilled.svg" alt="people" width={24} height={24} />
           </div>
-          {totalGuests > 0 ? `${totalGuests}` : 'Select'}
+          <h3 className={`text-[#000000B2] text-[16px] !font-roboto font-normal tracking-[0.15px] ${opacity}`}>
+            {totalGuests > 0 ? `${totalGuests}` : 'Select'}
+          </h3>
         </span>
       </Button>
 

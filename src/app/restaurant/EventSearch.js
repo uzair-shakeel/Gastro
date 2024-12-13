@@ -269,7 +269,11 @@ const EventSearch = () => {
           alignItems: "center",
           gap: "12px",
           mt: "24px",
-          p: "12px",
+          // p: "12px",
+          height:"60px",
+          minHeight:"60px",
+          maxHeight:"60px",
+          // overflow:"hidden",
           borderRadius: "8px",
           width: "100%",
         }}
@@ -280,14 +284,20 @@ const EventSearch = () => {
           flexWrap="wrap"
           gap={2}
           width="100%"
+          sx={{ height:"56px",
+            minHeight:"56px",
+            maxHeight:"56px",}}
         >
-          <Box flexGrow={1}>
+          <Box flexGrow={1} sx={{ height:"56px",
+          minHeight:"56px",
+          maxHeight:"56px",}}>
             <WhereInput onLocationChange={handleLocationChange} />
           </Box>
           <Box>
             <DateSelectionDropdown
-              legend="Date Selection"
+              legend="Date"
               legendbg="bg-white"
+              opacity ="opacity-40"
               onDateChange={handleDateChange}
             />
           </Box>
@@ -299,12 +309,14 @@ const EventSearch = () => {
               setSelectedCategories={setSelectedCategories}
               generalSearch={true}
               legendbg="bg-white"
+              opacity="opacity-40"
               onCategoryChange={handleCategoryChange}
             />
           </Box>
           <Box>
             <GuestsDropdown
               legendbg="bg-white"
+              opacity='opacity-40'
               onSelectionChange={handleGuestsChange}
             />
           </Box>
@@ -312,6 +324,7 @@ const EventSearch = () => {
             <BudgetInput
               legend="Budget in CHF"
               legendbg="white"
+              opacityInput={40}
               onInputChange={handleBudgetChange}
             />
           </Box>
