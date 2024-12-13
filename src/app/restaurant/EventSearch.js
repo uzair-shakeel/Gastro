@@ -269,9 +269,9 @@ const EventSearch = () => {
           alignItems: "center",
           gap: "12px",
           mt: "24px",
-          height:"60px",
-          minHeight:"60px",
-          maxHeight:"60px",
+          height: "60px",
+          minHeight: "60px",
+          maxHeight: "60px",
           borderRadius: "8px",
           width: "100%",
         }}
@@ -282,20 +282,24 @@ const EventSearch = () => {
           flexWrap="wrap"
           gap={2}
           width="100%"
-          sx={{ height:"56px",
-            minHeight:"56px",
-            maxHeight:"56px",}}
+          sx={{
+            height: "56px",
+            minHeight: "56px",
+            maxHeight: "56px",
+          }}
         >
-          <Box flexGrow={1} sx={{ height:"56px",
-          minHeight:"56px",
-          maxHeight:"56px",}}>
+          <Box flexGrow={1} sx={{
+            height: "56px",
+            minHeight: "56px",
+            maxHeight: "56px",
+          }}>
             <WhereInput onLocationChange={handleLocationChange} />
           </Box>
           <Box>
             <DateSelectionDropdown
               legend="Date"
               legendbg="bg-white"
-              opacity ="opacity-40"
+              opacity="opacity-40"
               onDateChange={handleDateChange}
             />
           </Box>
@@ -335,10 +339,10 @@ const EventSearch = () => {
             sx={{
               width: "161px",
               whiteSpace: "nowrap",
-              fontSize:'15px',
+              fontSize: '15px',
               height: "56px",
               textTransform: "uppercase",
-              fontWeight:"500 !important",
+              fontWeight: "500 !important",
               bgcolor: showMoreOptions ? "#5E5D3E" : "#CCCCCC",
               color: showMoreOptions ? "white" : "#000000B2",
               fontFamily: "Satoshi, sans-serif !important"
@@ -354,19 +358,20 @@ const EventSearch = () => {
           <Button
             fullWidth
             variant="contained"
+            disabled={!isButtonEnabled}
             sx={{
               width: "106px",
               textTransform: "uppercase",
-              bgcolor: "#821101",
+              bgcolor: isButtonEnabled ? "black" : "black",
               height: "56px",
-              fontWeight:"500 !important",
-              color: "#F9F9F9",
-               fontFamily: "Satoshi, sans-serif !important"
+              color: isButtonEnabled ? "#fff" : "#ffffff99",
+              fontFamily: "Satoshi, sans-serif !important",
             }}
           >
             Search
           </Button>
         </Grid>
+
       </Grid>
 
       <Collapse in={showMoreOptions}>
