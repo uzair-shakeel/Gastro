@@ -84,6 +84,18 @@ export default function GuestsDropdown({
   const [open, setOpen] = useState(false);
   const [showExtended, setShowExtended] = useState(false);
   const dropdownRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const getGuestsIcon = () => {
+    if (isFocused) {
+      return "/PeopleFilled2.svg";
+    } else if (isHovered) {
+      return "/PeopleFilled2.svg";
+    } else {
+      return "/PeopleFilled.svg";
+    }
+  };
 
   const handleIncrement = (type) => {
     setGuests((prev) => {
@@ -144,7 +156,6 @@ export default function GuestsDropdown({
         }
       } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
         if (newGuests[type] > 0) {
-          // Decrement the subfield
           newGuests[type] -= 1;
           newGuests.all += 1; // Increment "all" to balance adults
         }
@@ -234,10 +245,15 @@ export default function GuestsDropdown({
       <Button
         variant="outlined"
         onClick={() => setOpen(true)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         sx={{
-          height: "100%",
+          height: "56px",
           justifyContent: "space-between",
-          borderColor: "rgba(0, 0, 0, 0.23)",
+          borderColor:
+            isFocused || isHovered ? "#821101" : "rgba(0, 0, 0, 0.23)",
           color: "rgba(0, 0, 0, 0.87)",
           textTransform: "none",
           width: "125px",
@@ -245,7 +261,7 @@ export default function GuestsDropdown({
           minWidth: "125px",
           p: "0 10px 0 10px",
           "&:hover": {
-            borderColor: "#821101",
+            border: "1.5px solid #821101",
             backgroundColor: "transparent",
           },
         }}
@@ -258,13 +274,15 @@ export default function GuestsDropdown({
         }
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
+            isFocused || isHovered ? "text-[#821101]" : "text-[#000000B2]"
+          }`}
         >
           Guests
         </legend>
         <span style={{ display: "flex", alignItems: "center" }}>
           <div className="mr-2">
-            <img src="/PeopleFilled.svg" alt="people" width={24} height={24} />
+            <img src={getGuestsIcon()} alt="people" width={24} height={24} />
           </div>
           <h3
             className={`text-[#000000B2] text-[16px] !font-roboto font-normal tracking-[0.15px] ${opacity}`}

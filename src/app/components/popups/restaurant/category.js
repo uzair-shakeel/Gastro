@@ -44,7 +44,6 @@ const CategoryOption = styled("div")(({ theme }) => ({
   position: "relative",
 }));
 
-
 const CounterButton = styled(IconButton)(({ theme }) => ({
   padding: "4px",
   backgroundColor: "#F5F5F5",
@@ -77,7 +76,10 @@ export function CategoryDropdown({
 }) {
   const [open, setOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -93,7 +95,6 @@ export function CategoryDropdown({
   }, []);
 
   useEffect(() => {
-    // Force both lunch and dinner to start with 3 courses
     setCourses({
       ...courses,
       lunch: 3,
@@ -107,7 +108,6 @@ export function CategoryDropdown({
 
     if (currentIndex === -1) {
       newSelected.push(categoryId);
-      // Ensure course count is 3 when category is selected
       if (categoryId === "lunch" || categoryId === "dinner") {
         setCourses((prev) => ({
           ...prev,
@@ -129,30 +129,39 @@ export function CategoryDropdown({
     }));
   };
 
-  const handleReset = () => {
-    setSelectedCategories([]);
-    setCourses({ lunch: 3, dinner: 3 });
-    onCategoryChange?.([]);
-  };
-
   const buttonText =
     selectedCategories.length > 0
       ? selectedCategories
-          .map((id) => {
-            const category = categories.find((cat) => cat.id === id);
-            if (category?.hasCourses) {
-              return `${category.label} (${courses[id]})`;
-            }
-            return category?.label;
-          })
-          .join(", ")
+        .map((id) => {
+          const category = categories.find((cat) => cat.id === id);
+          if (category?.hasCourses) {
+            return `${category.label} (${courses[id]})`;
+          }
+          return category?.label;
+        })
+        .join(", ")
       : "Select";
+
+  const getCategoryIcon = () => {
+    if (isFocused) {
+      return "/SpaceDashboardFilled.svg";
+    } else if (isHovered) {
+      return "/SpaceDashboardFilled.svg";
+    } else {
+      return "/SpaceDashboardFilled2.svg";
+    }
+  };
 
   return (
     <div style={{ position: "relative", height: "100%", minWidth: "272px" }}>
       <Button
         variant="outlined"
         onClick={() => setOpen((prev) => !prev)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        ref={buttonRef}
         fullWidth
         sx={{
           height: "100%",
@@ -160,13 +169,16 @@ export function CategoryDropdown({
           minHeight: "56px",
           maxHeight: "56px",
           justifyContent: "space-between",
-          borderColor: "rgba(0, 0, 0, 0.23)",
+          borderColor: isFocused ? "#821101" : "rgba(0, 0, 0, 0.23)",
           color: "rgba(0, 0, 0, 0.70)",
           textTransform: "none",
           p: "0 10px",
           "&:hover": {
-            borderColor: "rgba(0, 0, 0, 0.23)",
+            border: "1.5px solid #821101",
             backgroundColor: "transparent",
+          },
+          "&:focus": {
+            borderColor: "#821101",
           },
         }}
         endIcon={
@@ -178,15 +190,22 @@ export function CategoryDropdown({
         }
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] text-[#000000B2]`}
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${isFocused || isHovered ? "text-[#821101]" : "text-[#000000B2]"
+            } category-legend`}
         >
           Category
         </legend>
-        <span className=" text-[#000000B2] mt-1" style={{ display: "flex", alignItems: "center" }}>
+        <span className="text-[#000000B2] mt-1" style={{ display: "flex", alignItems: "center" }}>
           <div className="mr-2">
-            <Image src="/category-icon.svg" alt="Category icon" width={24} height={24} />
+            <Image
+              src={getCategoryIcon()}
+              alt="Category icon"
+              width={24}
+              height={24}
+              className="category-icon"
+            />
           </div>
-          <h3 className={`text-[#000000B2] text-[16px]  ${opacity} font-normal !font-roboto tracking-[0.15px] mt-0.5`}>
+          <h3 className={`text-[#000000B2] text-[16px] ${opacity} font-normal !font-roboto tracking-[0.15px] mt-0.5`}>
             {buttonText}
           </h3>
         </span>
