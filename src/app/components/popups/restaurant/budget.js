@@ -17,6 +17,9 @@ const StyledTextField = styled(TextField)(({ legendbg, error }) => ({
     "&.Mui-focused fieldset": {
       border: "1px solid #00000040 !important",
     },
+    "& input::placeholder": {
+      color: "#000000 !important", 
+    },
   },
   "& .MuiInputLabel-root": {
     color: error ? "#821101" : "#0000008C",
@@ -39,7 +42,6 @@ export function BudgetInput({
   error = false,
 }) {
   const [value, setValue] = useState("");
-  const [showPlaceholder, setShowPlaceholder] = useState(true);
 
   const handleChange = (event) => {
     const inputValue = event.target.value;
@@ -47,7 +49,6 @@ export function BudgetInput({
 
     const formattedValue = `${numericValue}`;
     setValue(formattedValue);
-    setShowPlaceholder(false);
 
     onInputChange?.(numericValue);
   };
@@ -55,7 +56,7 @@ export function BudgetInput({
   return (
     <StyledTextField
       fullWidth
-      placeholder={showPlaceholder ? "Enter" : ""}
+      placeholder={'Enter'}
       variant="outlined"
       error={error}
       value={value}

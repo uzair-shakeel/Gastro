@@ -344,7 +344,7 @@ const EventSearch = () => {
             <BudgetInput
               legend="Budget in CHF"
               legendbg="white"
-              opacityInput={40}
+              opacityInput={100}
               onInputChange={handleBudgetChange}
               error={showErrors && errors.budget}
             />

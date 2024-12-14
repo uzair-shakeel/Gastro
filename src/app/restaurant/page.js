@@ -334,6 +334,7 @@ export default function RestaurantDetails() {
               </Box>
               <Box>
                 <BudgetInput
+                
                   onInputChange={handleBudgetChange}
                   error={showErrors && errors.budget}
                 />
@@ -537,13 +538,13 @@ export default function RestaurantDetails() {
                         paddingRight: "15px",
                         backgroundColor:
                           day.day === "Saturday"
-                            ? "#8211011A"
+                            ? "#F9F9F9"
                             : isToday
                             ? "#FFEBEB"
                             : "#F9F9F9",
                         opacity:
                           day.day === "Saturday"
-                            ? "80%"
+                            ? "100"
                             : isToday
                             ? "100%"
                             : "100%",

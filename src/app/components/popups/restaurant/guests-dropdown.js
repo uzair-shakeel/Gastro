@@ -90,11 +90,11 @@ export default function GuestsDropdown({
 
   const getGuestsIcon = () => {
     if (error) {
-      return "/PeopleFilled2.svg"; // Icon for error state
+      return "/PeopleFilled2.svg";  
     } else if (isFocused || isHovered) {
-      return "/PeopleFilled.svg"; // Icon for hover/focus state
+      return "/PeopleFilled.svg";  
     } else {
-      return "/PeopleFilled.svg"; // Default icon
+      return "/PeopleFilled.svg"; 
     }
   };
 
@@ -113,16 +113,14 @@ export default function GuestsDropdown({
             newGuests.vegan);
 
         newGuests.adults += 1;
-        newGuests.all += diff; // Add the extra adults to "all"
+        newGuests.all += diff;  
       } else if (type === "kids") {
-        // Increment kids independently
         newGuests.kids += 1;
       } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
         if (newGuests.all > 0) {
           newGuests[type] += 1;
-          newGuests.all -= 1; // Decrement "all" to balance adults
+          newGuests.all -= 1;  
         } else {
-          // Decrease other subfields proportionally if "all" is 0
           let decremented = false;
           for (const field of ["meat", "fish", "vegetarian", "vegan"]) {
             if (field !== type && newGuests[field] > 0) {
@@ -134,7 +132,7 @@ export default function GuestsDropdown({
           if (!decremented) {
             console.warn("No subfields left to decrement.");
           }
-          newGuests[type] += 1; // Increment the selected subfield
+          newGuests[type] += 1; 
         }
       }
 
@@ -148,7 +146,6 @@ export default function GuestsDropdown({
 
       if (type === "adults") {
         if (newGuests.adults > 0) {
-          // Decrement adults directly
           newGuests.adults -= 1;
 
           const totalSubfields =
@@ -158,10 +155,8 @@ export default function GuestsDropdown({
             newGuests.vegan;
 
           if (newGuests.all > 0) {
-            // Decrement "all" if it has remaining values
             newGuests.all -= 1;
           } else if (totalSubfields > 0) {
-            // Decrement from the largest subfield if "all" is 0
             let decremented = false;
             for (const field of ["meat", "fish", "vegetarian", "vegan"]) {
               if (newGuests[field] > 0) {
@@ -176,15 +171,13 @@ export default function GuestsDropdown({
           }
         }
       } else if (type === "kids") {
-        // Decrement kids independently
         if (newGuests.kids > 0) {
           newGuests.kids -= 1;
         }
       } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
         if (newGuests[type] > 0) {
-          // Decrement the subfield
           newGuests[type] -= 1;
-          newGuests.all += 1; // Increment "all" to balance adults
+          newGuests.all += 1;  
         } else {
           console.warn(`${type} cannot go below 0.`);
         }
@@ -282,15 +275,15 @@ export default function GuestsDropdown({
           height: "56px",
           justifyContent: "space-between",
           borderColor: error
-            ? "#821101" // Red border on error
+            ? "#821101" 
             : isFocused || isHovered
-            ? "#00000040" // Border color on hover/focus
-            : "rgba(0, 0, 0, 0.23)", // Default border color
+            ? "#00000040"  
+            : "rgba(0, 0, 0, 0.23)",
           color: error
-            ? "#821101" // Red text on error
+            ? "#821101"  
             : isFocused || isHovered
-            ? "#00000040" // Text color on hover/focus
-            : "rgba(0, 0, 0, 0.87)", // Default text color
+            ? "#00000040"  
+            : "rgba(0, 0, 0, 0.87)",
           textTransform: "none",
           width: "125px",
           maxWidth: "125px",
@@ -305,10 +298,10 @@ export default function GuestsDropdown({
         <legend
           className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
             error
-              ? "text-[#821101]" // Red text on error
+              ? "text-[#821101]"  
               : isFocused || isHovered
-              ? "text-[#000000B2]" // Text color on hover/focus
-              : "text-[#000000B2]" // Default text color
+              ? "text-[#000000B2]"  
+              : "text-[#000000B2]" 
           }`}
         >
           Guests
