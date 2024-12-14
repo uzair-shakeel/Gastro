@@ -78,8 +78,12 @@ const matter = {
 export default function RestaurantDetails() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [locationData, setLocationData] = useState(null);
+
   const [currentUrl, setCurrentUrl] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [isBudgetFilled, setIsBudgetFilled] = useState(false);
+  const [budget, setBudget] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const [courses, setCourses] = useState({
@@ -95,6 +99,38 @@ export default function RestaurantDetails() {
     vegetarian: 0,
     vegan: 0,
   });
+  const [errors, setErrors] = useState({
+    location: false,
+    date: false,
+    category: false,
+    guests: false,
+    budget: false,
+  });
+  const [showErrors, setShowErrors] = useState(false);
+
+  const validateInputs = () => {
+    const newErrors = {
+      location: !locationData || !locationData.inputValue?.trim(),
+      date: !selectedDate,
+      category: selectedCategories.length === 0,
+      guests: !isGuestsFilled,
+      budget: !isBudgetFilled,
+    };
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
+  };
+
+  const handleSearch = () => {
+    if (validateInputs()) {
+      console.log("Searching...");
+    } else {
+      setShowErrors(true);
+    }
+  };
+
+  useEffect(() => {
+    setIsButtonEnabled(!Object.values(errors).some(Boolean));
+  }, [errors]);
 
   const openModal = (index) => {
     setCurrentImageIndex(index);
@@ -139,12 +175,14 @@ export default function RestaurantDetails() {
     });
 
     setIsButtonEnabled(
-      selectedDate &&
-      isGuestsFilled &&
-      selectedCategories.length > 0
+      selectedDate && isGuestsFilled && selectedCategories.length > 0
     );
   }, [selectedDate, isGuestsFilled, selectedCategories]);
 
+  const handleBudgetChange = (value) => {
+    setIsBudgetFilled(value !== null && value !== undefined && value !== "");
+    setBudget(value);
+  };
 
   return (
     <div>
@@ -270,7 +308,10 @@ export default function RestaurantDetails() {
               mb={3}
             >
               <Box>
-                <DateSelectionDropdown onDateChange={handleDateChange} />
+                <DateSelectionDropdown
+                  onDateChange={handleDateChange}
+                  error={showErrors && errors.date}
+                />
               </Box>
               <Box flexGrow={1}>
                 <CategoryDropdown
@@ -280,6 +321,7 @@ export default function RestaurantDetails() {
                   setSelectedCategories={setSelectedCategories}
                   generalSearch={false}
                   onCategoryChange={handleCategoryChange}
+                  error={showErrors && errors.category}
                 />
               </Box>
               <Box>
@@ -287,15 +329,19 @@ export default function RestaurantDetails() {
                   setGuests={setGuests}
                   guests={guests}
                   onSelectionChange={handleGuestsChange}
-
+                  error={showErrors && errors.guests}
                 />
               </Box>
               <Box>
-                <BudgetInput />
+                <BudgetInput
+                  onInputChange={handleBudgetChange}
+                  error={showErrors && errors.budget}
+                />
               </Box>
               <Box>
                 <Button
                   fullWidth
+                  onClick={handleSearch}
                   style={{
                     height: 56,
                     fontFamily: "Satoshi, sans-serif",
@@ -309,7 +355,7 @@ export default function RestaurantDetails() {
                     fontSize: "15px",
                     letterSpacing: "0.46px",
                   }}
-                // disabled={!isButtonEnabled}
+                  // disabled={!isButtonEnabled}
                 >
                   VIEW OFFER
                 </Button>
@@ -490,17 +536,15 @@ export default function RestaurantDetails() {
                         paddingLeft: "15px",
                         paddingRight: "15px",
                         backgroundColor:
-                          day.day === "Saturday"
-                            ? "#F9F9F9"
-                            : isToday
-                              ? "#FFEBEB"
-                              : "#F9F9F9",
+                          day.day === "Monday" ? "#8211011A" : isToday,
+                        // ? "#FFEBEB"
+                        // : "#F9F9F9",
                         opacity:
                           day.day === "Saturday"
                             ? "80%"
                             : isToday
-                              ? "100%"
-                              : "100%",
+                            ? "100%"
+                            : "100%",
                       }}
                     >
                       <Typography
@@ -530,8 +574,9 @@ export default function RestaurantDetails() {
                         {day.day}:
                       </Typography>
                       <div
-                        className={`flex items-center ${showSeparator ? "gap-1.5" : ""
-                          }`}
+                        className={`flex items-center ${
+                          showSeparator ? "gap-1.5" : ""
+                        }`}
                       >
                         <Typography
                           sx={{

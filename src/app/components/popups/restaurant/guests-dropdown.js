@@ -80,7 +80,7 @@ export default function GuestsDropdown({
   onSelectionChange,
   setGuests,
   guests,
-  error, // Validation error prop
+  error,
 }) {
   const [open, setOpen] = useState(false);
   const [showExtended, setShowExtended] = useState(false);
