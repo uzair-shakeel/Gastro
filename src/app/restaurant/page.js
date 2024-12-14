@@ -536,9 +536,11 @@ export default function RestaurantDetails() {
                         paddingLeft: "15px",
                         paddingRight: "15px",
                         backgroundColor:
-                          day.day === "Monday" ? "#8211011A" : isToday,
-                        // ? "#FFEBEB"
-                        // : "#F9F9F9",
+                          day.day === "Saturday"
+                            ? "#8211011A"
+                            : isToday
+                            ? "#FFEBEB"
+                            : "#F9F9F9",
                         opacity:
                           day.day === "Saturday"
                             ? "80%"

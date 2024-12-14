@@ -34,7 +34,7 @@ const StyledTextField = styled(TextField)(({ legendbg, error }) => ({
 
 export function BudgetInput({
   legendbg = "#ffffff",
-  legend = "Budget",
+  legend = "Budget in CHF",
   onInputChange,
   error = false,
 }) {
@@ -45,7 +45,7 @@ export function BudgetInput({
     const inputValue = event.target.value;
     const numericValue = parseFloat(inputValue.replace(/[^\d]/g, "")) || 0;
 
-    const formattedValue = `$${numericValue}`;
+    const formattedValue = `${numericValue}`;
     setValue(formattedValue);
     setShowPlaceholder(false);
 

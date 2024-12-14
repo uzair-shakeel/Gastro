@@ -299,7 +299,8 @@ const EventSearch = () => {
               maxHeight: "56px",
             }}
           >
-            <WhereInput onLocationChange={handleLocationChange}
+            <WhereInput
+              onLocationChange={handleLocationChange}
               error={showErrors && errors.location}
             />
           </Box>
@@ -312,7 +313,6 @@ const EventSearch = () => {
               onDateChange={handleDateChange}
               error={showErrors && errors.date}
             />
-
           </Box>
           {/* Done */}
           <Box flexGrow={1}>
@@ -342,7 +342,7 @@ const EventSearch = () => {
           {/* Done */}
           <Box>
             <BudgetInput
-              legend="Budget"
+              legend="Budget in CHF"
               legendbg="white"
               opacityInput={40}
               onInputChange={handleBudgetChange}
@@ -384,7 +384,7 @@ const EventSearch = () => {
               height: "56px",
               color: isButtonEnabled ? "white" : "black",
               fontFamily: "Satoshi, sans-serif !important",
-              '&:hover': {
+              "&:hover": {
                 bgcolor: isButtonEnabled ? "#6a0e01" : "#CCCCCC",
               },
             }}
@@ -402,4 +402,3 @@ const EventSearch = () => {
 };
 
 export default EventSearch;
-
