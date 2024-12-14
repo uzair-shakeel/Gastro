@@ -27,15 +27,16 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="w-full px-6">
-      <div className="max-w-[1440px] mx-auto w-full flex items-center justify-between py-[22px]">
+    <div className="w-full px-6 relative z-40">
+      <div className="max-w-[1440px] bg-white z-[600] mx-auto w-full flex items-center justify-between py-[22px]">
         <div className="w-full">
           <Image src="/logo-website.svg" alt="navbar" width={250} height={34} />
         </div>
         <div className="flex items-center justify-between">
           <button
             className="bg-[#82110126] min-w-[44px] h-[42px] rounded flex items-center justify-center mr-6"
-            onClick={toggleDropdownSearch}
+            // onClick={toggleDropdownSearch}
+            onClick={() => setIsOpen(!isOpen)}
           >
             <Image
               src="/search-filled.svg"
@@ -44,7 +45,6 @@ const Navbar = () => {
               height={24}
             />
           </button>
-
 
           <div className="px-6 border-x border-[#CCCCCC]">
             <h2 className="text-[#5E5D3E] font-medium font-satoshi text-center uppercase text-[15px] leading-[26px] tracking-[0.46px] w-[190px]">
@@ -67,14 +67,15 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
-      {isOpen && (
-        <div className="w-full p-6">
-          <div className="border absolute bg-white p-4 top-20 left-0 min-w-full w-full max-w-[1440px] transform translate-x-0 m-auto z-40">
-            <EventSearch />
-          </div>
+      <div
+        className={`absolute z-[-100] block  duration-700 w-full max-w-[1440px] m-auto left-0 right-0 p-6 ${
+          isOpen === true ? "top-0" : "-top-[500px]"
+        }`}
+      >
+        <div className="border absolute bg-white p-4 top-20 left-0 min-w-full w-full  transform translate-x-0  ">
+          <EventSearch />
         </div>
-      )}
+      </div>
     </div>
   );
 };
