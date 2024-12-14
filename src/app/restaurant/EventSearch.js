@@ -74,10 +74,10 @@ const EventSearch = () => {
 
     setIsButtonEnabled(
       locationData &&
-        selectedDate &&
-        isBudgetFilled &&
-        isGuestsFilled &&
-        selectedCategories.length > 0
+      selectedDate &&
+      isBudgetFilled &&
+      isGuestsFilled &&
+      selectedCategories.length > 0
     );
   }, [
     locationData,
@@ -302,7 +302,7 @@ const EventSearch = () => {
             <DateSelectionDropdown
               legend="Date"
               legendbg="bg-white"
-              opacity="opacity-40"
+              opacity="opacity-100"
               onDateChange={handleDateChange}
             />
           </Box>
@@ -314,7 +314,7 @@ const EventSearch = () => {
               setSelectedCategories={setSelectedCategories}
               generalSearch={true}
               legendbg="bg-white"
-              opacity="opacity-40"
+              opacity="opacity-100"
               onCategoryChange={handleCategoryChange}
             />
           </Box>
@@ -323,7 +323,7 @@ const EventSearch = () => {
               setGuests={setGuests}
               guests={guests}
               legendbg="bg-white"
-              opacity="opacity-40"
+              opacity="opacity-100"
               onSelectionChange={handleGuestsChange}
             />
           </Box>

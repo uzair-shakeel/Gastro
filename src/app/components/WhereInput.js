@@ -66,16 +66,22 @@ export default function WhereInput({ onLocationChange }) {
                 id="location-input"
                 fullWidth
                 placeholder="Search"
-                className="text-[16px]"
                 inputProps={{
                   "aria-label": "Search location",
+                  style: { '--tw-placeholder-opacity': '100' }, 
                   className:
-                    "text-black placeholder-[#0000008F] !font-roboto font-normal tracking-[0.15px]",
+                    "text-black !font-roboto opacity-100 placeholder:text-black font-normal tracking-[0.15px] ",
                 }}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
+                sx={{
+                  "& .MuiInputBase-input::placeholder": {
+                    opacity: 1, 
+                    color: "#0000008C", 
+                  },
+                }}
               />
             </div>
           </div>
