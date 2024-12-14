@@ -12,7 +12,6 @@ const Navbar = () => {
     setIsOpen((prev) => !prev);
   };
 
-  // Close dropdown on scroll if the user scrolls more than 150px
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 150) {
@@ -22,7 +21,6 @@ const Navbar = () => {
 
     window.addEventListener("scroll", handleScroll);
 
-    // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };

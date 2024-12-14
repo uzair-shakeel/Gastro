@@ -87,15 +87,15 @@ export default function RestaurantDetails() {
     dinner: 2,
   });
   const [guests, setGuests] = useState({
-      adults: 0,
-      kids: 0,
-      all: 0,
-      meat: 0,
-      fish: 0,
-      vegetarian: 0,
-      vegan: 0,
-    });
-    
+    adults: 0,
+    kids: 0,
+    all: 0,
+    meat: 0,
+    fish: 0,
+    vegetarian: 0,
+    vegan: 0,
+  });
+
   const openModal = (index) => {
     setCurrentImageIndex(index);
     setModalOpen(true);
@@ -140,11 +140,11 @@ export default function RestaurantDetails() {
 
     setIsButtonEnabled(
       selectedDate &&
-        // isBudgetFilled &&
-        isGuestsFilled &&
-        selectedCategories.length > 0
+      isGuestsFilled &&
+      selectedCategories.length > 0
     );
   }, [selectedDate, isGuestsFilled, selectedCategories]);
+
 
   return (
     <div>
@@ -287,6 +287,7 @@ export default function RestaurantDetails() {
                   setGuests={setGuests}
                   guests={guests}
                   onSelectionChange={handleGuestsChange}
+
                 />
               </Box>
               <Box>
@@ -298,7 +299,7 @@ export default function RestaurantDetails() {
                   style={{
                     height: 56,
                     fontFamily: "Satoshi, sans-serif",
-                    background: isButtonEnabled ? "#821101" : "#c17a6f",
+                    background: "#821101",
                     boxShadow: "none",
                     fontWeight: 500,
                     boxShadow: "none",
@@ -308,7 +309,7 @@ export default function RestaurantDetails() {
                     fontSize: "15px",
                     letterSpacing: "0.46px",
                   }}
-                  disabled={!isButtonEnabled}
+                // disabled={!isButtonEnabled}
                 >
                   VIEW OFFER
                 </Button>
@@ -492,14 +493,14 @@ export default function RestaurantDetails() {
                           day.day === "Saturday"
                             ? "#F9F9F9"
                             : isToday
-                            ? "#FFEBEB"
-                            : "#F9F9F9",
+                              ? "#FFEBEB"
+                              : "#F9F9F9",
                         opacity:
                           day.day === "Saturday"
                             ? "80%"
                             : isToday
-                            ? "100%"
-                            : "100%",
+                              ? "100%"
+                              : "100%",
                       }}
                     >
                       <Typography
@@ -529,9 +530,8 @@ export default function RestaurantDetails() {
                         {day.day}:
                       </Typography>
                       <div
-                        className={`flex items-center ${
-                          showSeparator ? "gap-1.5" : ""
-                        }`}
+                        className={`flex items-center ${showSeparator ? "gap-1.5" : ""
+                          }`}
                       >
                         <Typography
                           sx={{
@@ -674,6 +674,7 @@ export default function RestaurantDetails() {
             </Card>
           </Grid>
         </Grid>
+
         <QRCodeModal
           open={qrModalOpen}
           onClose={() => setQrModalOpen(false)}

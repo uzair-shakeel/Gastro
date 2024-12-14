@@ -29,14 +29,14 @@ const CounterContainer = styled("div")({
   justifyContent: "space-between",
   backgroundColor: "#fff",
 });
-
 const CounterButton = styled(IconButton)({
   padding: "4px",
   color: "#000",
   borderRadius: "4px",
-  "&:hover": {},
+  "&:hover": {
+    backgroundColor: "#EEEEEE",
+  },
   "&.Mui-disabled": {
-    // backgroundColor: '#F5F5F5',
     color: "rgba(0, 0, 0, 0.26)",
   },
 });
@@ -80,6 +80,7 @@ export default function GuestsDropdown({
   onSelectionChange,
   setGuests,
   guests,
+  error, // Validation error prop
 }) {
   const [open, setOpen] = useState(false);
   const [showExtended, setShowExtended] = useState(false);
@@ -88,57 +89,26 @@ export default function GuestsDropdown({
   const [isFocused, setIsFocused] = useState(false);
 
   const getGuestsIcon = () => {
-    if (isFocused) {
-      return "/PeopleFilled2.svg";
-    } else if (isHovered) {
-      return "/PeopleFilled2.svg";
+    if (error) {
+      return "/PeopleFilled2.svg"; // Icon for error state
+    } else if (isFocused || isHovered) {
+      return "/PeopleFilled.svg"; // Icon for hover/focus state
     } else {
-      return "/PeopleFilled.svg";
+      return "/PeopleFilled.svg"; // Default icon
     }
   };
-
   const handleIncrement = (type) => {
-    setGuests((prev) => {
-      const newGuests = { ...prev };
-
-      if (["all", "meat", "fish", "vegetarian", "vegan"].includes(type)) {
-        newGuests[type] += 1;
-
-        if (newGuests.adults > 1) {
-          newGuests.adults += 1;
-        } else if (newGuests.adults === 1 && newGuests[type] > 1) {
-          newGuests.adults += 1;
-        }
-      } else {
-        newGuests[type] += 1;
-      }
-
-      return newGuests;
-    });
+    setGuests((prev) => ({
+      ...prev,
+      [type]: prev[type] + 1,
+    }));
   };
 
   const handleDecrement = (type) => {
-    setGuests((prev) => {
-      const newGuests = { ...prev };
-
-      if (["all", "meat", "fish", "vegetarian", "vegan"].includes(type)) {
-        if (newGuests[type] > 0) {
-          newGuests[type] -= 1;
-
-          if (newGuests.adults > 1) {
-            newGuests.adults -= 1;
-          }
-        }
-      } else if (type === "adults" && newGuests.adults > 1) {
-        console.warn(
-          "Cannot decrement adults directly. Adjust subfields instead."
-        );
-      } else if (newGuests[type] > 0) {
-        newGuests[type] -= 1;
-      }
-
-      return newGuests;
-    });
+    setGuests((prev) => ({
+      ...prev,
+      [type]: Math.max(prev[type] - 1, 0),
+    }));
   };
 
   useEffect(() => {
@@ -220,7 +190,7 @@ export default function GuestsDropdown({
     <>
       <Button
         variant="outlined"
-        onClick={() => setOpen(true)}
+        onClick={() => setOpen((prev) => !prev)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onFocus={() => setIsFocused(true)}
@@ -228,28 +198,33 @@ export default function GuestsDropdown({
         sx={{
           height: "56px",
           justifyContent: "space-between",
-          borderColor: isFocused || isHovered ? "#821101" : "rgba(0, 0, 0, 0.23)",
-          color: "rgba(0, 0, 0, 0.87)",
+          borderColor: error
+            ? "#821101" // Red border on error
+            : isFocused || isHovered
+              ? "#00000040" // Border color on hover/focus
+              : "rgba(0, 0, 0, 0.23)", // Default border color
+          color: error
+            ? "#821101" // Red text on error
+            : isFocused || isHovered
+              ? "#00000040" // Text color on hover/focus
+              : "rgba(0, 0, 0, 0.87)", // Default text color
           textTransform: "none",
           width: "125px",
           maxWidth: "125px",
           minWidth: "125px",
-          p: "0 10px 0 10px",
+          p: "0 10px",
           "&:hover": {
-            border: "1.5px solid #821101",
+            border: error ? "1.5px solid black" : "1.5px solid #00000040",
             backgroundColor: "transparent",
           },
         }}
-        endIcon={
-          <img
-            src="/arrow-dropdown-filled.svg"
-            alt="dropdown"
-            style={{ width: "24px", height: "24px", marginRight: "0px" }}
-          />
-        }
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${isFocused || isHovered ? "text-[#821101]" : "text-[#000000B2]"
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${error
+              ? "text-[#821101]" // Red text on error
+              : isFocused || isHovered
+                ? "text-[#000000B2]" // Text color on hover/focus
+                : "text-[#000000B2]" // Default text color
             }`}
         >
           Guests
@@ -265,7 +240,6 @@ export default function GuestsDropdown({
           </h3>
         </span>
       </Button>
-
       {open && (
         <DropdownContainer
           ref={dropdownRef}
@@ -317,4 +291,3 @@ export default function GuestsDropdown({
     </>
   );
 }
-

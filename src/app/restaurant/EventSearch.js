@@ -31,13 +31,17 @@ const EventSearch = () => {
     vegetarian: 0,
     vegan: 0,
   });
+  const [errors, setErrors] = useState({
+    location: false,
+    date: false,
+    category: false,
+    guests: false,
+    budget: false,
+  });
+  const [showErrors, setShowErrors] = useState(false);
 
   const handleLocationChange = (updatedData) => {
     setLocationData(updatedData);
-  };
-
-  const handleChange = (event, newValue) => {
-    setTabValue(newValue);
   };
 
   const handleCategoryChange = (categories) => {
@@ -45,7 +49,7 @@ const EventSearch = () => {
   };
 
   const handleBudgetChange = (value) => {
-    setIsBudgetFilled(value.trim() !== "");
+    setIsBudgetFilled(value !== null && value !== undefined && value !== "");
     setBudget(value);
   };
 
@@ -57,35 +61,33 @@ const EventSearch = () => {
     setSelectedDate(newDate);
   }, []);
 
-  useEffect(() => {
-    console.log("Checking button enable state:", {
-      locationData,
-      selectedDate,
-      isBudgetFilled,
-      isGuestsFilled,
-      selectedCategories,
-      buttonEnabled:
-        locationData &&
-        selectedDate &&
-        isBudgetFilled &&
-        isGuestsFilled &&
-        selectedCategories.length > 0,
-    });
+  const validateInputs = () => {
+    const newErrors = {
+      location: !locationData || !locationData.inputValue?.trim(),
+      date: !selectedDate,
+      category: selectedCategories.length === 0,
+      guests: !isGuestsFilled,
+      budget: !isBudgetFilled,
+    };
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
+  };
 
-    setIsButtonEnabled(
-      locationData &&
-      selectedDate &&
-      isBudgetFilled &&
-      isGuestsFilled &&
-      selectedCategories.length > 0
-    );
-  }, [
-    locationData,
-    selectedDate,
-    isBudgetFilled,
-    isGuestsFilled,
-    selectedCategories,
-  ]);
+  const handleSearch = () => {
+    if (validateInputs()) {
+      console.log("Searching...");
+    } else {
+      setShowErrors(true);
+    }
+  };
+
+  useEffect(() => {
+    setIsButtonEnabled(!Object.values(errors).some(Boolean));
+  }, [errors]);
+
+  const handleChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
 
   return (
     <Box
@@ -288,6 +290,7 @@ const EventSearch = () => {
             maxHeight: "56px",
           }}
         >
+          {/* Done */}
           <Box
             flexGrow={1}
             sx={{
@@ -296,16 +299,22 @@ const EventSearch = () => {
               maxHeight: "56px",
             }}
           >
-            <WhereInput onLocationChange={handleLocationChange} />
+            <WhereInput onLocationChange={handleLocationChange}
+              error={showErrors && errors.location}
+            />
           </Box>
+          {/* Done */}
           <Box>
             <DateSelectionDropdown
               legend="Date"
               legendbg="bg-white"
               opacity="opacity-100"
               onDateChange={handleDateChange}
+              error={showErrors && errors.date}
             />
+
           </Box>
+          {/* Done */}
           <Box flexGrow={1}>
             <CategoryDropdown
               courses={courses}
@@ -316,6 +325,7 @@ const EventSearch = () => {
               legendbg="bg-white"
               opacity="opacity-100"
               onCategoryChange={handleCategoryChange}
+              error={showErrors && errors.category}
             />
           </Box>
           <Box>
@@ -325,14 +335,18 @@ const EventSearch = () => {
               legendbg="bg-white"
               opacity="opacity-100"
               onSelectionChange={handleGuestsChange}
+              error={showErrors && errors.guests}
             />
           </Box>
+
+          {/* Done */}
           <Box>
             <BudgetInput
               legend="Budget"
               legendbg="white"
               opacityInput={40}
               onInputChange={handleBudgetChange}
+              error={showErrors && errors.budget}
             />
           </Box>
         </Box>
@@ -362,14 +376,17 @@ const EventSearch = () => {
           <Button
             fullWidth
             variant="contained"
-            disabled={!isButtonEnabled}
+            onClick={handleSearch}
             sx={{
               width: "106px",
               textTransform: "uppercase",
-              bgcolor: isButtonEnabled ? "black" : "black",
+              bgcolor: isButtonEnabled ? "#821101" : "#CCCCCC",
               height: "56px",
-              color: isButtonEnabled ? "#fff" : "#ffffff99",
+              color: isButtonEnabled ? "white" : "black",
               fontFamily: "Satoshi, sans-serif !important",
+              '&:hover': {
+                bgcolor: isButtonEnabled ? "#6a0e01" : "#CCCCCC",
+              },
             }}
           >
             Search
@@ -385,3 +402,4 @@ const EventSearch = () => {
 };
 
 export default EventSearch;
+

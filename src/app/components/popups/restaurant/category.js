@@ -73,6 +73,7 @@ export function CategoryDropdown({
   setSelectedCategories,
   courses = { lunch: 3, dinner: 3 },
   setCourses,
+  error, // Added error prop for validation
 }) {
   const [open, setOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -143,14 +144,15 @@ export function CategoryDropdown({
       : "Select";
 
   const getCategoryIcon = () => {
-    if (isFocused) {
-      return "/SpaceDashboardFilled.svg";
-    } else if (isHovered) {
-      return "/SpaceDashboardFilled.svg";
+    if (error) {
+      return "/SpaceDashboardFilled.svg"; 
+    } else if (isFocused || isHovered) {
+      return "/SpaceDashboardFilled2.svg"; 
     } else {
-      return "/SpaceDashboardFilled2.svg";
+      return "/SpaceDashboardFilled2.svg"; 
     }
   };
+
 
   return (
     <div style={{ position: "relative", height: "100%", minWidth: "272px" }}>
@@ -164,48 +166,62 @@ export function CategoryDropdown({
         ref={buttonRef}
         fullWidth
         sx={{
-          height: "100%",
           height: "56px",
-          minHeight: "56px",
-          maxHeight: "56px",
           justifyContent: "space-between",
-          borderColor: isFocused ? "#821101" : "rgba(0, 0, 0, 0.23)",
-          color: "rgba(0, 0, 0, 0.70)",
+          borderColor: error
+            ? "#821101  " // Red border on error
+            : isFocused || isHovered
+              ? "#00000040" // Hover and focus color
+              : "rgba(0, 0, 0, 0.23)", // Default color
+          color: error
+            ? "#821101" // Red text on error
+            : isFocused || isHovered
+              ? "#00000040" // Hover and focus color
+              : "rgba(0, 0, 0, 0.70)", // Default text color
           textTransform: "none",
-          p: "0 10px",
+          padding: "0 10px",
           "&:hover": {
-            border: "1.5px solid #821101",
+            border: error ? "1.5px solid #821101" : "1.5px solid #00000040",
             backgroundColor: "transparent",
           },
           "&:focus": {
-            borderColor: "#821101",
+            borderColor: error ? "#821101" : "#00000040",
           },
         }}
-        endIcon={
-          <img
-            src="/arrow-dropdown-filled.svg"
-            alt="dropdown"
-            style={{ width: "24px", height: "24px", marginRight: "0px" }}
-          />
-        }
+      // endIcon={
+      //   <img
+      //     src={getCategoryIcon()} // Use the updated getCategoryIcon function
+      //     alt="dropdown"
+      //     style={{ width: "24px", height: "24px", marginRight: "0px" }}
+      //   />
+      // }
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${isFocused || isHovered ? "text-[#821101]" : "text-[#000000B2]"
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${error
+            ? "text-[#821101]" // Red text on error
+            : isFocused || isHovered
+              ? "text-[#000000B2]" // Hover and focus color
+              : "text-[#000000B2]" // Default text color
             } category-legend`}
         >
           Category
         </legend>
-        <span className="text-[#000000B2] mt-1" style={{ display: "flex", alignItems: "center" }}>
+        <span
+          className="text-[#000000B2] mt-1"
+          style={{ display: "flex", alignItems: "center" }}
+        >
           <div className="mr-2">
             <Image
-              src={getCategoryIcon()}
+              src={getCategoryIcon()} // Dynamically update the icon
               alt="Category icon"
               width={24}
               height={24}
               className="category-icon"
             />
           </div>
-          <h3 className={`text-[#000000B2] text-[16px] ${opacity} font-normal !font-roboto tracking-[0.15px] mt-0.5`}>
+          <h3
+            className={`text-[#000000B2] text-[16px] ${opacity} font-normal !font-roboto tracking-[0.15px] mt-0.5`}
+          >
             {buttonText}
           </h3>
         </span>
