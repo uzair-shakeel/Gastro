@@ -97,18 +97,101 @@ export default function GuestsDropdown({
       return "/PeopleFilled.svg"; // Default icon
     }
   };
+
   const handleIncrement = (type) => {
-    setGuests((prev) => ({
-      ...prev,
-      [type]: prev[type] + 1,
-    }));
+    setGuests((prev) => {
+      const newGuests = { ...prev };
+
+      if (type === "adults") {
+        const diff =
+          newGuests.adults +
+          1 -
+          (newGuests.all +
+            newGuests.meat +
+            newGuests.fish +
+            newGuests.vegetarian +
+            newGuests.vegan);
+
+        newGuests.adults += 1;
+        newGuests.all += diff; // Add the extra adults to "all"
+      } else if (type === "kids") {
+        // Increment kids independently
+        newGuests.kids += 1;
+      } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
+        if (newGuests.all > 0) {
+          newGuests[type] += 1;
+          newGuests.all -= 1; // Decrement "all" to balance adults
+        } else {
+          // Decrease other subfields proportionally if "all" is 0
+          let decremented = false;
+          for (const field of ["meat", "fish", "vegetarian", "vegan"]) {
+            if (field !== type && newGuests[field] > 0) {
+              newGuests[field] -= 1;
+              decremented = true;
+              break;
+            }
+          }
+          if (!decremented) {
+            console.warn("No subfields left to decrement.");
+          }
+          newGuests[type] += 1; // Increment the selected subfield
+        }
+      }
+
+      return newGuests;
+    });
   };
 
   const handleDecrement = (type) => {
-    setGuests((prev) => ({
-      ...prev,
-      [type]: Math.max(prev[type] - 1, 0),
-    }));
+    setGuests((prev) => {
+      const newGuests = { ...prev };
+
+      if (type === "adults") {
+        if (newGuests.adults > 0) {
+          // Decrement adults directly
+          newGuests.adults -= 1;
+
+          const totalSubfields =
+            newGuests.meat +
+            newGuests.fish +
+            newGuests.vegetarian +
+            newGuests.vegan;
+
+          if (newGuests.all > 0) {
+            // Decrement "all" if it has remaining values
+            newGuests.all -= 1;
+          } else if (totalSubfields > 0) {
+            // Decrement from the largest subfield if "all" is 0
+            let decremented = false;
+            for (const field of ["meat", "fish", "vegetarian", "vegan"]) {
+              if (newGuests[field] > 0) {
+                newGuests[field] -= 1;
+                decremented = true;
+                break;
+              }
+            }
+            if (!decremented) {
+              console.warn("No subfields left to decrement.");
+            }
+          }
+        }
+      } else if (type === "kids") {
+        // Decrement kids independently
+        if (newGuests.kids > 0) {
+          newGuests.kids -= 1;
+        }
+      } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
+        if (newGuests[type] > 0) {
+          // Decrement the subfield
+          newGuests[type] -= 1;
+          newGuests.all += 1; // Increment "all" to balance adults
+        } else {
+          console.warn(`${type} cannot go below 0.`);
+        }
+      }
+
+      return newGuests;
+    });
   };
 
   useEffect(() => {
@@ -201,13 +284,13 @@ export default function GuestsDropdown({
           borderColor: error
             ? "#821101" // Red border on error
             : isFocused || isHovered
-              ? "#00000040" // Border color on hover/focus
-              : "rgba(0, 0, 0, 0.23)", // Default border color
+            ? "#00000040" // Border color on hover/focus
+            : "rgba(0, 0, 0, 0.23)", // Default border color
           color: error
             ? "#821101" // Red text on error
             : isFocused || isHovered
-              ? "#00000040" // Text color on hover/focus
-              : "rgba(0, 0, 0, 0.87)", // Default text color
+            ? "#00000040" // Text color on hover/focus
+            : "rgba(0, 0, 0, 0.87)", // Default text color
           textTransform: "none",
           width: "125px",
           maxWidth: "125px",
@@ -220,12 +303,13 @@ export default function GuestsDropdown({
         }}
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${error
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
+            error
               ? "text-[#821101]" // Red text on error
               : isFocused || isHovered
-                ? "text-[#000000B2]" // Text color on hover/focus
-                : "text-[#000000B2]" // Default text color
-            }`}
+              ? "text-[#000000B2]" // Text color on hover/focus
+              : "text-[#000000B2]" // Default text color
+          }`}
         >
           Guests
         </legend>
