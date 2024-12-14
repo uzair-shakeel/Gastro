@@ -346,7 +346,6 @@ const EventSearch = () => {
               legendbg="white"
               opacityInput={100}
               onInputChange={handleBudgetChange}
-              error={showErrors && errors.budget}
             />
           </Box>
         </Box>

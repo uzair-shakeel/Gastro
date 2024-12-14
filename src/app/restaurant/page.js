@@ -334,9 +334,7 @@ export default function RestaurantDetails() {
               </Box>
               <Box>
                 <BudgetInput
-                
                   onInputChange={handleBudgetChange}
-                  error={showErrors && errors.budget}
                 />
               </Box>
               <Box>
@@ -356,7 +354,6 @@ export default function RestaurantDetails() {
                     fontSize: "15px",
                     letterSpacing: "0.46px",
                   }}
-                  // disabled={!isButtonEnabled}
                 >
                   VIEW OFFER
                 </Button>
@@ -540,14 +537,14 @@ export default function RestaurantDetails() {
                           day.day === "Saturday"
                             ? "#F9F9F9"
                             : isToday
-                            ? "#FFEBEB"
-                            : "#F9F9F9",
+                              ? "#FFEBEB"
+                              : "#F9F9F9",
                         opacity:
                           day.day === "Saturday"
                             ? "100"
                             : isToday
-                            ? "100%"
-                            : "100%",
+                              ? "100%"
+                              : "100%",
                       }}
                     >
                       <Typography
@@ -577,9 +574,8 @@ export default function RestaurantDetails() {
                         {day.day}:
                       </Typography>
                       <div
-                        className={`flex items-center ${
-                          showSeparator ? "gap-1.5" : ""
-                        }`}
+                        className={`flex items-center ${showSeparator ? "gap-1.5" : ""
+                          }`}
                       >
                         <Typography
                           sx={{
