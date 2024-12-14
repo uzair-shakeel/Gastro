@@ -85,71 +85,31 @@ export default function GuestsDropdown({
   const [showExtended, setShowExtended] = useState(false);
   const dropdownRef = useRef(null);
 
-  // const handleIncrement = (type) => {
-  //   setGuests((prev) => {
-  //     const newGuests = { ...prev };
-  //     if (type === "adults") {
-  //       newGuests.adults += 1;
-  //       newGuests.all = newGuests.adults;
-  //     } else if (type === "all") {
-  //       if (newGuests.all < newGuests.adults) {
-  //         newGuests.all += 1;
-  //       }
-  //     } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
-  //       const totalMealCount =
-  //         newGuests.meat +
-  //         newGuests.fish +
-  //         newGuests.vegetarian +
-  //         newGuests.vegan;
-  //       if (totalMealCount < newGuests.adults) {
-  //         newGuests[type] += 1;
-  //       }
-  //     } else {
-  //       newGuests[type] += 1;
-  //     }
-  //     return newGuests;
-  //   });
-  // };
-
-  // const handleDecrement = (type) => {
-  //   setGuests((prev) => {
-  //     const newGuests = { ...prev };
-  //     if (type === "adults" && newGuests.adults > 0) {
-  //       newGuests.adults -= 1;
-  //       newGuests.all = newGuests.adults;
-  //       // Reset meal counts if adults becomes 0
-  //       if (newGuests.adults === 0) {
-  //         newGuests.meat = 0;
-  //         newGuests.fish = 0;
-  //         newGuests.vegetarian = 0;
-  //         newGuests.vegan = 0;
-  //       }
-  //     } else if (type === "all" && newGuests.all > 0) {
-  //       newGuests.all -= 1;
-  //     } else if (newGuests[type] > 0) {
-  //       newGuests[type] -= 1;
-  //     }
-  //     return newGuests;
-  //   });
-  // };
-
   const handleIncrement = (type) => {
     setGuests((prev) => {
       const newGuests = { ...prev };
 
-      if (["all", "meat", "fish", "vegetarian", "vegan"].includes(type)) {
-        // Increment the subfield
-        newGuests[type] += 1;
+      if (type === "adults") {
+        // Increment adults count directly
+        const diff =
+          newGuests.adults +
+          1 -
+          (newGuests.all +
+            newGuests.meat +
+            newGuests.fish +
+            newGuests.vegetarian +
+            newGuests.vegan);
 
-        // Adjust adults count only if it's more than the initial count of 1
-        if (newGuests.adults > 1) {
-          newGuests.adults += 1;
-        } else if (newGuests.adults === 1 && newGuests[type] > 1) {
-          newGuests.adults += 1;
+        newGuests.adults += 1;
+        newGuests.all += diff; // Add the extra adults to "all"
+      } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
+        // Increment the subfield
+        if (newGuests.all > 0) {
+          newGuests[type] += 1;
+          newGuests.all -= 1; // Decrement "all" to balance adults
+        } else {
+          console.warn("No remaining 'all' to adjust.");
         }
-      } else {
-        // Increment for non-subfield types
-        newGuests[type] += 1;
       }
 
       return newGuests;
@@ -160,24 +120,34 @@ export default function GuestsDropdown({
     setGuests((prev) => {
       const newGuests = { ...prev };
 
-      if (["all", "meat", "fish", "vegetarian", "vegan"].includes(type)) {
+      if (type === "adults") {
+        if (newGuests.adults > 0) {
+          // Decrement adults directly
+          newGuests.adults -= 1;
+
+          if (newGuests.adults === 0) {
+            // Reset all subfields and "all" if adults reaches 0
+            newGuests.all = 0;
+            newGuests.meat = 0;
+            newGuests.fish = 0;
+            newGuests.vegetarian = 0;
+            newGuests.vegan = 0;
+          } else {
+            // Adjust "all" proportionally
+            const subfieldsCount =
+              newGuests.meat +
+              newGuests.fish +
+              newGuests.vegetarian +
+              newGuests.vegan;
+            newGuests.all = newGuests.adults - subfieldsCount;
+          }
+        }
+      } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
         if (newGuests[type] > 0) {
           // Decrement the subfield
           newGuests[type] -= 1;
-
-          // Adjust adults count only if it's more than the initial count of 1
-          if (newGuests.adults > 1) {
-            newGuests.adults -= 1;
-          }
+          newGuests.all += 1; // Increment "all" to balance adults
         }
-      } else if (type === "adults" && newGuests.adults > 1) {
-        // Prevent adults from going below subfield sum
-        console.warn(
-          "Cannot decrement adults directly. Adjust subfields instead."
-        );
-      } else if (newGuests[type] > 0) {
-        // Decrement for non-subfield types
-        newGuests[type] -= 1;
       }
 
       return newGuests;
