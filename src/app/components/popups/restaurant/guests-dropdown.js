@@ -198,6 +198,7 @@ export default function GuestsDropdown({
         sx={{
           height: "56px",
           justifyContent: "space-between",
+<<<<<<< HEAD
           borderColor: error
             ? "#821101" // Red border on error
             : isFocused || isHovered
@@ -208,6 +209,11 @@ export default function GuestsDropdown({
             : isFocused || isHovered
               ? "#00000040" // Text color on hover/focus
               : "rgba(0, 0, 0, 0.87)", // Default text color
+=======
+          borderColor:
+            isFocused || isHovered ? "#821101" : "rgba(0, 0, 0, 0.23)",
+          color: "rgba(0, 0, 0, 0.87)",
+>>>>>>> 32a6536f220490a246f35023477f59e99ff9e997
           textTransform: "none",
           width: "125px",
           maxWidth: "125px",
@@ -220,12 +226,18 @@ export default function GuestsDropdown({
         }}
       >
         <legend
+<<<<<<< HEAD
           className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${error
               ? "text-[#821101]" // Red text on error
               : isFocused || isHovered
                 ? "text-[#000000B2]" // Text color on hover/focus
                 : "text-[#000000B2]" // Default text color
             }`}
+=======
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
+            isFocused || isHovered ? "text-[#821101]" : "text-[#000000B2]"
+          }`}
+>>>>>>> 32a6536f220490a246f35023477f59e99ff9e997
         >
           Guests
         </legend>
