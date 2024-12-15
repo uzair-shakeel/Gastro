@@ -18,7 +18,8 @@ import "swiper/css/pagination";
 import { DateSelectionDropdown } from "../components/popups/restaurant/date";
 import { CategoryDropdown } from "../components/popups/restaurant/category";
 import { BudgetInput } from "../components/popups/restaurant/budget";
-import Reviews from "../components/reviews";
+import GestroOfferReviews from "../components/GestroOfferReviews";
+import GoogleReviews from "../components/GoogleReviews";
 import { QRCodeModal } from "../components/popups/restaurant/qr-code";
 import Image from "next/image";
 import ImageGrid from "./ImageGrid";
@@ -493,7 +494,9 @@ export default function RestaurantDetails() {
               </div>
             </div>
 
-            <Reviews />
+            {/* Reviews */}
+            <GestroOfferReviews />
+            <GoogleReviews />
           </Grid>
 
           <Grid item xs={12} md={4}>

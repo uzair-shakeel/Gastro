@@ -4,6 +4,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import Image from "next/image";
+import { IoMdStar } from "react-icons/io";
 
 const Reviews = () => {
   const reviews = [
@@ -48,11 +50,11 @@ const Reviews = () => {
     return (
       <>
         {Array.from({ length: 5 }, (_, i) => (
-          <Star
+          <IoMdStar
             key={i}
-            className={`h-5 w-5 ${i < filledStars
-              ? "fill-yellow-400 text-yellow-400"
-              : "text-gray-300"
+            className={`h-6 w-6 ${i < filledStars
+              ? "fill-[#FFB400] text-[#FFB400]"
+              : "text-[#0000003B]"
               }`}
           />
         ))}
@@ -61,31 +63,20 @@ const Reviews = () => {
   };
 
   const renderReviewCard = (review, isGoogle = false) => (
-    <div className="p-4 border rounded-lg bg-white">
-      <div className="flex items-center gap-3 mb-2">
-        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-          {!isGoogle ? (
-            review.name.charAt(0)
-          ) : (
-            <img
-              src="/avatar.jpeg"
-              alt={review.name}
-              className="w-full h-full rounded-full"
-            />
-          )}
-        </div>
-        <div className="flex-grow">
-          <div className="flex items-center justify-between">
-            <div className="font-medium">{review.name}</div>
-            {isGoogle && (
-              <img src="/google.svg" alt="Google" className="w-11 h-11" />
-            )}
+    <div className="p-4 border rounded-lg bg-white shadow-custom-one">
+      <div className="flex items-center  justify-between gap-3 mb-4">
+        <div className="flex items-center gap-3">
+          <Image src='/google-review-profile.svg' alt="google-review" width={40} height={40} />
+          <div className="flex-grow">
+            <div className="font-medium text-[#000000DE] text-[14px] leading-[22px] tracking-[0.1px] !font-roboto">{review.name}</div>
+            <div className="font-normal text-[#00000099] text-[14px] leading-[21px] tracking-[0.15px] !font-roboto">{review.time}</div>
           </div>
-          <div className="text-sm text-gray-500">{review.time}</div>
         </div>
+        <img src="/google.svg" alt="Google" className="w-11 h-11" />
       </div>
-      <div className="flex gap-1 mb-2">{renderStars(review.stars)}</div>
-      <p className="text-gray-600">{review.review}</p>
+
+      <div className="flex mb-2">{renderStars(review.stars)}</div>
+      <p className="text-[#000000] text-[15px] leading-[22px] font-normal !font-roboto">{review.review}</p>
     </div>
   );
 
@@ -117,55 +108,23 @@ const Reviews = () => {
 
   return (
     <div>
-      {/* Gestro-offer Reviews Section */}
-      <div className="mt-8">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-semibold">Gestro-offer Reviews</h2>
-            <div className="flex items-center gap-1">
-              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-              <span className="font-semibold">4.7</span>
-              <span className="text-gray-600">(591)</span>
-              <Info className="h-4 w-4 text-gray-400" />
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <NavigationButtons swiperRef={gestroSwiperRef} direction="prev" />
-            <NavigationButtons swiperRef={gestroSwiperRef} direction="next" />
-          </div>
-        </div>
-        <div className="relative">
-          <Swiper
-            modules={[Navigation]}
-            spaceBetween={20}
-            slidesPerView={2}
-            ref={gestroSwiperRef}
-            breakpoints={{
-              640: { slidesPerView: 1 },
-              1024: { slidesPerView: 2 },
-            }}
-          >
-            {reviews.map((review) => (
-              <SwiperSlide key={review.id}>
-                {renderReviewCard(review)}
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      </div>
-
       {/* Google Reviews Section */}
       <div className="mt-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-semibold">Google Reviews</h2>
+            <h2 className="text-xl font-semibold mr-2">Google Reviews</h2>
             <div className="flex items-center gap-1">
-              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-              <span className="font-semibold">4.7</span>
-              <span className="text-gray-600">(591)</span>
-              <Info className="h-4 w-4 text-gray-400" />
+              <Image src='/rating-one.svg' alt="rating" width={20} height={20} />
+              <div className="text-[#000000] flex items-center gap-1">
+                <span className="font-semibold">4.7</span>
+                <span className="font-semibold">(591)</span>
+              </div>
+              <button className="ml-1">
+                <Image src='/question-mark.svg' alt="question-mark" width={20} height={20} />
+              </button>
             </div>
           </div>
+
           <div className="flex items-center gap-4">
             <NavigationButtons swiperRef={googleSwiperRef} direction="prev" />
             <NavigationButtons swiperRef={googleSwiperRef} direction="next" />
