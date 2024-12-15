@@ -44,11 +44,10 @@ const Reviews = () => {
         {Array.from({ length: 5 }, (_, i) => (
           <IoMdStar
             key={i}
-            className={`h-6 w-6 ${
-              i < filledStars
+            className={`h-6 w-6 ${i < filledStars
                 ? "fill-[#FFB400] text-[#FFB400]"
                 : "text-[#0000003B]"
-            }`}
+              }`}
           />
         ))}
       </>
@@ -123,12 +122,12 @@ const Reviews = () => {
                 width={20}
                 height={20}
               />
-              <div className="text-[#000000] flex items-center gap-1">
+              <div className="text-[#000000] flex items-center gap-1 mt-1">
                 <span className="font-semibold">4.7</span>
                 <span className="font-semibold">(591)</span>
               </div>
               <button
-                className="ml-1 relative"
+                className="mt-1 ml-1 relative"
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
                 onClick={() => alert("This is a Google Rating")}
