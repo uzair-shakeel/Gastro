@@ -73,7 +73,7 @@ export function CategoryDropdown({
   setSelectedCategories,
   courses = { lunch: 3, dinner: 3 },
   setCourses,
-  error, // Added error prop for validation
+  error,
 }) {
   const [open, setOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -133,26 +133,27 @@ export function CategoryDropdown({
   const buttonText =
     selectedCategories.length > 0
       ? selectedCategories
-        .map((id) => {
-          const category = categories.find((cat) => cat.id === id);
-          if (category?.hasCourses) {
-            return `${category.label} (${courses[id]})`;
-          }
-          return category?.label;
-        })
-        .join(", ")
+          .map((id) => {
+            const category = categories.find((cat) => cat.id === id);
+            if (category?.hasCourses) {
+              return `${category.label} (${courses[id]})`;
+            }
+            return category?.label;
+          })
+          .join(", ")
       : "Select";
 
   const getCategoryIcon = () => {
-    if (error) {
-      return "/SpaceDashboardFilled.svg"; 
+    if (selectedCategories.length > 0) {
+      return "/SpaceDashboardFilled2.svg";
+    } else if (error) {
+      return "/SpaceDashboardFilled.svg";
     } else if (isFocused || isHovered) {
-      return "/SpaceDashboardFilled2.svg"; 
+      return "/SpaceDashboardFilled2.svg";
     } else {
-      return "/SpaceDashboardFilled2.svg"; 
+      return "/SpaceDashboardFilled2.svg";
     }
   };
-
 
   return (
     <div style={{ position: "relative", height: "100%", minWidth: "272px" }}>
@@ -168,41 +169,41 @@ export function CategoryDropdown({
         sx={{
           height: "56px",
           justifyContent: "space-between",
-          borderColor: error
-            ? "#821101  " // Red border on error
-            : isFocused || isHovered
-              ? "#00000040" // Hover and focus color
-              : "rgba(0, 0, 0, 0.23)", // Default color
-          color: error
-            ? "#821101" // Red text on error
-            : isFocused || isHovered
-              ? "#00000040" // Hover and focus color
-              : "rgba(0, 0, 0, 0.70)", // Default text color
+          borderColor: selectedCategories.length > 0
+            ? "rgba(0, 0, 0, 0.23)"
+            : error
+              ? "#821101"
+              : isFocused || isHovered
+                ? "#00000040"
+                : "rgba(0, 0, 0, 0.23)",
+          color: selectedCategories.length > 0
+            ? "rgba(0, 0, 0, 0.70)"
+            : error
+              ? "#821101"
+              : isFocused || isHovered
+                ? "#00000040"
+                : "rgba(0, 0, 0, 0.70)",
           textTransform: "none",
           padding: "0 10px",
           "&:hover": {
-            border: error ? "1.5px solid #821101" : "1.5px solid #00000040",
+            border: selectedCategories.length > 0 || error ? "1.5px solid #00000040" : "1.5px solid #00000040",
             backgroundColor: "transparent",
           },
           "&:focus": {
-            borderColor: error ? "#821101" : "#00000040",
+            borderColor: selectedCategories.length > 0 || error ? "#00000040" : "#00000040",
           },
         }}
-      // endIcon={
-      //   <img
-      //     src={getCategoryIcon()} // Use the updated getCategoryIcon function
-      //     alt="dropdown"
-      //     style={{ width: "24px", height: "24px", marginRight: "0px" }}
-      //   />
-      // }
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${error
-            ? "text-[#821101]" // Red text on error
-            : isFocused || isHovered
-              ? "text-[#000000B2]" // Hover and focus color
-              : "text-[#000000B2]" // Default text color
-            } category-legend`}
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
+            selectedCategories.length > 0
+              ? "text-[#000000B2]"
+              : error
+                ? "text-[#821101]"
+                : isFocused || isHovered
+                  ? "text-[#000000B2]"
+                  : "text-[#000000B2]"
+          } category-legend`}
         >
           Category
         </legend>
@@ -212,7 +213,7 @@ export function CategoryDropdown({
         >
           <div className="mr-2">
             <Image
-              src={getCategoryIcon()} // Dynamically update the icon
+              src={getCategoryIcon()}
               alt="Category icon"
               width={24}
               height={24}

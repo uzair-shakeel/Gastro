@@ -1,7 +1,7 @@
 "use client";
 
 import { InputBase } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { IoMdSearch } from "react-icons/io";
 import Image from "next/image";
 
@@ -12,9 +12,22 @@ export default function WhereInput({ onLocationChange, error }) {
   const [isFocused, setIsFocused] = useState(false);
   const [isDistanceHovered, setIsDistanceHovered] = useState(false);
 
+  const debounce = (func, delay) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  const debouncedLocationChange = useMemo(
+    () => debounce(onLocationChange, 300),
+    [onLocationChange]
+  );
+
   useEffect(() => {
-    onLocationChange({ distance, inputValue });
-  }, [distance, inputValue]);
+    debouncedLocationChange({ distance, inputValue });
+  }, [distance, inputValue, debouncedLocationChange]);
 
   const handleIncrement = () => {
     setDistance((prev) => prev + 1);
@@ -31,12 +44,14 @@ export default function WhereInput({ onLocationChange, error }) {
       <div className="absolute -top-3 left-4 px-1 bg-white">
         <label
           htmlFor="location-input"
-          className={`text-[12px] text-[#000000B2] !font-roboto font-[400] tracking-[0.15px] ${
-            isFocused || isHovered
+          className={`text-[12px] !font-roboto font-[400] tracking-[0.15px] ${
+            !isInputEmpty
+              ? "text-[#000000B2]"
+              : isFocused || isHovered
               ? "text-[#0000008C]"
               : error
               ? "text-[#821101]"
-              : ""
+              : "text-[#000000B2]"
           }`}
         >
           Where
@@ -44,7 +59,9 @@ export default function WhereInput({ onLocationChange, error }) {
       </div>
       <div
         className={`border rounded-[4px] overflow-hidden transition-colors duration-200 ${
-          isFocused || isHovered
+          !isInputEmpty
+            ? "border-[#BBBBBB]"
+            : isFocused || isHovered
             ? "border-[#BBBBBB]"
             : error
             ? "border-[#821101]"
@@ -57,12 +74,14 @@ export default function WhereInput({ onLocationChange, error }) {
           <div className="flex-1">
             <div className="px-4 py-2.5 flex items-center">
               <IoMdSearch
-                className={`text-[#0000008C] text-2xl mr-1.5 ${
-                  isFocused || isHovered
+                className={`text-2xl mr-1.5 ${
+                  !isInputEmpty
+                    ? "text-[#0000008C]"
+                    : isFocused || isHovered
                     ? "text-[#0000008C]"
                     : error
                     ? "text-[#821101B2]"
-                    : ""
+                    : "text-[#0000008C]"
                 }`}
               />
               <InputBase
@@ -106,9 +125,8 @@ export default function WhereInput({ onLocationChange, error }) {
                 />
               </button>
               <span
-                className={`text-base px-1 text-[#000000]/70 tracking-[0.15px] !font-roboto font-normal text-center ${
-                  isDistanceHovered ? "text-[#BBBBBB]" : ""
-                }`}
+                className="text-base px-1 text-[#000000] tracking-[0.15px] !font-roboto font-normal text-center
+               "
               >
                 {distance}km
               </span>

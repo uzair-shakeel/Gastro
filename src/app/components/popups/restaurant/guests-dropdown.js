@@ -29,6 +29,7 @@ const CounterContainer = styled("div")({
   justifyContent: "space-between",
   backgroundColor: "#fff",
 });
+
 const CounterButton = styled(IconButton)({
   padding: "4px",
   color: "#000",
@@ -88,13 +89,17 @@ export default function GuestsDropdown({
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
+  const totalGuests = guests.adults + guests.kids;
+
   const getGuestsIcon = () => {
-    if (error) {
-      return "/PeopleFilled2.svg";  
+    if (totalGuests > 0) {
+      return "/PeopleFilled.svg";
+    } else if (error) {
+      return "/PeopleFilled2.svg";
     } else if (isFocused || isHovered) {
-      return "/PeopleFilled.svg";  
+      return "/PeopleFilled.svg";
     } else {
-      return "/PeopleFilled.svg"; 
+      return "/PeopleFilled.svg";
     }
   };
 
@@ -260,8 +265,6 @@ export default function GuestsDropdown({
     );
   };
 
-  const totalGuests = guests.adults + guests.kids;
-
   return (
     <>
       <Button
@@ -274,34 +277,40 @@ export default function GuestsDropdown({
         sx={{
           height: "56px",
           justifyContent: "space-between",
-          borderColor: error
-            ? "#821101" 
-            : isFocused || isHovered
-            ? "#00000040"  
-            : "rgba(0, 0, 0, 0.23)",
-          color: error
-            ? "#821101"  
-            : isFocused || isHovered
-            ? "#00000040"  
-            : "rgba(0, 0, 0, 0.87)",
+          borderColor: totalGuests > 0
+            ? "rgba(0, 0, 0, 0.23)"
+            : error
+              ? "#821101"
+              : isFocused || isHovered
+                ? "#00000040"
+                : "rgba(0, 0, 0, 0.23)",
+          color: totalGuests > 0
+            ? "rgba(0, 0, 0, 0.87)"
+            : error
+              ? "#821101"
+              : isFocused || isHovered
+                ? "#00000040"
+                : "rgba(0, 0, 0, 0.87)",
           textTransform: "none",
           width: "125px",
           maxWidth: "125px",
           minWidth: "125px",
           p: "0 10px",
           "&:hover": {
-            border: error ? "1.5px solid black" : "1.5px solid #00000040",
+            border: totalGuests > 0 || error ? "1.5px solid #00000040" : "1.5px solid #00000040",
             backgroundColor: "transparent",
           },
         }}
       >
         <legend
           className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
-            error
-              ? "text-[#821101]"  
-              : isFocused || isHovered
-              ? "text-[#000000B2]"  
-              : "text-[#000000B2]" 
+            totalGuests > 0
+              ? "text-[#000000B2]"
+              : error
+                ? "text-[#821101]"
+                : isFocused || isHovered
+                  ? "text-[#000000B2]"
+                  : "text-[#000000B2]"
           }`}
         >
           Guests
@@ -359,7 +368,7 @@ export default function GuestsDropdown({
             fullWidth
             variant="contained"
             onClick={() => setOpen(false)}
-            sx={{ mt: 0 }}
+            sx={{ mt: 2 }}
           >
             CONFIRM
           </ConfirmButton>
@@ -368,3 +377,4 @@ export default function GuestsDropdown({
     </>
   );
 }
+

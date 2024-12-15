@@ -29,6 +29,7 @@ const CalendarGrid = styled("div")(({ theme }) => ({
     },
   },
 }));
+
 const weekDays = [
   { label: "S", key: "sun" },
   { label: "M", key: "mon" },
@@ -97,7 +98,6 @@ export function DateSelectionDropdown({
     setAnchorEl(null);
   };
 
-
   return (
     <>
       <Button
@@ -113,16 +113,20 @@ export function DateSelectionDropdown({
           maxWidth: "121px",
           fontSize: "16px",
           justifyContent: "space-between",
-          color: error
-            ? "red"
-            : focused
-              ? "#BBBBBB"
-              : "gray",
-          border: error
-            ? "1.5px solid #821101"
-            : focused
-              ? "1px solid #BBBBBB"
-              : "1px solid #C4C4C4",
+          color: selectedDate
+            ? "#000000B2"
+            : error
+              ? "#821101"
+              : focused
+                ? "#BBBBBB"
+                : "#000000B2",
+          border: selectedDate
+            ? "1px solid #C4C4C4"
+            : error
+              ? "1.5px solid #821101"
+              : focused
+                ? "1px solid #BBBBBB"
+                : "1px solid #C4C4C4",
           borderRadius: "4px",
           height: "56px",
           width: "121px",
@@ -134,12 +138,9 @@ export function DateSelectionDropdown({
         }}
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${error
-              ? "text-[#821101]"
-              : focused
-                ? "text-[#000000B2]"
-                : "text-[#000000B2]"
-            }`}
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
+            selectedDate || !error ? "text-[#00000099]" : "text-[#821101]"
+          }`}
         >
           {legend}
         </legend>
@@ -153,25 +154,28 @@ export function DateSelectionDropdown({
           <div>
             <img
               src={
-                error
-                  ? "/red-date.svg"
-                  : focused
-                    ? "/CalendarTodayFilled.svg"
-                    : "/CalendarTodayFilled.svg"
+                selectedDate
+                  ? "/CalendarTodayFilled.svg"
+                  : error
+                    ? "/red-date.svg"
+                    : focused
+                      ? "/CalendarTodayFilled.svg"
+                      : "/CalendarTodayFilled.svg"
               }
               className="w-[24px] h-[24px] min-w-[24px] max-w-[24px] max-h-[24px] min-h-[24px]"
               alt="calendar icon"
             />
           </div>
           <h3
-            className={`text-[#000000B2] ${opacity} tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto ${error ? "text-[#000000B2]" : ""
-              }`}
+            className={`${opacity} tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto ${
+              selectedDate || !error ? "text-[#000000B2]" : "text-[#821101]"
+            }`}
           >
             {selectedDate
               ? selectedDate.toLocaleDateString(undefined, {
-                month: "2-digit",
-                day: "2-digit",
-              })
+                  month: "2-digit",
+                  day: "2-digit",
+                })
               : "Select"}
           </h3>
         </span>
@@ -233,8 +237,9 @@ export function DateSelectionDropdown({
             return (
               <div
                 key={day}
-                className={`day ${isTempSelected ? "selected" : ""} ${isToday ? "today" : ""
-                  }`}
+                className={`day ${isTempSelected ? "selected" : ""} ${
+                  isToday ? "today" : ""
+                }`}
                 onClick={() => handleDateSelect(day)}
               >
                 {day}
@@ -285,3 +290,4 @@ export function DateSelectionDropdown({
   );
 }
 
+  
