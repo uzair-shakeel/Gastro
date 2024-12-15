@@ -30,11 +30,11 @@ export default function WhereInput({ onLocationChange, error }) {
   }, [distance, inputValue, debouncedLocationChange]);
 
   const handleIncrement = () => {
-    setDistance((prev) => prev + 1);
+    setDistance((prev) => Math.min(10, prev + 1)); 
   };
 
   const handleDecrement = () => {
-    setDistance((prev) => Math.max(1, prev - 1));
+    setDistance((prev) => Math.max(0, prev - 1)); 
   };
 
   const isInputEmpty = inputValue.trim() === "";
@@ -92,7 +92,7 @@ export default function WhereInput({ onLocationChange, error }) {
                   "aria-label": "Search location",
                   style: { "--tw-placeholder-opacity": "100" },
                   className:
-                    "text-black/70 !font-roboto opacity-100 placeholder:text-black/70 font-normal tracking-[0.15px]",
+                    "text-black !font-roboto opacity-100 placeholder:text-black/70 font-normal tracking-[0.15px]",
                 }}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
@@ -101,14 +101,14 @@ export default function WhereInput({ onLocationChange, error }) {
                 sx={{
                   "& .MuiInputBase-input::placeholder": {
                     opacity: 1,
-                    color: "#0000008C",
+                    color: "#000000",
                   },
                 }}
               />
             </div>
           </div>
 
-          {inputValue && (
+          {(inputValue || isFocused) && (
             <div
               className={`flex items-center justify-center w-[112px] px-3 border-l transition-colors duration-200 ${
                 isDistanceHovered ? "border-[#BBBBBB]" : "border-[#BBBBBB]"
@@ -116,7 +116,11 @@ export default function WhereInput({ onLocationChange, error }) {
               onMouseEnter={() => setIsDistanceHovered(true)}
               onMouseLeave={() => setIsDistanceHovered(false)}
             >
-              <button onClick={handleDecrement}>
+              <button
+                onClick={handleDecrement}
+                disabled={distance === 0}  
+                className={distance === 0 ? "opacity-50 cursor-not-allowed" : ""}
+              >
                 <Image
                   src="/RemoveFilled.svg"
                   alt="RemoveFilled"
@@ -125,12 +129,15 @@ export default function WhereInput({ onLocationChange, error }) {
                 />
               </button>
               <span
-                className="text-base px-1 text-[#000000] tracking-[0.15px] !font-roboto font-normal text-center
-               "
+                className="text-base px-1 text-[#000000] tracking-[0.15px] !font-roboto font-normal text-center"
               >
                 {distance}km
               </span>
-              <button onClick={handleIncrement}>
+              <button
+                onClick={handleIncrement}
+                disabled={distance === 10}  
+                className={distance === 10 ? "opacity-50 cursor-not-allowed" : ""}
+              >
                 <Image
                   src="/AddFilled.svg"
                   alt="addFilled"
