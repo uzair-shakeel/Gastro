@@ -18,14 +18,15 @@ const StyledTextField = styled(TextField)(({ legendbg, error }) => ({
       border: "1px solid #00000040 !important",
     },
     "& input::placeholder": {
-      color: "#000000 !important", 
+      color: error ? "#821101" : "#000000B2",  
+      opacity: 1, 
     },
   },
   "& .MuiInputLabel-root": {
-    color: error ? "#821101" : "#0000008C",
+    color: error ? "#821101" : "#000000B2",
   },
   "& .MuiInputLabel-root.Mui-focused": {
-    color: "#0000008C",
+    color: "#000000B2",
   },
   width: "150px",
   maxWidth: "150px",

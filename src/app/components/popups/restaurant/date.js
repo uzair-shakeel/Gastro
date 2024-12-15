@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button, Typography, IconButton, Menu, MenuItem } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
@@ -45,7 +45,7 @@ export function DateSelectionDropdown({
   legend = "Date",
   opacity = "opacity-100",
   onDateChange,
-  error,  
+  error,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -53,6 +53,7 @@ export function DateSelectionDropdown({
   const [tempSelectedDate, setTempSelectedDate] = useState(null);
   const [focused, setFocused] = useState(false);
 
+  const menuRef = useRef(null); // Ref for the dropdown menu
   const open = Boolean(anchorEl);
 
   const handleOpen = (event) => setAnchorEl(event.currentTarget);
@@ -98,6 +99,23 @@ export function DateSelectionDropdown({
     setAnchorEl(null);
   };
 
+  // Add event listener to detect clicks outside the dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        handleClose();
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
   return (
     <>
       <Button
@@ -116,17 +134,17 @@ export function DateSelectionDropdown({
           color: selectedDate
             ? "#000000B2"
             : error
-              ? "#821101"
-              : focused
-                ? "#BBBBBB"
-                : "#000000B2",
+            ? "#821101"
+            : focused
+            ? "#BBBBBB"
+            : "#000000B2",
           border: selectedDate
             ? "1px solid #C4C4C4"
             : error
-              ? "1.5px solid #821101"
-              : focused
-                ? "1px solid #BBBBBB"
-                : "1px solid #C4C4C4",
+            ? "1.5px solid #821101"
+            : focused
+            ? "1px solid #BBBBBB"
+            : "1px solid #C4C4C4",
           borderRadius: "4px",
           height: "56px",
           width: "121px",
@@ -157,20 +175,17 @@ export function DateSelectionDropdown({
                 selectedDate
                   ? "/CalendarTodayFilled.svg"
                   : error
-                    ? "/red-date.svg"
-                    : focused
-                      ? "/CalendarTodayFilled.svg"
-                      : "/CalendarTodayFilled.svg"
+                  ? "/red-date.svg"
+                  : focused
+                  ? "/CalendarTodayFilled.svg"
+                  : "/CalendarTodayFilled.svg"
               }
               className="w-[24px] h-[24px] min-w-[24px] max-w-[24px] max-h-[24px] min-h-[24px]"
               alt="calendar icon"
             />
           </div>
           <h3
-            className={`${opacity} tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto ${
-              selectedDate || !error ? "text-[#000000B2]" : "text-[#821101]"
-            }`}
-          >
+            className={`${opacity} text-[#000000B2] tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto`}>
             {selectedDate
               ? selectedDate.toLocaleDateString(undefined, {
                   month: "2-digit",
@@ -181,6 +196,7 @@ export function DateSelectionDropdown({
         </span>
       </Button>
       <Menu
+        ref={menuRef} // Attach ref to the dropdown menu
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -220,7 +236,6 @@ export function DateSelectionDropdown({
               {day.label}
             </div>
           ))}
-
           {[...Array(firstDay)].map((_, index) => (
             <div key={`empty-${index}`} />
           ))}
@@ -289,5 +304,3 @@ export function DateSelectionDropdown({
     </>
   );
 }
-
-  

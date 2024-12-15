@@ -82,16 +82,24 @@ export function CategoryDropdown({
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setOpen(false);
-    }
-  };
-
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    // Add the event listener to the document
+    document.addEventListener("click", handleClickOutside, true);
+
+    // Cleanup the event listener
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
 
@@ -159,7 +167,10 @@ export function CategoryDropdown({
     <div style={{ position: "relative", height: "100%", minWidth: "272px" }}>
       <Button
         variant="outlined"
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen((prev) => !prev);
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onFocus={() => setIsFocused(true)}
@@ -229,7 +240,11 @@ export function CategoryDropdown({
       </Button>
 
       {open && (
-        <DropdownContainer ref={dropdownRef} sx={{ p: "15px !important", width: "272px !important" }}>
+        <DropdownContainer
+          ref={dropdownRef}
+          onClick={(e) => e.stopPropagation()}
+          sx={{ p: "15px !important", width: "272px !important" }}
+        >
           <Tabs
             value={selectedTab}
             onChange={(_, newValue) => setSelectedTab(newValue)}

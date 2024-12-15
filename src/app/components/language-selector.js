@@ -47,19 +47,27 @@ export default function LanguageSelector() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("en-US");
   const dropdownRef = useRef(null);
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
+  const buttonRef = useRef(null);
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    const handleClickOutside = (event) => {
+      if (
+        isOpen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
     };
-  }, []);
+
+    document.addEventListener("click", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [isOpen]);
 
   const handleLanguageSelect = (languageCode) => {
     setSelectedLanguage(languageCode);
@@ -69,7 +77,11 @@ export default function LanguageSelector() {
   return (
     <div className="relative">
       <Button
-        onClick={() => setIsOpen(!isOpen)}
+        ref={buttonRef}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+        }}
         sx={{
           minWidth: "24px",
           padding: 0,
@@ -88,7 +100,11 @@ export default function LanguageSelector() {
       </Button>
 
       {isOpen && (
-        <DropdownContainer ref={dropdownRef} sx={{minWidth:"220px"}}>
+        <DropdownContainer 
+          ref={dropdownRef} 
+          sx={{minWidth:"220px"}}
+          onClick={(e) => e.stopPropagation()}
+        >
           <List sx={{ padding: 0 }}>
             {languages.map((language) => (
               <StyledListItem
@@ -138,3 +154,4 @@ export default function LanguageSelector() {
     </div>
   );
 }
+

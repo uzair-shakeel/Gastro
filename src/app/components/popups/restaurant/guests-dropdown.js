@@ -194,14 +194,16 @@ export default function GuestsDropdown({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (open && dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
+  }, [open]);
 
   useEffect(() => {
     setShowExtended(guests.adults > 0);
@@ -269,7 +271,10 @@ export default function GuestsDropdown({
     <>
       <Button
         variant="outlined"
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen((prev) => !prev);
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onFocus={() => setIsFocused(true)}
@@ -329,6 +334,7 @@ export default function GuestsDropdown({
       {open && (
         <DropdownContainer
           ref={dropdownRef}
+          onClick={(e) => e.stopPropagation()}
           sx={{ padding: "15px !important", maxWidth: "272px" }}
         >
           {!showExtended ? (

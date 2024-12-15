@@ -6,32 +6,37 @@ import { useState, useRef, useEffect } from "react";
 const UserProfile = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const buttonRef = useRef(null);
 
-    const toggleDropdown = () => {
+    const toggleDropdown = (e) => {
+        e.stopPropagation();
         setIsDropdownOpen((prev) => !prev);
-    };
-
-    const closeDropdown = () => {
-        setIsDropdownOpen(false);
     };
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                closeDropdown();
+            if (
+                isDropdownOpen &&
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target)
+            ) {
+                setIsDropdownOpen(false);
             }
         };
 
-        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("click", handleClickOutside, true);
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("click", handleClickOutside, true);
         };
-    }, []);
+    }, [isDropdownOpen]);
+
     return (
         <div>
-            <div className="relative" ref={dropdownRef}>
-                <button onClick={toggleDropdown}>
+            <div className="relative">
+                <button onClick={toggleDropdown} ref={buttonRef}>
                     <Image
                         src="/person-filled.svg"
                         alt="person-filled"
@@ -43,7 +48,11 @@ const UserProfile = () => {
 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                    <div className="custom-shadow absolute z-50 top-10 -right-5 w-[220px] bg-[#FFFFFF] rounded pt-3">
+                    <div 
+                        ref={dropdownRef}
+                        className="custom-shadow absolute z-50 top-10 -right-5 w-[220px] bg-[#FFFFFF] rounded pt-3"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         {/* User Info */}
                         <div className="pb-5 border-b border-[#0000005a] px-4">
                             <h2 className="text-[#000000B2] text-[16px] leading-[24px] roboto font-normal tracking-[0.15px]">
@@ -153,3 +162,4 @@ const UserProfile = () => {
 }
 
 export default UserProfile
+

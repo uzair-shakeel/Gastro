@@ -344,7 +344,7 @@ const EventSearch = () => {
             <BudgetInput
               legend="Budget in CHF"
               legendbg="white"
-              opacityInput={100}
+              opacityInput="opacity-100"
               onInputChange={handleBudgetChange}
             />
           </Box>
@@ -379,13 +379,11 @@ const EventSearch = () => {
             sx={{
               width: "106px",
               textTransform: "uppercase",
-              bgcolor: isButtonEnabled ? "#821101" : "#CCCCCC",
+              bgcolor: "#821101",
               height: "56px",
-              color: isButtonEnabled ? "white" : "black",
+              color: "#F9F9F9",
               fontFamily: "Satoshi, sans-serif !important",
-              "&:hover": {
-                bgcolor: isButtonEnabled ? "#6a0e01" : "#CCCCCC",
-              },
+
             }}
           >
             Search

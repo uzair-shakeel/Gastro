@@ -370,7 +370,7 @@ export default function RestaurantDetails() {
                   nextEl: `.custom-swiper-button-next`,
                   prevEl: `.custom-swiper-button-prev`,
                 }}
-                className="mySwiper h-full"
+                className="mySwiper h-full "
                 style={{ height: "400px", marginBottom: "16px" }}
               >
                 export{" "}
