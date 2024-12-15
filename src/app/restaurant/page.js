@@ -244,7 +244,7 @@ export default function RestaurantDetails() {
                 {matter.category}
               </Typography>
               <Box style={{ display: "flex" }}>
-                <Star style={{ color: "#FFD700" }} />
+                <Image src='/single-review.svg' alt="single-review" width={20} height={20} className="-mt-1" />
                 <span style={{ fontWeight: "600", marginLeft: "4px" }}>
                   {matter.rating}
                 </span>
