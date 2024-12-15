@@ -535,6 +535,7 @@ export default function RestaurantDetails() {
                         marginBottom: "8px",
                         padding: "10px",
                         paddingLeft: "15px",
+                        opacity: day.day === "Saturday" ? "70%" : "100%",
                         paddingRight: "15px",
                         backgroundColor:
                           day.day === "Saturday"
@@ -542,12 +543,6 @@ export default function RestaurantDetails() {
                             : isToday
                               ? "#FFEBEB"
                               : "#F9F9F9",
-                        opacity:
-                          day.day === "Saturday"
-                            ? "100"
-                            : isToday
-                              ? "100%"
-                              : "100%",
                       }}
                     >
                       <Typography
@@ -569,6 +564,7 @@ export default function RestaurantDetails() {
                             <img
                               src="/schedule-black.svg"
                               alt="Schedule Icon"
+                              className="!opacity-70"
                             />
                           ) : (
                             <img src="/schedule.svg" alt="Schedule Icon" />
@@ -586,6 +582,7 @@ export default function RestaurantDetails() {
                             fontSize: "16px",
                             lineHeight: "19.2px",
                             fontWeight: "500",
+                            opacity: day.day === "Saturday" ? "70%" : "100%",
                             letterSpacing: "-0.02em",
                           }}
                         >
