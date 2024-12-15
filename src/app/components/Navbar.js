@@ -68,11 +68,11 @@ const Navbar = () => {
         </div>
       </div>
       <div
-        className={`absolute z-[-100] block  duration-700 w-full max-w-[1440px] m-auto left-0 right-0 p-6 ${
+        className={`bg-white absolute z-[-100] block min-w-full duration-700 w-full max-w-full m-auto left-0 right-0 p-6 ${
           isOpen === true ? "top-0" : "-top-[500px]"
         }`}
       >
-        <div className="border absolute bg-white p-4 top-20 left-0 min-w-full w-full  transform translate-x-0  ">
+        <div className="border-b absolute bg-white p-4 top-20 left-0 min-w-full w-full  transform translate-x-0  ">
           <EventSearch />
         </div>
       </div>
