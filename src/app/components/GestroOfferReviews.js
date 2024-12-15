@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Info, Star, ArrowRight, ArrowLeft } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -45,6 +45,7 @@ const Reviews = () => {
     ];
 
     const gestroSwiperRef = useRef(null);
+     const [showTooltip, setShowTooltip] = useState(false);
 
     const renderStars = (filledStars) => {
         return (
@@ -122,9 +123,24 @@ const Reviews = () => {
                             <span className="font-semibold">4.7</span>
                             <span className="font-semibold">(591)</span>
                         </div>
-                        <button className="ml-1">
-                            <Image src='/question-mark.svg' alt="question-mark" width={20} height={20} />
-                        </button>
+                         <button
+                                        className="ml-1 relative"
+                                        onMouseEnter={() => setShowTooltip(true)}
+                                        onMouseLeave={() => setShowTooltip(false)}
+                                        onClick={() => alert("Gestro-offer Reviews")}
+                                      >
+                                        <Image
+                                          src="/question-mark.svg"
+                                          alt="question-mark"
+                                          width={20}
+                                          height={20}
+                                        />
+                                        {showTooltip && (
+                                          <div className="absolute flex items-center justify-center w-[170px] h-[30px] top-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm px-3  py-1 rounded-md shadow-lg z-50">
+                                            Gestro-offer Reviews
+                                          </div>
+                                        )}
+                                      </button>
                     </div>
                 </div>
                 <div className="flex items-center gap-4">
