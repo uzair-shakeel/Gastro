@@ -53,7 +53,7 @@ export function DateSelectionDropdown({
   const [tempSelectedDate, setTempSelectedDate] = useState(null);
   const [focused, setFocused] = useState(false);
 
-  const menuRef = useRef(null); // Ref for the dropdown menu
+  const menuRef = useRef(null);
   const open = Boolean(anchorEl);
 
   const handleOpen = (event) => setAnchorEl(event.currentTarget);
@@ -99,7 +99,6 @@ export function DateSelectionDropdown({
     setAnchorEl(null);
   };
 
-  // Add event listener to detect clicks outside the dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -134,17 +133,17 @@ export function DateSelectionDropdown({
           color: selectedDate
             ? "#000000B2"
             : error
-            ? "#821101"
-            : focused
-            ? "#BBBBBB"
-            : "#000000B2",
+              ? "#821101"
+              : focused
+                ? "#BBBBBB"
+                : "#000000B2",
           border: selectedDate
             ? "1px solid #C4C4C4"
             : error
-            ? "1.5px solid #821101"
-            : focused
-            ? "1px solid #BBBBBB"
-            : "1px solid #C4C4C4",
+              ? "1.5px solid #821101"
+              : focused
+                ? "1px solid #BBBBBB"
+                : "1px solid #C4C4C4",
           borderRadius: "4px",
           height: "56px",
           width: "121px",
@@ -156,9 +155,8 @@ export function DateSelectionDropdown({
         }}
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
-            selectedDate || !error ? "text-[#00000099]" : "text-[#821101]"
-          }`}
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${selectedDate || !error ? "text-[#00000099]" : "text-[#821101]"
+            }`}
         >
           {legend}
         </legend>
@@ -175,10 +173,10 @@ export function DateSelectionDropdown({
                 selectedDate
                   ? "/CalendarTodayFilled.svg"
                   : error
-                  ? "/red-date.svg"
-                  : focused
-                  ? "/CalendarTodayFilled.svg"
-                  : "/CalendarTodayFilled.svg"
+                    ? "/red-date.svg"
+                    : focused
+                      ? "/CalendarTodayFilled.svg"
+                      : "/CalendarTodayFilled.svg"
               }
               className="w-[24px] h-[24px] min-w-[24px] max-w-[24px] max-h-[24px] min-h-[24px]"
               alt="calendar icon"
@@ -188,18 +186,20 @@ export function DateSelectionDropdown({
             className={`${opacity} text-[#000000B2] tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto`}>
             {selectedDate
               ? selectedDate.toLocaleDateString(undefined, {
-                  month: "2-digit",
-                  day: "2-digit",
-                })
+                month: "2-digit",
+                day: "2-digit",
+              })
               : "Select"}
           </h3>
         </span>
       </Button>
+
       <Menu
-        ref={menuRef} // Attach ref to the dropdown menu
+        ref={menuRef}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        disableScrollLock
         PaperProps={{
           sx: {
             width: "100%",
@@ -252,9 +252,8 @@ export function DateSelectionDropdown({
             return (
               <div
                 key={day}
-                className={`day ${isTempSelected ? "selected" : ""} ${
-                  isToday ? "today" : ""
-                }`}
+                className={`day ${isTempSelected ? "selected" : ""} ${isToday ? "today" : ""
+                  }`}
                 onClick={() => handleDateSelect(day)}
               >
                 {day}

@@ -80,8 +80,8 @@ const UserProfile = () => {
                                 </h2>
                             </Link>
                             <Link
-                                href="/restaurant"
-                                className="flex items-center gap-3 h-[36px]"
+                                href="/messages"
+                                className="flex items-csenter gap-3 h-[36px]"
                             >
                                 <Image
                                     src="/mail-filled.svg"
@@ -94,7 +94,7 @@ const UserProfile = () => {
                                 </h2>
                             </Link>
                             <Link
-                                href="/restaurant"
+                                href="/"
                                 className="flex items-center gap-3 h-[36px]"
                             >
                                 <Image
