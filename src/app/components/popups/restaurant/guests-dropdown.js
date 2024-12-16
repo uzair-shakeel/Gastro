@@ -118,13 +118,13 @@ export default function GuestsDropdown({
             newGuests.vegan);
 
         newGuests.adults += 1;
-        newGuests.all += diff;  
+        newGuests.all += diff > 0 ? diff : 0; // Ensure `diff` is valid
       } else if (type === "kids") {
         newGuests.kids += 1;
       } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
         if (newGuests.all > 0) {
           newGuests[type] += 1;
-          newGuests.all -= 1;  
+          newGuests.all -= 1;
         } else {
           let decremented = false;
           for (const field of ["meat", "fish", "vegetarian", "vegan"]) {
@@ -137,10 +137,11 @@ export default function GuestsDropdown({
           if (!decremented) {
             console.warn("No subfields left to decrement.");
           }
-          newGuests[type] += 1; 
+          newGuests[type] += 1;
         }
       }
 
+      console.log("New guests state:", newGuests); // Debugging final state
       return newGuests;
     });
   };
@@ -182,7 +183,7 @@ export default function GuestsDropdown({
       } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
         if (newGuests[type] > 0) {
           newGuests[type] -= 1;
-          newGuests.all += 1;  
+          newGuests.all += 1;
         } else {
           console.warn(`${type} cannot go below 0.`);
         }
@@ -194,14 +195,18 @@ export default function GuestsDropdown({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (open && dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        open &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
         setOpen(false);
       }
     };
 
-    document.addEventListener('click', handleClickOutside, true);
+    document.addEventListener("click", handleClickOutside, true);
     return () => {
-      document.removeEventListener('click', handleClickOutside, true);
+      document.removeEventListener("click", handleClickOutside, true);
     };
   }, [open]);
 
@@ -253,6 +258,7 @@ export default function GuestsDropdown({
             {value}
           </CounterValue>
           <CounterButton
+            autoFocus
             onClick={() => handleIncrement(type)}
             disabled={disableIncrement}
             size="small"
@@ -282,27 +288,32 @@ export default function GuestsDropdown({
         sx={{
           height: "56px",
           justifyContent: "space-between",
-          borderColor: totalGuests > 0
-            ? "rgba(0, 0, 0, 0.23)"
-            : error
+          borderColor:
+            totalGuests > 0
+              ? "rgba(0, 0, 0, 0.23)"
+              : error
               ? "#821101"
               : isFocused || isHovered
-                ? "#00000040"
-                : "rgba(0, 0, 0, 0.23)",
-          color: totalGuests > 0
-            ? "rgba(0, 0, 0, 0.87)"
-            : error
+              ? "#00000040"
+              : "rgba(0, 0, 0, 0.23)",
+          color:
+            totalGuests > 0
+              ? "rgba(0, 0, 0, 0.87)"
+              : error
               ? "#821101"
               : isFocused || isHovered
-                ? "#00000040"
-                : "rgba(0, 0, 0, 0.87)",
+              ? "#00000040"
+              : "rgba(0, 0, 0, 0.87)",
           textTransform: "none",
           width: "125px",
           maxWidth: "125px",
           minWidth: "125px",
           p: "0 10px",
           "&:hover": {
-            border: totalGuests > 0 || error ? "1.5px solid #00000040" : "1.5px solid #00000040",
+            border:
+              totalGuests > 0 || error
+                ? "1.5px solid #00000040"
+                : "1.5px solid #00000040",
             backgroundColor: "transparent",
           },
         }}
@@ -312,10 +323,10 @@ export default function GuestsDropdown({
             totalGuests > 0
               ? "text-[#000000B2]"
               : error
-                ? "text-[#821101]"
-                : isFocused || isHovered
-                  ? "text-[#000000B2]"
-                  : "text-[#000000B2]"
+              ? "text-[#821101]"
+              : isFocused || isHovered
+              ? "text-[#000000B2]"
+              : "text-[#000000B2]"
           }`}
         >
           Guests
