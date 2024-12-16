@@ -77,6 +77,7 @@ const matter = {
 };
 
 export default function RestaurantDetails() {
+  const [showTooltip, setShowTooltip] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [locationData, setLocationData] = useState(null);
@@ -244,7 +245,13 @@ export default function RestaurantDetails() {
                 {matter.category}
               </Typography>
               <Box style={{ display: "flex" }}>
-                <Image src='/single-review.svg' alt="single-review" width={20} height={20} className="-mt-1" />
+                <Image
+                  src="/single-review.svg"
+                  alt="single-review"
+                  width={20}
+                  height={20}
+                  className="-mt-1"
+                />
                 <span style={{ fontWeight: "600", marginLeft: "4px" }}>
                   {matter.rating}
                 </span>
@@ -257,13 +264,20 @@ export default function RestaurantDetails() {
                 >
                   {matter.reviews}
                 </span>
-                <Image
-                  src="/help .svg"
-                  alt="help"
-                  width={20}
-                  height={20}
-                  className="ml-2"
-                />
+
+                <button
+                  className="mt-1 ml-1 relative"
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                  onClick={() => alert("This is a Mondal Restaurant Islamabad")}
+                >
+                  <Image src="/help .svg" alt="help" width={20} height={20} />
+                  {showTooltip && (
+                    <div className="absolute flex items-center justify-center w-[230px] h-[30px] top-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm px-3  py-1 rounded-md shadow-lg z-50">
+                      Mondal Restaurant Islamabad
+                    </div>
+                  )}
+                </button>
               </Box>
             </div>
           </Grid>
@@ -334,9 +348,7 @@ export default function RestaurantDetails() {
                 />
               </Box>
               <Box>
-                <BudgetInput
-                  onInputChange={handleBudgetChange}
-                />
+                <BudgetInput onInputChange={handleBudgetChange} />
               </Box>
               <Box>
                 <Button
@@ -541,8 +553,8 @@ export default function RestaurantDetails() {
                           day.day === "Saturday"
                             ? "#F9F9F9"
                             : isToday
-                              ? "#FFEBEB"
-                              : "#F9F9F9",
+                            ? "#FFEBEB"
+                            : "#F9F9F9",
                       }}
                     >
                       <Typography
@@ -573,8 +585,9 @@ export default function RestaurantDetails() {
                         {day.day}:
                       </Typography>
                       <div
-                        className={`flex items-center ${showSeparator ? "gap-1.5" : ""
-                          }`}
+                        className={`flex items-center ${
+                          showSeparator ? "gap-1.5" : ""
+                        }`}
                       >
                         <Typography
                           sx={{
