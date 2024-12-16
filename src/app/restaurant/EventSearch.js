@@ -22,6 +22,7 @@ const EventSearch = () => {
     lunch: 3,
     dinner: 2,
   });
+
   const [guests, setGuests] = useState({
     adults: 0,
     kids: 0,
@@ -31,6 +32,8 @@ const EventSearch = () => {
     vegetarian: 0,
     vegan: 0,
   });
+
+
   const [errors, setErrors] = useState({
     location: false,
     date: false,
