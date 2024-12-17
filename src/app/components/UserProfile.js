@@ -79,9 +79,10 @@ const UserProfile = () => {
                                     Manage account
                                 </h2>
                             </Link>
+
                             <Link
                                 href="/messages"
-                                className="flex items-csenter gap-3 h-[36px]"
+                                className="flex items-center gap-3 h-[36px]"
                             >
                                 <Image
                                     src="/mail-filled.svg"
@@ -93,6 +94,7 @@ const UserProfile = () => {
                                     Messages
                                 </h2>
                             </Link>
+
                             <Link
                                 href="/"
                                 className="flex items-center gap-3 h-[36px]"

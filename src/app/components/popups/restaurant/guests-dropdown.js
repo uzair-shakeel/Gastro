@@ -346,7 +346,7 @@ export default function GuestsDropdown({
         <DropdownContainer
           ref={dropdownRef}
           onClick={(e) => e.stopPropagation()}
-          sx={{ padding: "15px !important", maxWidth: "272px" }}
+          sx={{ padding: "15px !important", maxWidth: "272px",  marginTop: 1, }}
         >
           {!showExtended ? (
             <>

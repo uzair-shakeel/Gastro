@@ -243,7 +243,7 @@ export function CategoryDropdown({
         <DropdownContainer
           ref={dropdownRef}
           onClick={(e) => e.stopPropagation()}
-          sx={{ p: "15px !important", width: "272px !important" }}
+          sx={{ p: "15px !important", width: "272px !important",  marginTop: 1, }}
         >
           <Tabs
             value={selectedTab}

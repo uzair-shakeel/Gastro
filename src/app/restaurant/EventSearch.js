@@ -23,16 +23,16 @@ const EventSearch = () => {
     dinner: 2,
   });
 
-  const [guests, setGuests] = useState({
-    adults: 0,
-    kids: 0,
-    all: 0,
-    meat: 0,
-    fish: 0,
-    vegetarian: 0,
-    vegan: 0,
-  });
-
+   const [guests, setGuests] = useState({
+      adults: 0,
+      kids: 0,
+      all: 0,
+      meat: 0,
+      fish: 0,
+      vegetarian: 0,
+      vegan: 0,
+    });
+    
 
   const [errors, setErrors] = useState({
     location: false,

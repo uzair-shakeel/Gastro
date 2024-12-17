@@ -1,7 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Button, Typography, IconButton, Menu, MenuItem } from "@mui/material";
+import { Button, Typography, IconButton, MenuItem } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+
+const DropdownContainer = styled("div")(({ theme }) => ({
+  position: "absolute",
+  zIndex: 1000,
+  backgroundColor: "white",
+  border: "1px solid #BFBFBF",
+  borderRadius: "8px",
+  boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+  width: "100%",
+  maxWidth: "350px",
+}));
 
 const CalendarGrid = styled("div")(({ theme }) => ({
   display: "grid",
@@ -52,11 +63,14 @@ export function DateSelectionDropdown({
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [tempSelectedDate, setTempSelectedDate] = useState(null);
   const [focused, setFocused] = useState(false);
-
-  const menuRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
   const open = Boolean(anchorEl);
 
-  const handleOpen = (event) => setAnchorEl(event.currentTarget);
+  const handleOpen = (event) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+  };
   const handleClose = () => {
     setTempSelectedDate(selectedDate);
     setAnchorEl(null);
@@ -100,18 +114,19 @@ export function DateSelectionDropdown({
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+    const handleGlobalClick = (event) => {
+      if (open && dropdownRef.current && !dropdownRef.current.contains(event.target) &&
+          buttonRef.current && !buttonRef.current.contains(event.target)) {
         handleClose();
       }
     };
 
     if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('click', handleGlobalClick);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('click', handleGlobalClick);
     };
   }, [open]);
 
@@ -124,6 +139,7 @@ export function DateSelectionDropdown({
         onMouseLeave={handleBlur}
         onFocus={handleHover}
         onBlur={handleBlur}
+        ref={buttonRef}
         sx={{
           textTransform: "none",
           minWidth: "121px",
@@ -194,112 +210,105 @@ export function DateSelectionDropdown({
         </span>
       </Button>
 
-      <Menu
-        ref={menuRef}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        disableScrollLock
-        PaperProps={{
-          sx: {
-            width: "100%",
-            maxWidth: "350px",
-            p: 1,
-            marginTop: 1,
-          },
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: "16px",
-          }}
+      {open && (
+        <DropdownContainer
+          ref={dropdownRef}
+          onClick={(e) => e.stopPropagation()}
+          sx={{ p: 1, marginTop: 1 }}
         >
-          <IconButton onClick={handlePrevMonth}>
-            <ChevronLeft />
-          </IconButton>
-          <Typography>
-            {currentMonth.toLocaleString("default", {
-              month: "long",
-              year: "numeric",
-            })}
-          </Typography>
-          <IconButton onClick={handleNextMonth}>
-            <ChevronRight />
-          </IconButton>
-        </div>
-        <CalendarGrid>
-          {weekDays.map((day) => (
-            <div key={day.key} className="weekday">
-              {day.label}
-            </div>
-          ))}
-          {[...Array(firstDay)].map((_, index) => (
-            <div key={`empty-${index}`} />
-          ))}
-          {[...Array(days)].map((_, index) => {
-            const day = index + 1;
-            const isTempSelected =
-              tempSelectedDate?.getDate() === day &&
-              tempSelectedDate?.getMonth() === currentMonth.getMonth() &&
-              tempSelectedDate?.getFullYear() === currentMonth.getFullYear();
-            const isToday =
-              new Date().getDate() === day &&
-              new Date().getMonth() === currentMonth.getMonth() &&
-              new Date().getFullYear() === currentMonth.getFullYear();
-            return (
-              <div
-                key={day}
-                className={`day ${isTempSelected ? "selected" : ""} ${isToday ? "today" : ""
-                  }`}
-                onClick={() => handleDateSelect(day)}
-              >
-                {day}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "16px",
+            }}
+          >
+            <IconButton onClick={handlePrevMonth}>
+              <ChevronLeft />
+            </IconButton>
+            <Typography>
+              {currentMonth.toLocaleString("default", {
+                month: "long",
+                year: "numeric",
+              })}
+            </Typography>
+            <IconButton onClick={handleNextMonth}>
+              <ChevronRight />
+            </IconButton>
+          </div>
+          <CalendarGrid>
+            {weekDays.map((day) => (
+              <div key={day.key} className="weekday">
+                {day.label}
               </div>
-            );
-          })}
-        </CalendarGrid>
-        <MenuItem
-          onClick={() => {
-            setTempSelectedDate(new Date());
-            setCurrentMonth(new Date());
-          }}
-          sx={{
-            mt: 2,
-            boxShadow: "none",
-            color: "#8B0000",
-            backgroundColor: "rgba(130, 17, 1, 0.1)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            "&:hover": {
-              backgroundColor: "rgba(130, 17, 1, 0.2)",
+            ))}
+            {[...Array(firstDay)].map((_, index) => (
+              <div key={`empty-${index}`} />
+            ))}
+            {[...Array(days)].map((_, index) => {
+              const day = index + 1;
+              const isTempSelected =
+                tempSelectedDate?.getDate() === day &&
+                tempSelectedDate?.getMonth() === currentMonth.getMonth() &&
+                tempSelectedDate?.getFullYear() === currentMonth.getFullYear();
+              const isToday =
+                new Date().getDate() === day &&
+                new Date().getMonth() === currentMonth.getMonth() &&
+                new Date().getFullYear() === currentMonth.getFullYear();
+              return (
+                <div
+                  key={day}
+                  className={`day ${isTempSelected ? "selected" : ""} ${isToday ? "today" : ""
+                    }`}
+                  onClick={() => handleDateSelect(day)}
+                >
+                  {day}
+                </div>
+              );
+            })}
+          </CalendarGrid>
+          <MenuItem
+            onClick={() => {
+              setTempSelectedDate(new Date());
+              setCurrentMonth(new Date());
+            }}
+            sx={{
+              mt: 2,
               boxShadow: "none",
-            },
-          }}
-        >
-          TODAY
-        </MenuItem>
-        <MenuItem
-          onClick={handleConfirm}
-          sx={{
-            mt: 1,
-            backgroundColor: "#8B0000",
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            "&:hover": {
-              backgroundColor: "#660000",
-            },
-          }}
-        >
-          CONFIRM
-        </MenuItem>
-      </Menu>
+              color: "#8B0000",
+              backgroundColor: "rgba(130, 17, 1, 0.1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              "&:hover": {
+                backgroundColor: "rgba(130, 17, 1, 0.2)",
+                boxShadow: "none",
+              },
+            }}
+          >
+            TODAY
+          </MenuItem>
+          <MenuItem
+            onClick={handleConfirm}
+            sx={{
+              mt: 1,
+              backgroundColor: "#8B0000",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              "&:hover": {
+                backgroundColor: "#660000",
+              },
+            }}
+          >
+            CONFIRM
+          </MenuItem>
+        </DropdownContainer>
+      )}
     </>
   );
 }
+
