@@ -96,8 +96,8 @@ const EventSearch = () => {
     <Box
       sx={{
         width: "100%",
-        maxWidth: "1448px",
-        margin: "auto",
+        maxWidth: "1440px",
+        margin:"auto",
         borderRadius: 1,
         mt: 3,
         pl:1,
