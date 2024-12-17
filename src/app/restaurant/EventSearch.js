@@ -96,10 +96,11 @@ const EventSearch = () => {
     <Box
       sx={{
         width: "100%",
-        maxWidth: "1440px",
-        margin: "0 auto",
+        maxWidth: "1448px",
+        margin: "auto",
         borderRadius: 1,
         mt: 3,
+        pl:1,
       }}
     >
       <Tabs
