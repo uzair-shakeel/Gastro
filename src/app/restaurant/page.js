@@ -266,7 +266,7 @@ export default function RestaurantDetails() {
                 </span>
 
                 <button
-                  className="mt-1 ml-1 relative"
+                  className="ml-1 relative"
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
                   onClick={() => alert("This is a Mondal Restaurant Islamabad")}
