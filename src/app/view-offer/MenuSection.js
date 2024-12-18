@@ -1,29 +1,81 @@
 import { useState } from "react";
-import { Collapse, IconButton } from "@mui/material";
-import { ExpandMore, ExpandLess } from "@mui/icons-material";
+import { Typography, Box, IconButton } from "@mui/material";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-export default function MenuSection({
-  title,
-  price,
-  children,
-  expanded: initialExpanded,
-}) {
-  const [expanded, setExpanded] = useState(initialExpanded);
+export default function MenuSection({ title, totalPrice, children }) {
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className="mb-6">
-      <div className="flex justify-between items-center bg-gray-100 p-2">
-        <h2 className="text-lg font-semibold">{title}</h2>
-        <div className="flex items-center">
-          <span className="mr-2">{price}</span>
-          <IconButton onClick={() => setExpanded(!expanded)}>
-            {expanded ? <ExpandLess /> : <ExpandMore />}
+    <Box
+      sx={{
+        backgroundColor: "white",
+        borderRadius: "8px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "1rem",
+          cursor: "pointer",
+          "&:hover": { backgroundColor: "#F9FAFB" },
+        }}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {/* Title */}
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: "1.125rem",
+            fontWeight: 400,
+          }}
+        >
+          {title}
+        </Typography>
+
+        {/* Price and Toggle */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              fontSize: "1.125rem",
+              fontWeight: 400,
+            }}
+          >
+            CHF {totalPrice}
+          </Typography>
+          <IconButton
+            size="small"
+            sx={{
+              padding: 0,
+            }}
+          >
+            {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        </div>
-      </div>
-      <Collapse in={expanded}>
-        <div className="border border-gray-200 p-2">{children}</div>
-      </Collapse>
-    </div>
+        </Box>
+      </Box>
+
+      {/* Content Section */}
+      {isOpen && (
+        <Box
+          sx={{
+            padding: "1rem",
+            position: "relative",
+          }}
+        >
+          {children}
+        </Box>
+      )}
+    </Box>
   );
 }

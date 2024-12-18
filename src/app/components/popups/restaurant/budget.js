@@ -3,9 +3,10 @@ import { TextField, InputAdornment } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CreditCard from "@mui/icons-material/CreditCard";
 
-const StyledTextField = styled(TextField)(({ legendbg, error }) => ({
+const StyledTextField = styled(TextField)(({ legendbg, error, icon }) => ({
   "& .MuiOutlinedInput-root": {
     backgroundColor: legendbg,
+    textAlign: icon ? "left" : "center", // Center align when no icon
     "& fieldset": {
       border: error
         ? "1.5px solid #821101 !important"
@@ -17,9 +18,12 @@ const StyledTextField = styled(TextField)(({ legendbg, error }) => ({
     "&.Mui-focused fieldset": {
       border: "1px solid #00000040 !important",
     },
+    "& input": {
+      textAlign: icon ? "left" : "center", // Center the text
+    },
     "& input::placeholder": {
-      color: error ? "#821101" : "#000000B2",  
-      opacity: 1, 
+      color: error ? "#821101" : "#000000B2",
+      opacity: 1,
     },
   },
   "& .MuiInputLabel-root": {
@@ -41,8 +45,10 @@ export function BudgetInput({
   legend = "Budget in CHF",
   onInputChange,
   error = false,
+  valueOfInput = "",
+  icon = true,
 }) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(valueOfInput);
 
   const handleChange = (event) => {
     const inputValue = event.target.value;
@@ -57,23 +63,24 @@ export function BudgetInput({
   return (
     <StyledTextField
       fullWidth
-      placeholder={'Enter'}
+      placeholder={"Enter"}
       variant="outlined"
       error={error}
       value={value}
       onChange={handleChange}
       InputProps={{
-        startAdornment: (
+        startAdornment: icon ? (
           <InputAdornment position="start">
             <CreditCard sx={{ color: error ? "#821101B2" : "#0000008C" }} />
           </InputAdornment>
-        ),
+        ) : null,
       }}
       InputLabelProps={{
         shrink: true,
       }}
       label={legend}
       legendbg={legendbg}
+      icon={icon} // Pass the icon prop for conditional styling
     />
   );
 }
