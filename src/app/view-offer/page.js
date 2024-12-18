@@ -22,7 +22,7 @@ export default function Menu() {
       <Navbar />
 
       {/* Main Content */}
-      <Box sx={{ minHeight: "100vh", backgroundColor: "#f9f9f9" }}>
+      <Box sx={{ minHeight: "100vh", backgroundColor: "#fffff" }}>
         <Box
           sx={{
             maxWidth: "1280px",

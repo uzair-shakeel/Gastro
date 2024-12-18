@@ -4,19 +4,38 @@ import InfoIcon from "@mui/icons-material/Info";
 
 export default function SubtotalSection({ totalGuests, totalAmount }) {
   return (
-    <Box className="mt-[24px]">
+    <Box sx={{ marginTop: "24px" }}>
       {/* Subtotal Row */}
-      <Box className="flex items-center justify-between py-4 border-t border-b border-gray-200">
-        <Typography variant="subtitle1" className="font-normal">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingY: "16px",
+          borderTop: "1px solid rgb(229, 231, 235)",
+          borderBottom: "1px solid rgb(229, 231, 235)",
+        }}
+      >
+        <Typography variant="subtitle1" sx={{ fontWeight: "400" }}>
           Subtotal
         </Typography>
-        <Box className="flex items-center gap-8">
-          <Typography variant="subtitle1" className="font-normal">
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "32px",
+          }}
+        >
+          <Typography variant="subtitle1" sx={{ fontWeight: "400" }}>
             {totalGuests} Guests
           </Typography>
           <Typography
             variant="subtitle1"
-            className="font-normal min-w-[100px] text-right"
+            sx={{
+              fontWeight: "400",
+              minWidth: "100px",
+              textAlign: "right",
+            }}
           >
             CHF {totalAmount}
           </Typography>
@@ -24,10 +43,21 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
       </Box>
 
       {/* Remarks Field */}
-      <Box className="relative mt-6 mb-8">
+      <Box
+        sx={{ position: "relative", marginTop: "24px", marginBottom: "32px" }}
+      >
         <Typography
           variant="caption"
-          className="absolute -top-2.5 left-2 bg-white px-1 text-xs text-gray-500 z-10"
+          sx={{
+            position: "absolute",
+            top: "-10px",
+            left: "8px",
+            backgroundColor: "white",
+            paddingX: "4px",
+            fontSize: "0.75rem",
+            color: "rgb(107, 114, 128)",
+            zIndex: "10",
+          }}
         >
           Remarks
         </Typography>
@@ -44,16 +74,35 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
         />
       </Box>
 
-      <Box className="flex gap-2 items-center justify-between">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "16px",
+        }}
+      >
         {/* Notice Section */}
-        <Box className="flex items-start gap-2 text-sm">
-          <InfoIcon className="text-gray-500 mt-0.5" fontSize="small" />
-          <Typography variant="body2" className="text-gray-600">
-            Food allergies, specific food instrctions or questions about the
-            origion of meat? Please contact the restaurant directly at{" "}
+        <Box sx={{ display: "flex", alignItems: "start", gap: "8px" }}>
+          <InfoIcon
+            fontSize="small"
+            sx={{
+              color: "rgb(107, 114, 128)", // text-gray-500
+              marginTop: "2px",
+            }}
+          />
+          <Typography
+            variant="body2"
+            sx={{
+              color: "rgb(107, 114, 128)", // text-gray-600
+              fontSize: "0.875rem",
+            }}
+          >
+            Food allergies, specific food instructions or questions about the
+            origin of meat? Please contact the restaurant directly at{" "}
             <a
               href="tel:+41585620030"
-              className="text-blue-600 hover:underline"
+              style={{ color: "rgb(37, 99, 235)", textDecoration: "underline" }}
             >
               +41585620030
             </a>{" "}
@@ -62,23 +111,44 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
         </Box>
 
         {/* Action Buttons */}
-        <Box className="flex items-center justify-end gap-4">
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            gap: "16px",
+          }}
+        >
           <Button
             variant="contained"
             startIcon={<FileDownloadIcon />}
-            className="bg-red-50 text-red-700 hover:bg-red-100 normal-case w-max"
+            sx={{
+              backgroundColor: "rgb(254, 242, 242)", // bg-red-50
+              color: "rgb(185, 28, 28)", // text-red-700
+              "&:hover": { backgroundColor: "rgb(254, 226, 226)" }, // hover:bg-red-100
+              textTransform: "none",
+              width: "max-content",
+            }}
           >
             Download PDF
           </Button>
           <Button
             variant="contained"
-            className="bg-red-700 hover:bg-red-800 normal-case"
+            sx={{
+              backgroundColor: "rgb(185, 28, 28)", // bg-red-700
+              "&:hover": { backgroundColor: "rgb(153, 27, 27)" }, // hover:bg-red-800
+              textTransform: "none",
+            }}
           >
             Adjust
           </Button>
           <Button
             variant="contained"
-            className="bg-red-700 hover:bg-red-800 normal-case"
+            sx={{
+              backgroundColor: "rgb(185, 28, 28)", // bg-red-700
+              "&:hover": { backgroundColor: "rgb(153, 27, 27)" }, // hover:bg-red-800
+              textTransform: "none",
+            }}
           >
             Cancel
           </Button>
