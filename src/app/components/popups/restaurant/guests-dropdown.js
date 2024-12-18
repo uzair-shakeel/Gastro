@@ -1,9 +1,14 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import { Button, Typography, IconButton, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Add, Remove } from "@mui/icons-material";
 
 const CounterWrapper = styled("div")({
   marginBottom: "12px",
@@ -34,6 +39,7 @@ const CounterButton = styled(IconButton)({
   padding: "4px",
   color: "#000",
   borderRadius: "4px",
+  zIndex: 9999999,
   "&:hover": {
     backgroundColor: "#EEEEEE",
   },
@@ -75,6 +81,52 @@ const ConfirmButton = styled(Button)({
   },
 });
 
+const GuestCounter = React.memo(
+  ({ label, value, type, onIncrement, onDecrement, disableIncrement }) => (
+    <CounterWrapper>
+      <CounterLabel
+        sx={{
+          fontSize: "16px",
+          color: "#000000",
+          fontFamily: "Roboto, sans-serif !important",
+          fontWeight: "400",
+        }}
+      >
+        {label}
+      </CounterLabel>
+      <CounterContainer>
+        <CounterButton
+          onClick={() => onDecrement(type)}
+          disabled={value === 0}
+          size="small"
+          sx={{
+            width: "24px",
+            height: "24px",
+            backgroundImage: `url('/remove-icon.svg')`,
+          }}
+          aria-label={`Decrease ${label}`}
+        />
+        <CounterValue sx={{ color: "#000000", fontSize: "16px" }}>
+          {value}
+        </CounterValue>
+        <CounterButton
+          onClick={() => onIncrement(type)}
+          disabled={disableIncrement}
+          size="small"
+          sx={{
+            width: "24px",
+            height: "24px",
+            backgroundImage: `url('/add-icon.svg')`,
+          }}
+          aria-label={`Increase ${label}`}
+        />
+      </CounterContainer>
+    </CounterWrapper>
+  )
+);
+
+GuestCounter.displayName = "GuestCounter";
+
 export default function GuestsDropdown({
   legendbg = "bg-white",
   opacity = "opacity-100",
@@ -84,114 +136,86 @@ export default function GuestsDropdown({
   error,
 }) {
   const [open, setOpen] = useState(false);
-  const [showExtended, setShowExtended] = useState(false);
-  const dropdownRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const dropdownRef = useRef(null);
 
-  const totalGuests = guests.adults + guests.kids;
+  const totalGuests = useMemo(
+    () => guests.adults + guests.kids,
+    [guests.adults, guests.kids]
+  );
+  const showExtended = guests.adults > 0;
 
-  const getGuestsIcon = () => {
-    if (totalGuests > 0) {
-      return "/PeopleFilled.svg";
-    } else if (error) {
-      return "/PeopleFilled2.svg";
-    } else if (isFocused || isHovered) {
-      return "/PeopleFilled.svg";
-    } else {
+  const getGuestsIcon = useCallback(() => {
+    if (totalGuests > 0 || error || isFocused || isHovered) {
       return "/PeopleFilled.svg";
     }
-  };
+    return "/PeopleFilled.svg";
+  }, [totalGuests, error, isFocused, isHovered]);
 
-  const handleIncrement = (type) => {
-    setGuests((prev) => {
-      const newGuests = { ...prev };
-
-      if (type === "adults") {
-        const diff =
-          newGuests.adults +
-          1 -
-          (newGuests.all +
-            newGuests.meat +
-            newGuests.fish +
-            newGuests.vegetarian +
-            newGuests.vegan);
-
-        newGuests.adults += 1;
-        newGuests.all += diff > 0 ? diff : 0; // Ensure `diff` is valid
-      } else if (type === "kids") {
-        newGuests.kids += 1;
-      } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
-        if (newGuests.all > 0) {
-          newGuests[type] += 1;
-          newGuests.all -= 1;
-        } else {
-          let decremented = false;
-          for (const field of ["meat", "fish", "vegetarian", "vegan"]) {
-            if (field !== type && newGuests[field] > 0) {
-              newGuests[field] -= 1;
-              decremented = true;
-              break;
-            }
-          }
-          if (!decremented) {
-            console.warn("No subfields left to decrement.");
-          }
-          newGuests[type] += 1;
-        }
-      }
-
-      console.log("New guests state:", newGuests); // Debugging final state
-      return newGuests;
-    });
-  };
-
-  const handleDecrement = (type) => {
-    setGuests((prev) => {
-      const newGuests = { ...prev };
-
-      if (type === "adults") {
-        if (newGuests.adults > 0) {
-          newGuests.adults -= 1;
-
-          const totalSubfields =
-            newGuests.meat +
-            newGuests.fish +
-            newGuests.vegetarian +
-            newGuests.vegan;
-
+  const handleIncrement = useCallback(
+    (type) => {
+      setGuests((prev) => {
+        const newGuests = { ...prev };
+        if (type === "adults") {
+          newGuests.adults += 1;
+          newGuests.all += 1;
+        } else if (type === "kids") {
+          newGuests.kids += 1;
+        } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
           if (newGuests.all > 0) {
+            newGuests[type] += 1;
             newGuests.all -= 1;
-          } else if (totalSubfields > 0) {
-            let decremented = false;
-            for (const field of ["meat", "fish", "vegetarian", "vegan"]) {
+          } else {
+            const otherTypes = ["meat", "fish", "vegetarian", "vegan"].filter(
+              (t) => t !== type
+            );
+            for (const field of otherTypes) {
               if (newGuests[field] > 0) {
                 newGuests[field] -= 1;
-                decremented = true;
+                newGuests[type] += 1;
                 break;
               }
             }
-            if (!decremented) {
-              console.warn("No subfields left to decrement.");
-            }
           }
         }
-      } else if (type === "kids") {
-        if (newGuests.kids > 0) {
+        return newGuests;
+      });
+    },
+    [setGuests]
+  );
+
+  const handleDecrement = useCallback(
+    (type) => {
+      setGuests((prev) => {
+        const newGuests = { ...prev };
+        if (type === "adults" && newGuests.adults > 0) {
+          newGuests.adults -= 1;
+          if (newGuests.all > 0) {
+            newGuests.all -= 1;
+          } else {
+            const fields = ["meat", "fish", "vegetarian", "vegan"];
+            for (const field of fields) {
+              if (newGuests[field] > 0) {
+                newGuests[field] -= 1;
+                break;
+              }
+            }
+          }
+        } else if (type === "kids" && newGuests.kids > 0) {
           newGuests.kids -= 1;
-        }
-      } else if (["meat", "fish", "vegetarian", "vegan"].includes(type)) {
-        if (newGuests[type] > 0) {
+        } else if (
+          ["meat", "fish", "vegetarian", "vegan"].includes(type) &&
+          newGuests[type] > 0
+        ) {
           newGuests[type] -= 1;
           newGuests.all += 1;
-        } else {
-          console.warn(`${type} cannot go below 0.`);
         }
-      }
-
-      return newGuests;
-    });
-  };
+        return newGuests;
+      });
+    },
+    [setGuests]
+  );
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -211,67 +235,84 @@ export default function GuestsDropdown({
   }, [open]);
 
   useEffect(() => {
-    setShowExtended(guests.adults > 0);
-  }, [guests.adults]);
-
-  useEffect(() => {
-    const totalGuests = guests.adults + guests.kids;
     onSelectionChange(totalGuests);
-  }, [guests, onSelectionChange]);
+  }, [totalGuests, onSelectionChange]);
 
-  const validateMealCounts = (newGuests) => {
-    const totalMealCount =
-      newGuests.meat + newGuests.fish + newGuests.vegetarian + newGuests.vegan;
-    return totalMealCount <= newGuests.adults;
-  };
-
-  const GuestCounter = ({ label, value, type }) => {
-    const isMealType = ["meat", "fish", "vegetarian", "vegan"].includes(type);
+  const renderGuestCounters = useMemo(() => {
     const totalMealCount =
       guests.meat + guests.fish + guests.vegetarian + guests.vegan;
-    const disableIncrement = isMealType && totalMealCount >= guests.adults;
+    const disableIncrement = totalMealCount >= guests.adults;
 
     return (
-      <CounterWrapper>
-        <CounterLabel
+      <>
+        <GuestCounter
+          label="Adults"
+          value={guests.adults}
+          type="adults"
+          onIncrement={handleIncrement}
+          onDecrement={handleDecrement}
+        />
+        {showExtended && (
+          <Box sx={{ marginLeft: "12px" }}>
+            <GuestCounter
+              label="All"
+              value={guests.all}
+              type="all"
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
+              disableIncrement={disableIncrement}
+            />
+            <GuestCounter
+              label="Meat"
+              value={guests.meat}
+              type="meat"
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
+              disableIncrement={disableIncrement}
+            />
+            <GuestCounter
+              label="Fish"
+              value={guests.fish}
+              type="fish"
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
+              disableIncrement={disableIncrement}
+            />
+            <GuestCounter
+              label="Vegetarian"
+              value={guests.vegetarian}
+              type="vegetarian"
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
+              disableIncrement={disableIncrement}
+            />
+            <GuestCounter
+              label="Vegan"
+              value={guests.vegan}
+              type="vegan"
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
+              disableIncrement={disableIncrement}
+            />
+          </Box>
+        )}
+        <Box
           sx={{
-            fontSize: "16px",
-            color: "#000000",
-            fontFamily: "Roboto, sans-serif !important",
-            fontWeight: !showExtended ? "400" : "400",
+            borderTop: showExtended ? "1px solid #CCCCCC" : "none",
+            paddingTop: showExtended ? "15px" : "0",
           }}
         >
-          {label}
-        </CounterLabel>
-        <CounterContainer>
-          <CounterButton
-            onClick={() => handleDecrement(type)}
-            disabled={value === 0}
-            size="small"
-            sx={{
-              width: "24px",
-              height: "24px",
-              backgroundImage: `url('/remove-icon.svg')`,
-            }}
+          <GuestCounter
+            label="Kids"
+            value={guests.kids}
+            type="kids"
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
           />
-          <CounterValue sx={{ color: "#000000", fontSize: "16px" }}>
-            {value}
-          </CounterValue>
-          <CounterButton
-            autoFocus
-            onClick={() => handleIncrement(type)}
-            disabled={disableIncrement}
-            size="small"
-            sx={{
-              width: "24px",
-              height: "24px",
-              backgroundImage: `url('/add-icon.svg')`,
-            }}
-          />
-        </CounterContainer>
-      </CounterWrapper>
+        </Box>
+      </>
     );
-  };
+  }, [guests, showExtended, handleIncrement, handleDecrement]);
 
   return (
     <>
@@ -317,6 +358,8 @@ export default function GuestsDropdown({
             backgroundColor: "transparent",
           },
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
       >
         <legend
           className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
@@ -346,41 +389,9 @@ export default function GuestsDropdown({
         <DropdownContainer
           ref={dropdownRef}
           onClick={(e) => e.stopPropagation()}
-          sx={{ padding: "15px !important", maxWidth: "272px",  marginTop: 1, }}
+          sx={{ padding: "15px !important", maxWidth: "272px", marginTop: 1 }}
         >
-          {!showExtended ? (
-            <>
-              <GuestCounter
-                label="Adults"
-                value={guests.adults}
-                type="adults"
-              />
-              <GuestCounter label="Kids" value={guests.kids} type="kids" />
-            </>
-          ) : (
-            <Box>
-              <GuestCounter
-                label="Adults"
-                value={guests.adults}
-                type="adults"
-              />
-              <Box sx={{ marginLeft: "12px" }}>
-                <GuestCounter label="All" value={guests.all} type="all" />
-                <GuestCounter label="Meat" value={guests.meat} type="meat" />
-                <GuestCounter label="Fish" value={guests.fish} type="fish" />
-                <GuestCounter
-                  label="Vegetarian"
-                  value={guests.vegetarian}
-                  type="vegetarian"
-                />
-                <GuestCounter label="Vegan" value={guests.vegan} type="vegan" />
-              </Box>
-              <Box sx={{ borderTop: "1px solid #CCCCCC", paddingTop: "15px" }}>
-                <GuestCounter label="Kids" value={guests.kids} type="kids" />
-              </Box>
-            </Box>
-          )}
-
+          {renderGuestCounters}
           <ConfirmButton
             fullWidth
             variant="contained"

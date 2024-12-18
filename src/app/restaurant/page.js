@@ -26,6 +26,7 @@ import ImageGrid from "./ImageGrid";
 import Modal from "./Modal";
 import Navbar from "../components/Navbar";
 import GuestsDropdown from "../components/popups/restaurant/guests-dropdown";
+import Link from "next/link";
 ("../globals.css");
 
 const openingHours = [
@@ -351,25 +352,27 @@ export default function RestaurantDetails() {
                 <BudgetInput onInputChange={handleBudgetChange} />
               </Box>
               <Box>
-                <Button
-                  fullWidth
-                  onClick={handleSearch}
-                  style={{
-                    height: 56,
-                    fontFamily: "Satoshi, sans-serif",
-                    background: "#821101",
-                    boxShadow: "none",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    fontWeight: "500",
-                    color: "#F9F9F9",
-                    width: "137px",
-                    fontSize: "15px",
-                    letterSpacing: "0.46px",
-                  }}
-                >
-                  VIEW OFFER
-                </Button>
+                <Link href="/view-offer">
+                  <Button
+                    fullWidth
+                    onClick={handleSearch}
+                    style={{
+                      height: 56,
+                      fontFamily: "Satoshi, sans-serif",
+                      background: "#821101",
+                      boxShadow: "none",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      fontWeight: "500",
+                      color: "#F9F9F9",
+                      width: "137px",
+                      fontSize: "15px",
+                      letterSpacing: "0.46px",
+                    }}
+                  >
+                    VIEW OFFER
+                  </Button>
+                </Link>
               </Box>
             </Box>
 
