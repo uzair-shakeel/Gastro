@@ -83,7 +83,7 @@ const Navbar = () => {
       </div>
       <div
         ref={dropdownRef}
-        className={`bg-white absolute !z-40 block min-w-full duration-700 w-full max-w-full m-auto left-0 right-0 ${
+        className={`bg-white absolute !z-50 block min-w-full duration-700 w-full max-w-full m-auto left-0 right-0 ${
           isOpen ? "top-0" : "-top-[500px]"
         }`}
       >
