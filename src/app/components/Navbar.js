@@ -68,7 +68,7 @@ const Navbar = () => {
         </div>
       </div>
       <div
-        className={`bg-white absolute z-[-100] block min-w-full duration-700 w-full max-w-full m-auto left-0 right-0 ${
+        className={`bg-white !z-50 absolute block min-w-full duration-700 w-full max-w-full m-auto left-0 right-0 ${
           isOpen === true ? "top-0" : "-top-[500px]"
         }`}
       >
