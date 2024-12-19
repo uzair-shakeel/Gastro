@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Typography, Box, IconButton } from "@mui/material";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Image from "next/image";
 
 export default function MenuSection({ title, totalPrice, children }) {

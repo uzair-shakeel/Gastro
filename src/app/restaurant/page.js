@@ -376,7 +376,7 @@ export default function RestaurantDetails() {
               </Box>
             </Box>
 
-            <Box className="relative !z-20 mb-8 bg-purple-500 h-[400px] w-full rounded-lg overflow-hidden cursor-pointer">
+            <Box className="relative mb-8 bg-purple-500 h-[400px] w-full rounded-lg overflow-hidden cursor-pointer">
               <Swiper
                 loop={true}
                 pagination={{ clickable: true }}
