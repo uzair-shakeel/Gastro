@@ -1,16 +1,31 @@
 "use client";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import EventSearch from "../restaurant/EventSearch";
 import UserProfile from "./UserProfile";
 import LanguageSelector from "./language-selector";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const toggleDropdownSearch = () => {
     setIsOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,8 +50,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <button
             className="bg-[#82110126] min-w-[44px] h-[42px] rounded flex items-center justify-center mr-6"
-            // onClick={toggleDropdownSearch}
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={toggleDropdownSearch}
           >
             <Image
               src="/search-filled.svg"
@@ -68,11 +82,12 @@ const Navbar = () => {
         </div>
       </div>
       <div
-        className={`bg-white absolute z-[-100] block min-w-full duration-700 w-full max-w-full m-auto left-0 right-0 ${
-          isOpen === true ? "top-0" : "-top-[500px]"
+        ref={dropdownRef}
+        className={`bg-white absolute !z-40 block min-w-full duration-700 w-full max-w-full m-auto left-0 right-0 ${
+          isOpen ? "top-0" : "-top-[500px]"
         }`}
       >
-        <div className="border-b absolute bg-white max-w-full mx-auto top-20 left-0 py-4 min-w-full w-full  transform translate-x-0  ">
+        <div className="border-b absolute bg-white max-w-full mx-auto top-20 left-0 py-4 min-w-full w-full transform translate-x-0">
           <EventSearch />
         </div>
       </div>
