@@ -1,22 +1,20 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import InfoIcon from "@mui/icons-material/Info";
+import Image from "next/image";
 
 export default function SubtotalSection({ totalGuests, totalAmount }) {
   return (
     <Box sx={{ marginTop: "24px" }}>
-      {/* Subtotal Row */}
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingY: "16px",
-          borderTop: "1px solid rgb(229, 231, 235)",
-          borderBottom: "1px solid rgb(229, 231, 235)",
+          paddingY: "25px",
+          borderTop: "1px solid #CCCCCC",
+          borderBottom: "1px solid #CCCCCC",
         }}
       >
-        <Typography variant="subtitle1" sx={{ fontWeight: "400" }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: "600", fontSize:"20px", color:"#000000", letterSpacing:"-0.02em", lineHeight:"24px" }}>
           Subtotal
         </Typography>
         <Box
@@ -26,15 +24,19 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
             gap: "32px",
           }}
         >
-          <Typography variant="subtitle1" sx={{ fontWeight: "400" }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: "500", fontSize:"20px", color:"#000000CC", lineHeight:"24px", letterSpacing:"-0.02em" }}>
             {totalGuests} Guests
           </Typography>
           <Typography
             variant="subtitle1"
             sx={{
-              fontWeight: "400",
-              minWidth: "100px",
+              fontWeight: "600",
               textAlign: "right",
+              color:"#000000",
+              fontSize:"22px",
+              lineHeight:"26px", 
+              letterSpacing:"-0.02em",
+              fontFamily: "'Urbanist', sans-serif !important"
             }}
           >
             CHF {totalAmount}
@@ -44,7 +46,7 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
 
       {/* Remarks Field */}
       <Box
-        sx={{ position: "relative", marginTop: "24px", marginBottom: "32px" }}
+        sx={{ position: "relative", marginTop: "24px", marginBottom: "24px" }}
       >
         <Typography
           variant="caption"
@@ -54,9 +56,12 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
             left: "8px",
             backgroundColor: "white",
             paddingX: "4px",
-            fontSize: "0.75rem",
-            color: "rgb(107, 114, 128)",
+            fontSize: "12px",
+            color: "#000000B2",
+            letterSpacing:"0.15px",
+            fontWeight:"400",
             zIndex: "10",
+            fontFamily: "'Roboto', sans-serif !important"
           }}
         >
           Remarks
@@ -66,12 +71,23 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
           rows={1}
           fullWidth
           variant="outlined"
-          InputProps={{
-            sx: {
-              borderColor: "rgb(229, 231, 235)",
+          
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '4px',
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#00000040', 
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#00000040',  
+              },
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#00000040',  
             },
           }}
         />
+
       </Box>
 
       <Box
@@ -83,30 +99,28 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
         }}
       >
         {/* Notice Section */}
-        <Box sx={{ display: "flex", alignItems: "start", gap: "8px" }}>
-          <InfoIcon
-            fontSize="small"
-            sx={{
-              color: "rgb(107, 114, 128)", // text-gray-500
-              marginTop: "2px",
-            }}
-          />
+        <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <Image src='/help.svg' alt="" width={18} height={18} />
           <Typography
             variant="body2"
             sx={{
-              color: "rgb(107, 114, 128)", // text-gray-600
-              fontSize: "0.875rem",
+              maxWidth: "771px",
+              width: "100%",
+              color: "rgba(0, 0, 0, 0.7)",
+              fontSize: "16px",
+              letterSpacing: "-0.02em",
+              fontWeight: "500",
+              lineHeight: "24px"
             }}
           >
             Food allergies, specific food instructions or questions about the
-            origin of meat? Please contact the restaurant directly at{" "}
+            origin of meat? Please contact the restaurant directly at   {" "}
             <a
               href="tel:+41585620030"
-              style={{ color: "rgb(37, 99, 235)", textDecoration: "underline" }}
+              style={{ color: "rgba(29, 155, 240, 0.7)", textDecoration: "underline" }}
             >
               +41585620030
-            </a>{" "}
-            or add your questions to the remark section.
+            </a>  or add your questions to the remark section.
           </Typography>
         </Box>
 
@@ -121,36 +135,55 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
         >
           <Button
             variant="contained"
-            startIcon={<FileDownloadIcon />}
+            startIcon={
+              <Image src='/download-pdf.svg' alt="download-pdf" width={18} height={22} className="-mt-0.5" />
+            }
             sx={{
-              backgroundColor: "rgb(254, 242, 242)", // bg-red-50
-              color: "rgb(185, 28, 28)", // text-red-700
-              "&:hover": { backgroundColor: "rgb(254, 226, 226)" }, // hover:bg-red-100
-              textTransform: "none",
-              width: "max-content",
+              backgroundColor: "#82110126",
+              width: "196px",
+              height: "50px",
+              fontSize: "15px",
+              pt: "10px",
+              fontFamily: "'Satoshi', sans-serif !important",
+              fontWeight: "500",
+              letterSpacing: "0.46px",
+              color: "#821101",
+              "&:hover": { backgroundColor: "#82110126" },
             }}
           >
             Download PDF
           </Button>
+
           <Button
             variant="contained"
             sx={{
-              backgroundColor: "rgb(185, 28, 28)", // bg-red-700
-              "&:hover": { backgroundColor: "rgb(153, 27, 27)" }, // hover:bg-red-800
-              textTransform: "none",
+              backgroundColor: "#821101",
+              height: "50px",
+              width: "103px",
+              color: "#FFFFFF",
+              fontSize: "15px",
+              fontFamily: "'Satoshi', sans-serif !important",
+              fontWeight: "500",
+              letterSpacing: "0.46px",
             }}
           >
             Adjust
           </Button>
+
           <Button
             variant="contained"
             sx={{
-              backgroundColor: "rgb(185, 28, 28)", // bg-red-700
-              "&:hover": { backgroundColor: "rgb(153, 27, 27)" }, // hover:bg-red-800
-              textTransform: "none",
+              backgroundColor: "#821101",
+              height: "50px",
+              width: "106px",
+              color: "#FFFFFF",
+              fontSize: "15px",
+              fontFamily: "'Satoshi', sans-serif !important",
+              fontWeight: "500",
+              letterSpacing: "0.46px",
             }}
           >
-            Cancel
+            Cancle
           </Button>
         </Box>
       </Box>

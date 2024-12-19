@@ -1,10 +1,7 @@
-import { TextField, Typography, Box } from "@mui/material";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import SetMealIcon from "@mui/icons-material/SetMeal";
-import EggAltIcon from "@mui/icons-material/EggAlt";
-import ChildCareIcon from "@mui/icons-material/ChildCare";
+import { Typography, Box } from "@mui/material";
 import { BudgetInput as GuestInput } from "../components/popups/restaurant/budget";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function MenuItem({
   title,
@@ -31,14 +28,20 @@ export default function MenuItem({
           <Box
             key="meat"
             sx={{
+              pr: "50px",
               display: "flex",
               alignItems: "center",
-              gap: "4px",
-              color: "rgb(153, 27, 27)", // text-red-800
+              gap: "6px",
             }}
           >
-            <RestaurantIcon sx={{ fontSize: "1rem" }} />
-            <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
+            <Image src='/kebab-dining.svg' alt="kebab-dining" width={24} height={24} />
+            <Typography variant="caption" sx={{
+              color: "#000000B2",
+              fontSize: "16px",
+              lineHeight: "24px",
+              letterSpacing: "0.15px",
+              fontWeight: "600"
+            }}>
               Meat
             </Typography>
           </Box>
@@ -49,14 +52,20 @@ export default function MenuItem({
           <Box
             key="fish"
             sx={{
+              pr: "50px",
               display: "flex",
               alignItems: "center",
               gap: "4px",
-              color: "rgb(30, 58, 138)", // text-blue-800
             }}
           >
-            <SetMealIcon sx={{ fontSize: "1rem" }} />
-            <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
+            <Image src='/set-meal.svg' alt="set-meal" width={24} height={24} />
+            <Typography variant="caption" sx={{
+              color: "#000000B2",
+              fontSize: "16px",
+              lineHeight: "24px",
+              letterSpacing: "0.15px",
+              fontWeight: "600"
+            }}>
               Fish
             </Typography>
           </Box>
@@ -67,14 +76,20 @@ export default function MenuItem({
           <Box
             key="vegetarian"
             sx={{
+              pr: "50px",
               display: "flex",
               alignItems: "center",
               gap: "4px",
-              color: "rgb(22, 101, 52)", // text-green-800
             }}
           >
-            <EggAltIcon sx={{ fontSize: "1rem" }} />
-            <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
+            <Image src='/grocery.svg' alt="grocery" width={24} height={24} />
+            <Typography variant="caption" sx={{
+              color: "#000000B2",
+              fontSize: "16px",
+              lineHeight: "24px",
+              letterSpacing: "0.15px",
+              fontWeight: "600"
+            }}>
               Vegetarian
             </Typography>
           </Box>
@@ -87,15 +102,21 @@ export default function MenuItem({
         <Box
           key="kids"
           sx={{
+            pr: "50px",
             display: "flex",
             alignItems: "center",
             gap: "4px",
-            color: "rgb(234, 88, 12)", // text-orange-600
-            marginLeft: "8px", // ml-2
+            marginLeft: "8px",
           }}
         >
-          <ChildCareIcon sx={{ fontSize: "1rem" }} />
-          <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
+          <Image src='/child-care.svg' alt="child-care" width={24} height={24} />
+          <Typography variant="caption" sx={{
+            color: "#000000B2",
+            fontSize: "16px",
+            lineHeight: "24px",
+            letterSpacing: "0.15px",
+            fontWeight: "600"
+          }}>
             KIDS
           </Typography>
         </Box>
@@ -113,7 +134,7 @@ export default function MenuItem({
     <Box
       sx={{
         position: "relative",
-        marginBottom: "1rem",
+        marginBottom: "16px",
         marginLeft: isSideDish ? "2rem" : 0,
         "&:last-child": { marginBottom: 0 },
       }}
@@ -129,9 +150,11 @@ export default function MenuItem({
         <Box
           sx={{
             display: "flex",
+            height: "56px",
             justifyContent: "space-between",
-            border: "1px solid rgb(229, 231, 235)",
-            borderRadius: "8px",
+            alignItems: "center",
+            border: "1px solid #00000040",
+            borderRadius: "4px",
           }}
         >
           <Box>
@@ -143,8 +166,11 @@ export default function MenuItem({
                 left: "8px",
                 backgroundColor: "white",
                 paddingX: "4px",
-                fontSize: "0.75rem",
-                color: "rgb(107, 114, 128)",
+                fontSize: "12px",
+                color: "#000000B2",
+                fontWeight: "400",
+                letterSpacing: "0.15px",
+                fontFamily: "'Roboto', sans-serif !important"
               }}
             >
               {isSideDish ? "Side Dish" : "Dish"}
@@ -159,15 +185,18 @@ export default function MenuItem({
             >
               <Typography
                 variant="subtitle2"
-                sx={{ fontSize: "0.875rem", fontWeight: 500 }}
+                sx={{ fontSize: "16px", fontWeight: 700, color: "#000000B2", lineHeight: "24px", letterSpacing: "0.15px" }}
               >
                 {title}
               </Typography>
               <Typography
                 variant="body2"
                 sx={{
-                  fontSize: "0.875rem",
-                  color: "rgb(107, 114, 128)", // text-gray-600
+                  color: "#000000B2",
+                  fontWeight: "500",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  letterSpacing: "0.15px"
                 }}
               >
                 {description}
@@ -191,11 +220,11 @@ export default function MenuItem({
             />
           </Box>
           <Box
-            sx={{ minWidth: "80px", textAlign: "right", paddingTop: "12px" }}
+            sx={{ mr: 5, ml: 1, minWidth: "80px", textAlign: "right", paddingTop: "14px" }}
           >
             <Typography
               variant="subtitle2"
-              sx={{ fontSize: "0.875rem", fontWeight: 500 }}
+              sx={{ fontSize: "18px", fontWeight: 600, color: "#000000", letterSpacing: "-0.02em", lineHeight: "24px" }}
             >
               CHF {price}
             </Typography>

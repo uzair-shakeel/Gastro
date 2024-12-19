@@ -18,63 +18,59 @@ export default function Menu() {
 
   return (
     <Box>
-      {/* Navbar Component */}
       <Navbar />
 
-      {/* Main Content */}
       <Box sx={{ minHeight: "100vh", backgroundColor: "#fffff" }}>
         <Box
           sx={{
-            maxWidth: "1280px",
+            maxWidth: "1473px",
             margin: "0 auto",
             padding: "2rem 1rem",
           }}
         >
-          {/* Header Section */}
           <Box
             sx={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: "2rem",
+              marginBottom: "24px",
             }}
           >
-            {/* Title */}
             <Box sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               <Typography
-                variant="h5"
+                variant="h6"
                 sx={{
-                  fontSize: "1.5rem",
-                  fontWeight: "400",
-                  color: "#333333",
+                  fontSize: "24px",
+                  fontWeight: "600",
+                  color: "#000000",
+                  lineHeight: "28px",
+                  letterSpacing: "-0.02em"
                 }}
               >
                 Restaurant Sonnenberg
               </Typography>
               <Typography
                 variant="body1"
-                sx={{ fontSize: "0.875rem", color: "#666666" }}
+                sx={{ fontSize: "24px", color: "#000000B2", letterSpacing: "-0.02em", fontWeight: "600" }}
               >
                 - Lunch - 29.10.2024
               </Typography>
             </Box>
 
-            {/* A La Carte Badge */}
             <Typography
               sx={{
                 minWidth: "40%",
-                minHeight: "42px",
-                maxHeight: "48px",
+                minHeight: "56px",
+                maxHeight: "56px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 fontWeight: "500",
                 fontSize: "14px",
-                fontFamily: '"Roboto", sans-serif',
+                fontFamily: '"Roboto", sans-serif !important',
                 borderBottom: "2px solid #821101",
                 color: "#821101",
                 backgroundColor: "#CCCCCC33",
-                padding: "0.5rem",
               }}
             >
               A LA CARTE

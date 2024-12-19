@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Typography, Box, IconButton } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Image from "next/image";
 
 export default function MenuSection({ title, totalPrice, children }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -10,9 +11,10 @@ export default function MenuSection({ title, totalPrice, children }) {
     <Box
       sx={{
         backgroundColor: "white",
-        borderRadius: "8px",
+        borderRadius: "2px",
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
         overflow: "hidden",
+        border: "1px solid #0000001A"
       }}
     >
       <Box
@@ -30,8 +32,12 @@ export default function MenuSection({ title, totalPrice, children }) {
         <Typography
           variant="h6"
           sx={{
-            fontSize: "1.125rem",
-            fontWeight: 400,
+            fontSize: "20px",
+            fontWeight: 600,
+            color: "#000000",
+            lineHeight: '24px',
+            letterSpacing: "-0.02em"
+
           }}
         >
           {title}
@@ -42,14 +48,17 @@ export default function MenuSection({ title, totalPrice, children }) {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
+            gap: "32px",
           }}
         >
           <Typography
             variant="h6"
             sx={{
-              fontSize: "1.125rem",
-              fontWeight: 400,
+              fontSize: "20px",
+              lineHeight: "26px",
+              fontWeight: 600,
+              color: "#000000",
+              letterSpacing: "-0.02em"
             }}
           >
             CHF {totalPrice}
@@ -60,7 +69,7 @@ export default function MenuSection({ title, totalPrice, children }) {
               padding: 0,
             }}
           >
-            {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {isOpen ? <Image src='/open-arrow.svg' alt="open-arrow" width={24} height={24} /> : <Image src='/close-arrow.svg' alt="close-arrow" width={24} height={24} />}
           </IconButton>
         </Box>
       </Box>

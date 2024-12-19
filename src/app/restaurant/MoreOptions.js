@@ -30,7 +30,6 @@ const MoreOptions = () => {
 
     // Others
     const [searchTermItems, setSearchTermItems] = useState(''); 
-    // Cuisine Search
     const [searchTermCuisine, setSearchTermCuisine] = useState(''); 
 
     const [filteredItems, setFilteredItems] = useState(allItems);
@@ -39,7 +38,6 @@ const MoreOptions = () => {
     const [selectedItems, setSelectedItems] = useState([1]);
     const [selectedCuisine, setSelectedCuisine] = useState([1]);
 
-    // All Items search filter
     useEffect(() => {
         const filtered = allItems.filter(item =>
             item.toLowerCase().includes(searchTermItems.toLowerCase())
@@ -47,7 +45,6 @@ const MoreOptions = () => {
         setFilteredItems(filtered);
     }, [searchTermItems]);
 
-    // Cuisine search filter
     useEffect(() => {
         const filtered = Cuisine.filter(item =>
             item.toLowerCase().includes(searchTermCuisine.toLowerCase())
@@ -131,6 +128,13 @@ const MoreOptions = () => {
                             },
                             '& .MuiInputLabel-root': {
                                 fontSize: '14px',
+                                color: '#4D4D4D !important', 
+                                '&:hover': {
+                                    color: '#4D4D4D !important', 
+                                },
+                                '&.Mui-focused': {
+                                    color: '#4D4D4D !important', 
+                                },
                             },
                             '& .MuiInputLabel-shrink': {
                                 color: '#4D4D4D',
@@ -212,6 +216,13 @@ const MoreOptions = () => {
                             },
                             '& .MuiInputLabel-root': {
                                 fontSize: '14px',
+                                color: '#4D4D4D !important', 
+                                '&:hover': {
+                                    color: '#4D4D4D !important', 
+                                },
+                                '&.Mui-focused': {
+                                    color: '#4D4D4D !important', 
+                                },
                             },
                             '& .MuiInputLabel-shrink': {
                                 color: '#4D4D4D',
