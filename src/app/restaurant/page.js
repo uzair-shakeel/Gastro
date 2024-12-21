@@ -318,18 +318,23 @@ export default function RestaurantDetails() {
           <Grid item xs={12} md={8}>
             <Box
               display="flex"
-              justifyContent="space-between"
               flexWrap="wrap"
+              justifyContent={{ xs: "center", sm: "space-between" }}
               gap={2}
               mb={3}
             >
-              <Box>
+              <Box width={{ xs: "100%", sm: "auto" }}>
                 <DateSelectionDropdown
                   onDateChange={handleDateChange}
                   error={showErrors && errors.date}
                 />
               </Box>
-              <Box flexGrow={1}>
+
+              <Box
+                flexGrow={1}
+                width={{ xs: "100%", sm: "2%" }}
+                sx={{ minWidth: { sm: "130px", md: "170px" }, flexShrink: 1 }}
+              >
                 <CategoryDropdown
                   courses={courses}
                   setCourses={setCourses}
@@ -340,7 +345,8 @@ export default function RestaurantDetails() {
                   error={showErrors && errors.category}
                 />
               </Box>
-              <Box>
+
+              <Box width={{ xs: "100%", sm: "auto" }}>
                 <GuestsDropdown
                   setGuests={setGuests}
                   guests={guests}
@@ -348,10 +354,12 @@ export default function RestaurantDetails() {
                   error={showErrors && errors.guests}
                 />
               </Box>
-              <Box>
+
+              <Box width={{ xs: "100%", sm: "auto" }}>
                 <BudgetInput onInputChange={handleBudgetChange} />
               </Box>
-              <Box>
+
+              <Box width={{ xs: "100%", sm: "auto" }}>
                 <Link href="/view-offer">
                   <Button
                     fullWidth
@@ -362,8 +370,6 @@ export default function RestaurantDetails() {
                       background: "#821101",
                       boxShadow: "none",
                       fontWeight: 500,
-                      boxShadow: "none",
-                      fontWeight: "500",
                       color: "#F9F9F9",
                       width: "137px",
                       fontSize: "15px",

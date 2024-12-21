@@ -52,11 +52,15 @@ export function BudgetInput({
 
   const handleChange = (event) => {
     const inputValue = event.target.value;
-    const numericValue = parseFloat(inputValue.replace(/[^\d]/g, "")) || 0;
+    if (inputValue === "") {
+      setValue("");
+      onInputChange?.(null); // Pass null for empty input
+      return;
+    }
 
+    const numericValue = parseFloat(inputValue.replace(/[^\d]/g, "")) || 0;
     const formattedValue = `${numericValue}`;
     setValue(formattedValue);
-
     onInputChange?.(numericValue);
   };
 

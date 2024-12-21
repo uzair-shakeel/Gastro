@@ -30,7 +30,9 @@ const DropdownContainer = styled("div")(({ theme }) => ({
   borderRadius: "8px",
   padding: "24px",
   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-  width: "360px",
+  // width: "100%",
+  width: "160px",
+  maxWidth: "360px",
 }));
 
 const CategoryOption = styled("div")(({ theme }) => ({
@@ -164,7 +166,7 @@ export function CategoryDropdown({
   };
 
   return (
-    <div style={{ position: "relative", height: "100%", minWidth: "272px" }}>
+    <div style={{ position: "relative", height: "100%", minWidth: "172px" }}>
       <Button
         variant="outlined"
         onClick={(e) => {
@@ -180,28 +182,36 @@ export function CategoryDropdown({
         sx={{
           height: "56px",
           justifyContent: "space-between",
-          borderColor: selectedCategories.length > 0
-            ? "rgba(0, 0, 0, 0.23)"
-            : error
+          borderColor:
+            selectedCategories.length > 0
+              ? "rgba(0, 0, 0, 0.23)"
+              : error
               ? "#821101"
               : isFocused || isHovered
-                ? "#00000040"
-                : "rgba(0, 0, 0, 0.23)",
-          color: selectedCategories.length > 0
-            ? "rgba(0, 0, 0, 0.70)"
-            : error
+              ? "#00000040"
+              : "rgba(0, 0, 0, 0.23)",
+          color:
+            selectedCategories.length > 0
+              ? "rgba(0, 0, 0, 0.70)"
+              : error
               ? "#821101"
               : isFocused || isHovered
-                ? "#00000040"
-                : "rgba(0, 0, 0, 0.70)",
+              ? "#00000040"
+              : "rgba(0, 0, 0, 0.70)",
           textTransform: "none",
           padding: "0 10px",
           "&:hover": {
-            border: selectedCategories.length > 0 || error ? "1.5px solid #00000040" : "1.5px solid #00000040",
+            border:
+              selectedCategories.length > 0 || error
+                ? "1.5px solid #00000040"
+                : "1.5px solid #00000040",
             backgroundColor: "transparent",
           },
           "&:focus": {
-            borderColor: selectedCategories.length > 0 || error ? "#00000040" : "#00000040",
+            borderColor:
+              selectedCategories.length > 0 || error
+                ? "#00000040"
+                : "#00000040",
           },
         }}
       >
@@ -210,10 +220,10 @@ export function CategoryDropdown({
             selectedCategories.length > 0
               ? "text-[#000000B2]"
               : error
-                ? "text-[#821101]"
-                : isFocused || isHovered
-                  ? "text-[#000000B2]"
-                  : "text-[#000000B2]"
+              ? "text-[#821101]"
+              : isFocused || isHovered
+              ? "text-[#000000B2]"
+              : "text-[#000000B2]"
           } category-legend`}
         >
           Category
@@ -243,7 +253,7 @@ export function CategoryDropdown({
         <DropdownContainer
           ref={dropdownRef}
           onClick={(e) => e.stopPropagation()}
-          sx={{ p: "15px !important", width: "272px !important",  marginTop: 1, }}
+          sx={{ p: "15px !important", width: "272px !important", marginTop: 1 }}
         >
           <Tabs
             value={selectedTab}
@@ -280,8 +290,18 @@ export function CategoryDropdown({
           </Tabs>
 
           {categories.map((category) => (
-            <CategoryOption key={category.id} sx={{ p: "0px !important", height: "56px", paddingLeft: "5px !important" }}>
-              <div style={{ display: "flex", alignItems: "center", flex: 1 }} className="h-full">
+            <CategoryOption
+              key={category.id}
+              sx={{
+                p: "0px !important",
+                height: "56px",
+                paddingLeft: "5px !important",
+              }}
+            >
+              <div
+                style={{ display: "flex", alignItems: "center", flex: 1 }}
+                className="h-full"
+              >
                 <Checkbox
                   checked={selectedCategories.includes(category.id)}
                   onChange={() => handleCategoryToggle(category.id)}
@@ -292,7 +312,14 @@ export function CategoryDropdown({
                     },
                   }}
                 />
-                <Typography sx={{ fontSize: "16px", color: "#000000", fontFamily: "Roboto, sans-serif !important", fontWeight: "400" }}>
+                <Typography
+                  sx={{
+                    fontSize: "16px",
+                    color: "#000000",
+                    fontFamily: "Roboto, sans-serif !important",
+                    fontWeight: "400",
+                  }}
+                >
                   {category.label}
                 </Typography>
               </div>
@@ -313,11 +340,24 @@ export function CategoryDropdown({
                         padding: "0 16px",
                       }}
                     >
-                      <CounterButton size="small" onClick={() => handleCourseChange(category.id, -1)} disabled={courses[category.id] === 1} sx={{ bgcolor: "transparent" }}>
+                      <CounterButton
+                        size="small"
+                        onClick={() => handleCourseChange(category.id, -1)}
+                        disabled={courses[category.id] === 1}
+                        sx={{ bgcolor: "transparent" }}
+                      >
                         <Remove fontSize="small" />
                       </CounterButton>
-                      <Typography sx={{ fontSize: "16px", textAlign: "center" }}>{courses[category.id]}</Typography>
-                      <CounterButton size="small" onClick={() => handleCourseChange(category.id, 1)} sx={{ bgcolor: "transparent" }}>
+                      <Typography
+                        sx={{ fontSize: "16px", textAlign: "center" }}
+                      >
+                        {courses[category.id]}
+                      </Typography>
+                      <CounterButton
+                        size="small"
+                        onClick={() => handleCourseChange(category.id, 1)}
+                        sx={{ bgcolor: "transparent" }}
+                      >
                         <Add fontSize="small" />
                       </CounterButton>
                     </div>
@@ -351,4 +391,3 @@ export function CategoryDropdown({
     </div>
   );
 }
-

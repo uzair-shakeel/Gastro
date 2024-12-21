@@ -8,6 +8,7 @@ import LanguageSelector from "./language-selector";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
 
   const toggleDropdownSearch = () => {
     setIsOpen((prev) => !prev);
@@ -18,6 +19,7 @@ const Navbar = () => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
       }
+      setShowMoreOptions(false);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -84,11 +86,14 @@ const Navbar = () => {
       <div
         ref={dropdownRef}
         className={`bg-white absolute !z-50 block min-w-full duration-700 w-full max-w-full m-auto left-0 right-0 ${
-          isOpen ? "top-0" : "-top-[500px]"
+          isOpen ? "top-0" : "-top-[900px]"
         }`}
       >
         <div className="border-b absolute bg-white max-w-full mx-auto top-20 left-0 py-4 min-w-full w-full transform translate-x-0">
-          <EventSearch />
+          <EventSearch
+            setShowMoreOptions={setShowMoreOptions}
+            showMoreOptions={showMoreOptions}
+          />
         </div>
       </div>
     </div>

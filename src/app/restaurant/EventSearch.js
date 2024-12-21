@@ -8,7 +8,7 @@ import WhereInput from "../components/WhereInput";
 import MoreOptions from "./MoreOptions";
 import GuestsDropdown from "../components/popups/restaurant/guests-dropdown";
 
-const EventSearch = () => {
+const EventSearch = ({ showMoreOptions, setShowMoreOptions }) => {
   const [tabValue, setTabValue] = useState(0);
   const [locationData, setLocationData] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -17,22 +17,20 @@ const EventSearch = () => {
   const [isGuestsFilled, setIsGuestsFilled] = useState(false);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [showMoreOptions, setShowMoreOptions] = useState(false);
   const [courses, setCourses] = useState({
     lunch: 3,
     dinner: 2,
   });
 
-   const [guests, setGuests] = useState({
-      adults: 0,
-      kids: 0,
-      all: 0,
-      meat: 0,
-      fish: 0,
-      vegetarian: 0,
-      vegan: 0,
-    });
-    
+  const [guests, setGuests] = useState({
+    adults: 0,
+    kids: 0,
+    all: 0,
+    meat: 0,
+    fish: 0,
+    vegetarian: 0,
+    vegan: 0,
+  });
 
   const [errors, setErrors] = useState({
     location: false,
@@ -97,10 +95,10 @@ const EventSearch = () => {
       sx={{
         width: "100%",
         maxWidth: "1450px",
-        margin:"auto",
+        margin: "auto",
         borderRadius: 1,
         mt: 3,
-        pl:1.2,
+        pl: 1.2,
       }}
     >
       <Tabs
@@ -270,6 +268,10 @@ const EventSearch = () => {
       </Tabs>
 
       <Grid
+        item
+        xs={6}
+        sm={4}
+        md={2}
         sx={{
           display: "flex",
           alignItems: "center",
@@ -387,7 +389,6 @@ const EventSearch = () => {
               height: "56px",
               color: "#F9F9F9",
               fontFamily: "Satoshi, sans-serif !important",
-
             }}
           >
             Search
