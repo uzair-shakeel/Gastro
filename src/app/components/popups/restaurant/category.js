@@ -81,6 +81,7 @@ export function CategoryDropdown({
   const [selectedTab, setSelectedTab] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [selectedService, setSelectedService] = useState("TABLE SERVICE");
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -104,6 +105,11 @@ export function CategoryDropdown({
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
+
+  const handleTabChange = (_, newValue) => {
+    setSelectedTab(newValue);
+    setSelectedService(newValue === 0 ? "TABLE SERVICE" : "SELF SERVICE");
+  };
 
   useEffect(() => {
     setCourses({
@@ -163,6 +169,22 @@ export function CategoryDropdown({
     } else {
       return "/SpaceDashboardFilled2.svg";
     }
+  };
+
+  const handleConfirm = () => {
+    const dataToSave = {
+      service: selectedService,
+      categories: selectedCategories.map((id) => ({
+        id,
+        courses: categories.find((cat) => cat.id === id)?.hasCourses
+          ? courses[id]
+          : null,
+      })),
+    };
+
+    // Simulate saving or pass to a callback
+    console.log("Saving data:", dataToSave);
+    setOpen(false);
   };
 
   return (
@@ -257,7 +279,7 @@ export function CategoryDropdown({
         >
           <Tabs
             value={selectedTab}
-            onChange={(_, newValue) => setSelectedTab(newValue)}
+            onChange={handleTabChange}
             sx={{
               mb: 3,
               "& .MuiTabs-indicator": {
@@ -369,7 +391,7 @@ export function CategoryDropdown({
           <Button
             fullWidth
             variant="contained"
-            onClick={() => setOpen(false)}
+            onClick={handleConfirm}
             sx={{
               backgroundColor: "#821101",
               color: "#fff",

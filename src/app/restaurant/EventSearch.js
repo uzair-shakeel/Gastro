@@ -3,12 +3,13 @@ import { Box, Tabs, Tab, Button, Grid, Collapse } from "@mui/material";
 import { BudgetInput } from "../components/popups/restaurant/budget";
 import { CategoryDropdown } from "../components/popups/restaurant/category";
 import { DateSelectionDropdown } from "../components/popups/restaurant/date";
+import _ from "lodash";
 import Image from "next/image";
 import WhereInput from "../components/WhereInput";
 import MoreOptions from "./MoreOptions";
 import GuestsDropdown from "../components/popups/restaurant/guests-dropdown";
 
-const EventSearch = ({ showMoreOptions, setShowMoreOptions }) => {
+const EventSearch = () => {
   const [tabValue, setTabValue] = useState(0);
   const [locationData, setLocationData] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -17,6 +18,8 @@ const EventSearch = ({ showMoreOptions, setShowMoreOptions }) => {
   const [isGuestsFilled, setIsGuestsFilled] = useState(false);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
+
   const [courses, setCourses] = useState({
     lunch: 3,
     dinner: 2,
@@ -41,9 +44,19 @@ const EventSearch = ({ showMoreOptions, setShowMoreOptions }) => {
   });
   const [showErrors, setShowErrors] = useState(false);
 
-  const handleLocationChange = (updatedData) => {
-    setLocationData(updatedData);
-  };
+  const handleLocationChange = useCallback(
+    _.debounce((updatedData) => {
+      setLocationData(updatedData);
+    }, 300),
+    []
+  );
+
+  const handleGuestsChange = useCallback(
+    _.debounce((guestCount) => {
+      setIsGuestsFilled(guestCount > 0);
+    }, 300),
+    []
+  );
 
   const handleCategoryChange = (categories) => {
     setSelectedCategories(categories);
@@ -54,9 +67,9 @@ const EventSearch = ({ showMoreOptions, setShowMoreOptions }) => {
     setBudget(value);
   };
 
-  const handleGuestsChange = (guestCount) => {
-    setIsGuestsFilled(guestCount > 0);
-  };
+  // const handleGuestsChange = (guestCount) => {
+  //   setIsGuestsFilled(guestCount > 0);
+  // };
 
   const handleDateChange = useCallback((newDate) => {
     setSelectedDate(newDate);
