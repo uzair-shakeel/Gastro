@@ -109,7 +109,9 @@ const EventSearch = () => {
         width: "100%",
         maxWidth: "1450px",
         margin: "auto",
+        height: "100%",
         borderRadius: 1,
+        // borderBottom:"1px solid red",
         mt: 3,
         pl: 1.2,
       }}
@@ -121,6 +123,9 @@ const EventSearch = () => {
         sx={{
           bgcolor: "#F5F5F5",
           borderRadius: "5px",
+          display: "flex",
+          height: "100%",
+          flexWrap: "wrap",
           "& .MuiTabs-indicator": {
             backgroundColor: "transparent",
           },
@@ -289,10 +294,12 @@ const EventSearch = () => {
           display: "flex",
           alignItems: "center",
           gap: "12px",
+          position: "relative",
+          zIndex: "50",
           mt: "24px",
-          height: "60px",
-          minHeight: "60px",
-          maxHeight: "60px",
+          height: "100%",
+          minHeight: "100%",
+          maxHeight: "100%",
           borderRadius: "8px",
           width: "100%",
         }}
@@ -303,11 +310,6 @@ const EventSearch = () => {
           flexWrap="wrap"
           gap={2}
           width="100%"
-          sx={{
-            height: "56px",
-            minHeight: "56px",
-            maxHeight: "56px",
-          }}
         >
           {/* Done */}
           <Box
@@ -357,7 +359,6 @@ const EventSearch = () => {
               error={showErrors && errors.guests}
             />
           </Box>
-
           {/* Done */}
           <Box>
             <BudgetInput

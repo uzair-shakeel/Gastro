@@ -87,7 +87,7 @@ const Navbar = () => {
           isOpen ? "top-0" : "-top-[900px]"
         }`}
       >
-        <div className="border-b absolute bg-white max-w-full mx-auto top-20 left-0 py-4 min-w-full w-full transform translate-x-0">
+        <div className=" border-b absolute pr-2 xl:pr-0 bg-white max-w-full mx-auto top-20 left-0 py-4 min-w-full w-full transform translate-x-0">
           <EventSearch
           />
         </div>
