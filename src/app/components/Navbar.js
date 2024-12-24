@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import EventSearch from "../restaurant/EventSearch";
 import UserProfile from "./UserProfile";
 import LanguageSelector from "./language-selector";
+import Link from "next/link";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +46,14 @@ const Navbar = () => {
     <div className="w-full px-6 relative z-40">
       <div className="max-w-[1440px] bg-white z-[600] mx-auto w-full flex items-center justify-between py-[22px]">
         <div className="w-full">
-          <Image src="/logo-website.svg" alt="navbar" width={250} height={34} />
+          <Link href="/">
+            <Image
+              src="/logo-website.svg"
+              alt="navbar"
+              width={250}
+              height={34}
+            />
+          </Link>
         </div>
         <div className="flex items-center justify-between">
           <button
@@ -88,8 +96,7 @@ const Navbar = () => {
         }`}
       >
         <div className=" border-b absolute pr-2 xl:pr-0 bg-white max-w-full mx-auto top-20 left-0 py-4 min-w-full w-full transform translate-x-0">
-          <EventSearch
-          />
+          <EventSearch />
         </div>
       </div>
     </div>

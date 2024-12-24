@@ -360,7 +360,7 @@ export default function RestaurantDetails() {
               </Box>
 
               <Box width={{ xs: "100%", sm: "auto" }}>
-                <Link href="/view-offer">
+                <Link href="#">
                   <Button
                     fullWidth
                     onClick={handleSearch}

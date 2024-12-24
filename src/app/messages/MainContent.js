@@ -131,9 +131,11 @@ export default function MainContent({
           </div>
         </div>
         <div className="flex items-center gap-4 relative">
-          <button className="px-[22px] py-[8px] bg-[#821101] satoshi text-[15px] text-white rounded-[4px]">
-            VIEW OFFER
-          </button>
+          <Link href="/view-offer">
+            <button className="px-[22px] py-[8px] bg-[#821101] satoshi text-[15px] text-white rounded-[4px]">
+              VIEW OFFER
+            </button>
+          </Link>
           <button
             onClick={togglePopup}
             className="p-2 hover:bg-gray-100 rounded-full"
