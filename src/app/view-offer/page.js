@@ -5,6 +5,7 @@ import MenuItem from "./MenuItem";
 import MenuSection from "./MenuSection";
 import Navbar from "../components/Navbar";
 import SubtotalSection from "./SubtotalSection";
+import { GuestInput } from "./GuestInput";
 
 export default function Menu() {
   const [editable, setEditable] = useState(false);
@@ -14,8 +15,13 @@ export default function Menu() {
     setGuests(event.target.value);
   };
 
-  const totalGuests = 49;
+  const totalGuests = 21;
   const totalAmount = "6'000";
+
+  const handleGuestChange = (value) => {
+    setIsGuestFilled(value !== null && value !== undefined && value !== "");
+    setGuest(value);
+  };
 
   return (
     <Box>
@@ -63,24 +69,42 @@ export default function Menu() {
               </Typography>
             </Box>
 
-            <Typography
+            <Box
               sx={{
-                minWidth: "40%",
-                minHeight: "56px",
-                maxHeight: "56px",
+                minWidth: "48%",
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontWeight: "500",
-                fontSize: "14px",
-                fontFamily: '"Roboto", sans-serif !important',
-                borderBottom: "2px solid #821101",
-                color: "#821101",
-                backgroundColor: "#CCCCCC33",
+                width: "auto",
+                gap: "16px",
               }}
             >
-              A LA CARTE
-            </Typography>
+              <Typography
+                sx={{
+                  minWidth: "40%",
+                  minHeight: "56px",
+                  maxHeight: "56px",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  fontFamily: '"Roboto", sans-serif !important',
+                  borderBottom: "2px solid #821101",
+                  color: "#821101",
+                  backgroundColor: "#CCCCCC33",
+                }}
+              >
+                A LA CARTE
+              </Typography>
+              {editable && (
+                <GuestInput
+                  opacityInput="opacity-100"
+                  valueOfInput={totalGuests}
+                  onInputChange={handleGuestChange}
+                  disable={!editable}
+                />
+              )}
+            </Box>
           </Box>
 
           {/* Sections */}

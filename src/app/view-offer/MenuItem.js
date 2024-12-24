@@ -1,7 +1,8 @@
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Button, IconButton } from "@mui/material";
 import { useState } from "react";
 import Image from "next/image";
 import { GuestInput } from "./GuestInput";
+import { Trash2 } from "lucide-react";
 
 export default function MenuItem({
   title,
@@ -16,6 +17,7 @@ export default function MenuItem({
 }) {
   const [isGuestFilled, setIsGuestFilled] = useState(false);
   const [guest, setGuest] = useState(null);
+
   const handleGuestChange = (value) => {
     setIsGuestFilled(value !== null && value !== undefined && value !== "");
     setGuest(value);
@@ -29,7 +31,6 @@ export default function MenuItem({
           <Box
             key="meat"
             sx={{
-              pr: "50px",
               display: "flex",
               alignItems: "center",
               gap: "6px",
@@ -61,7 +62,6 @@ export default function MenuItem({
           <Box
             key="fish"
             sx={{
-              pr: "50px",
               display: "flex",
               alignItems: "center",
               gap: "4px",
@@ -88,7 +88,6 @@ export default function MenuItem({
           <Box
             key="vegetarian"
             sx={{
-              pr: "50px",
               display: "flex",
               alignItems: "center",
               gap: "4px",
@@ -117,7 +116,6 @@ export default function MenuItem({
         <Box
           key="kids"
           sx={{
-            pr: "50px",
             display: "flex",
             alignItems: "center",
             gap: "4px",
@@ -233,11 +231,34 @@ export default function MenuItem({
             </Box>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", padding: "12px" }}>
-            {getIcon()}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                pr: editable ? "20px" : "48px",
+              }}
+            >
+              {getIcon()}
+            </Box>
+            {editable && (
+              <IconButton
+                size="small"
+                sx={{
+                  padding: 0,
+                }}
+              >
+                <Image
+                  src="/close-arrow.svg"
+                  alt="close-arrow"
+                  width={24}
+                  height={24}
+                />
+              </IconButton>
+            )}
           </Box>
         </Box>
 
-        <Box sx={{ display: "flex", alignItems: "start", gap: "1rem" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <Box sx={{ position: "relative" }}>
             <GuestInput
               opacityInput="opacity-100"
@@ -248,11 +269,10 @@ export default function MenuItem({
           </Box>
           <Box
             sx={{
-              mr: 5,
+              mr: !editable ? 5 : 2,
               ml: 1,
               minWidth: "80px",
               textAlign: "right",
-              paddingTop: "14px",
             }}
           >
             <Typography
@@ -268,6 +288,21 @@ export default function MenuItem({
               CHF {price}
             </Typography>
           </Box>
+          {editable && (
+            <Box
+              sx={{
+                cursor: "pointer",
+                padding: "5px",
+                borderRadius: "4px",
+                "&:hover": {
+                  bgcolor: "#e8e8e8",
+                },
+                transition: "background 0.3s ease",
+              }}
+            >
+              <Trash2 color="#0000008C" />
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>
