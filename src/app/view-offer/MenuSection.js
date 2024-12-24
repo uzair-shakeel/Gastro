@@ -114,7 +114,16 @@ export default function MenuSection({ title, totalPrice, children, editable }) {
         >
           {children}
           {editable && (
-            <StyledButton startIcon={<AddIcon />}>Add Meal</StyledButton>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "end",
+                paddingRight: "190px",
+              }}
+            >
+              <StyledButton startIcon={<AddIcon />}>Add Meal</StyledButton>
+            </Box>
           )}
         </Box>
       )}

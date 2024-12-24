@@ -24,6 +24,7 @@ export default function SubtotalSection({
 
   const handleRequestClick = () => {
     // Implement request logic here
+    setEditable(false);
   };
   return (
     <Box sx={{ marginTop: "24px" }}>
