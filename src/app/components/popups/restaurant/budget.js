@@ -47,6 +47,7 @@ export function BudgetInput({
   error = false,
   valueOfInput = "",
   icon = true,
+  disable = false,
 }) {
   const [value, setValue] = useState(valueOfInput);
 
@@ -85,6 +86,7 @@ export function BudgetInput({
       label={legend}
       legendbg={legendbg}
       icon={icon} // Pass the icon prop for conditional styling
+      disabled={disable}
     />
   );
 }

@@ -34,14 +34,22 @@ export default function MenuItem({
               gap: "6px",
             }}
           >
-            <Image src='/kebab-dining.svg' alt="kebab-dining" width={24} height={24} />
-            <Typography variant="caption" sx={{
-              color: "#000000B2",
-              fontSize: "16px",
-              lineHeight: "24px",
-              letterSpacing: "0.15px",
-              fontWeight: "600"
-            }}>
+            <Image
+              src="/kebab-dining.svg"
+              alt="kebab-dining"
+              width={24}
+              height={24}
+            />
+            <Typography
+              variant="caption"
+              sx={{
+                color: "#000000B2",
+                fontSize: "16px",
+                lineHeight: "24px",
+                letterSpacing: "0.15px",
+                fontWeight: "600",
+              }}
+            >
               Meat
             </Typography>
           </Box>
@@ -58,14 +66,17 @@ export default function MenuItem({
               gap: "4px",
             }}
           >
-            <Image src='/set-meal.svg' alt="set-meal" width={24} height={24} />
-            <Typography variant="caption" sx={{
-              color: "#000000B2",
-              fontSize: "16px",
-              lineHeight: "24px",
-              letterSpacing: "0.15px",
-              fontWeight: "600"
-            }}>
+            <Image src="/set-meal.svg" alt="set-meal" width={24} height={24} />
+            <Typography
+              variant="caption"
+              sx={{
+                color: "#000000B2",
+                fontSize: "16px",
+                lineHeight: "24px",
+                letterSpacing: "0.15px",
+                fontWeight: "600",
+              }}
+            >
               Fish
             </Typography>
           </Box>
@@ -82,14 +93,17 @@ export default function MenuItem({
               gap: "4px",
             }}
           >
-            <Image src='/grocery.svg' alt="grocery" width={24} height={24} />
-            <Typography variant="caption" sx={{
-              color: "#000000B2",
-              fontSize: "16px",
-              lineHeight: "24px",
-              letterSpacing: "0.15px",
-              fontWeight: "600"
-            }}>
+            <Image src="/grocery.svg" alt="grocery" width={24} height={24} />
+            <Typography
+              variant="caption"
+              sx={{
+                color: "#000000B2",
+                fontSize: "16px",
+                lineHeight: "24px",
+                letterSpacing: "0.15px",
+                fontWeight: "600",
+              }}
+            >
               Vegetarian
             </Typography>
           </Box>
@@ -109,14 +123,22 @@ export default function MenuItem({
             marginLeft: "8px",
           }}
         >
-          <Image src='/child-care.svg' alt="child-care" width={24} height={24} />
-          <Typography variant="caption" sx={{
-            color: "#000000B2",
-            fontSize: "16px",
-            lineHeight: "24px",
-            letterSpacing: "0.15px",
-            fontWeight: "600"
-          }}>
+          <Image
+            src="/child-care.svg"
+            alt="child-care"
+            width={24}
+            height={24}
+          />
+          <Typography
+            variant="caption"
+            sx={{
+              color: "#000000B2",
+              fontSize: "16px",
+              lineHeight: "24px",
+              letterSpacing: "0.15px",
+              fontWeight: "600",
+            }}
+          >
             KIDS
           </Typography>
         </Box>
@@ -170,7 +192,7 @@ export default function MenuItem({
                 color: "#000000B2",
                 fontWeight: "400",
                 letterSpacing: "0.15px",
-                fontFamily: "'Roboto', sans-serif !important"
+                fontFamily: "'Roboto', sans-serif !important",
               }}
             >
               {isSideDish ? "Side Dish" : "Dish"}
@@ -185,7 +207,13 @@ export default function MenuItem({
             >
               <Typography
                 variant="subtitle2"
-                sx={{ fontSize: "16px", fontWeight: 700, color: "#000000B2", lineHeight: "24px", letterSpacing: "0.15px" }}
+                sx={{
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  color: "#000000B2",
+                  lineHeight: "24px",
+                  letterSpacing: "0.15px",
+                }}
               >
                 {title}
               </Typography>
@@ -196,7 +224,7 @@ export default function MenuItem({
                   fontWeight: "500",
                   fontSize: "16px",
                   lineHeight: "24px",
-                  letterSpacing: "0.15px"
+                  letterSpacing: "0.15px",
                 }}
               >
                 {description}
@@ -217,14 +245,27 @@ export default function MenuItem({
               valueOfInput={guests}
               icon={false}
               onInputChange={handleGuestChange}
+              disable={true}
             />
           </Box>
           <Box
-            sx={{ mr: 5, ml: 1, minWidth: "80px", textAlign: "right", paddingTop: "14px" }}
+            sx={{
+              mr: 5,
+              ml: 1,
+              minWidth: "80px",
+              textAlign: "right",
+              paddingTop: "14px",
+            }}
           >
             <Typography
               variant="subtitle2"
-              sx={{ fontSize: "18px", fontWeight: 600, color: "#000000", letterSpacing: "-0.02em", lineHeight: "24px" }}
+              sx={{
+                fontSize: "18px",
+                fontWeight: 600,
+                color: "#000000",
+                letterSpacing: "-0.02em",
+                lineHeight: "24px",
+              }}
             >
               CHF {price}
             </Typography>

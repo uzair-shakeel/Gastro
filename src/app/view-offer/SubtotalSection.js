@@ -14,7 +14,16 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
           borderBottom: "1px solid #CCCCCC",
         }}
       >
-        <Typography variant="subtitle1" sx={{ fontWeight: "600", fontSize:"20px", color:"#000000", letterSpacing:"-0.02em", lineHeight:"24px" }}>
+        <Typography
+          variant="subtitle1"
+          sx={{
+            fontWeight: "600",
+            fontSize: "20px",
+            color: "#000000",
+            letterSpacing: "-0.02em",
+            lineHeight: "24px",
+          }}
+        >
           Subtotal
         </Typography>
         <Box
@@ -24,7 +33,16 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
             gap: "32px",
           }}
         >
-          <Typography variant="subtitle1" sx={{ fontWeight: "500", fontSize:"20px", color:"#000000CC", lineHeight:"24px", letterSpacing:"-0.02em" }}>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: "500",
+              fontSize: "20px",
+              color: "#000000CC",
+              lineHeight: "24px",
+              letterSpacing: "-0.02em",
+            }}
+          >
             {totalGuests} Guests
           </Typography>
           <Typography
@@ -32,11 +50,11 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
             sx={{
               fontWeight: "600",
               textAlign: "right",
-              color:"#000000",
-              fontSize:"22px",
-              lineHeight:"26px", 
-              letterSpacing:"-0.02em",
-              fontFamily: "'Urbanist', sans-serif !important"
+              color: "#000000",
+              fontSize: "22px",
+              lineHeight: "26px",
+              letterSpacing: "-0.02em",
+              fontFamily: "'Urbanist', sans-serif !important",
             }}
           >
             CHF {totalAmount}
@@ -58,10 +76,10 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
             paddingX: "4px",
             fontSize: "12px",
             color: "#000000B2",
-            letterSpacing:"0.15px",
-            fontWeight:"400",
+            letterSpacing: "0.15px",
+            fontWeight: "400",
             zIndex: "10",
-            fontFamily: "'Roboto', sans-serif !important"
+            fontFamily: "'Roboto', sans-serif !important",
           }}
         >
           Remarks
@@ -71,23 +89,22 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
           rows={1}
           fullWidth
           variant="outlined"
-          
+          disabled
           sx={{
-            '& .MuiOutlinedInput-root': {
-              borderRadius: '4px',
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#00000040', 
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "4px",
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#00000040",
               },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#00000040',  
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#00000040",
               },
             },
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#00000040',  
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#00000040",
             },
           }}
         />
-
       </Box>
 
       <Box
@@ -100,7 +117,7 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
       >
         {/* Notice Section */}
         <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <Image src='/help.svg' alt="" width={18} height={18} />
+          <Image src="/help.svg" alt="" width={18} height={18} />
           <Typography
             variant="body2"
             sx={{
@@ -110,17 +127,21 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
               fontSize: "16px",
               letterSpacing: "-0.02em",
               fontWeight: "500",
-              lineHeight: "24px"
+              lineHeight: "24px",
             }}
           >
             Food allergies, specific food instructions or questions about the
-            origin of meat? Please contact the restaurant directly at   {" "}
+            origin of meat? Please contact the restaurant directly at{" "}
             <a
               href="tel:+41585620030"
-              style={{ color: "rgba(29, 155, 240, 0.7)", textDecoration: "underline" }}
+              style={{
+                color: "rgba(29, 155, 240, 0.7)",
+                textDecoration: "underline",
+              }}
             >
               +41585620030
-            </a>  or add your questions to the remark section.
+            </a>{" "}
+            or add your questions to the remark section.
           </Typography>
         </Box>
 
@@ -136,7 +157,13 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
           <Button
             variant="contained"
             startIcon={
-              <Image src='/download-pdf.svg' alt="download-pdf" width={18} height={22} className="-mt-0.5" />
+              <Image
+                src="/download-pdf.svg"
+                alt="download-pdf"
+                width={18}
+                height={22}
+                className="-mt-0.5"
+              />
             }
             sx={{
               backgroundColor: "#82110126",
