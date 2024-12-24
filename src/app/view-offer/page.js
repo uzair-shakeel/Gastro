@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import SubtotalSection from "./SubtotalSection";
 
 export default function Menu() {
+  const [editable, setEditable] = useState(false);
   const [guests, setGuests] = useState(7);
 
   const handleGuestsChange = (event) => {
@@ -44,14 +45,19 @@ export default function Menu() {
                   fontWeight: "600",
                   color: "#000000",
                   lineHeight: "28px",
-                  letterSpacing: "-0.02em"
+                  letterSpacing: "-0.02em",
                 }}
               >
                 Restaurant Sonnenberg
               </Typography>
               <Typography
                 variant="body1"
-                sx={{ fontSize: "24px", color: "#000000B2", letterSpacing: "-0.02em", fontWeight: "600" }}
+                sx={{
+                  fontSize: "24px",
+                  color: "#000000B2",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                }}
               >
                 - Lunch - 29.10.2024
               </Typography>
@@ -80,7 +86,11 @@ export default function Menu() {
           {/* Sections */}
           <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
             {/* Course Starter */}
-            <MenuSection title="1 - Course Starter" totalPrice="630">
+            <MenuSection
+              title="1 - Course Starter"
+              totalPrice="630"
+              editable={editable}
+            >
               <MenuItem
                 title="Daprese Salad"
                 description="Fresh mozzarella, vine-ripened tomatoes, basil, and balsamic reduction."
@@ -88,6 +98,7 @@ export default function Menu() {
                 price="140"
                 guests={guests}
                 onGuestsChange={handleGuestsChange}
+                editable={editable}
               />
               <MenuItem
                 title="Daprese Salad"
@@ -96,6 +107,7 @@ export default function Menu() {
                 price="210"
                 guests={guests}
                 onGuestsChange={handleGuestsChange}
+                editable={editable}
               />
               <MenuItem
                 title="Daprese Salad"
@@ -104,11 +116,16 @@ export default function Menu() {
                 price="280"
                 guests={guests}
                 onGuestsChange={handleGuestsChange}
+                editable={editable}
               />
             </MenuSection>
 
             {/* Course Main */}
-            <MenuSection title="2 - Course Main" totalPrice="6000">
+            <MenuSection
+              title="2 - Course Main"
+              totalPrice="6000"
+              editable={editable}
+            >
               <MenuItem
                 title="Daprese Salad"
                 description="Fresh mozzarella, vine-ripened tomatoes, basil, and balsamic reduction."
@@ -116,6 +133,7 @@ export default function Menu() {
                 price="1500"
                 guests={guests}
                 onGuestsChange={handleGuestsChange}
+                editable={editable}
               />
               <MenuItem
                 title="Daprese Salad"
@@ -124,6 +142,7 @@ export default function Menu() {
                 guests={guests}
                 onGuestsChange={handleGuestsChange}
                 isSideDish
+                editable={editable}
               />
               <MenuItem
                 title="Daprese Salad"
@@ -133,6 +152,7 @@ export default function Menu() {
                 guests={guests}
                 onGuestsChange={handleGuestsChange}
                 isChild
+                editable={editable}
               />
               <MenuItem
                 title="Daprese Salad"
@@ -141,12 +161,15 @@ export default function Menu() {
                 guests={guests}
                 onGuestsChange={handleGuestsChange}
                 isSideDish
+                editable={editable}
               />
             </MenuSection>
           </Box>
           <SubtotalSection
             totalGuests={totalGuests}
             totalAmount={totalAmount}
+            editable={editable}
+            setEditable={setEditable}
           />
         </Box>
       </Box>

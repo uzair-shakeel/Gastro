@@ -1,7 +1,30 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
 import Image from "next/image";
+import { useState } from "react";
+import CancelModal from "./CancelModal";
 
-export default function SubtotalSection({ totalGuests, totalAmount }) {
+export default function SubtotalSection({
+  totalGuests,
+  totalAmount,
+  setEditable,
+  editable,
+}) {
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const toggleCancelModal = () => {
+    setIsCancelModalOpen(!isCancelModalOpen);
+  };
+
+  const handleConfirmCancel = () => {
+    // Implement confirm cancel logic logic here
+  };
+
+  const toggleEditable = () => {
+    setEditable(!editable);
+  };
+
+  const handleRequestClick = () => {
+    // Implement request logic here
+  };
   return (
     <Box sx={{ marginTop: "24px" }}>
       <Box
@@ -89,7 +112,7 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
           rows={1}
           fullWidth
           variant="outlined"
-          disabled
+          disabled={!editable}
           sx={{
             "& .MuiOutlinedInput-root": {
               borderRadius: "4px",
@@ -154,35 +177,37 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
             gap: "16px",
           }}
         >
+          {!editable && (
+            <Button
+              variant="contained"
+              startIcon={
+                <Image
+                  src="/download-pdf.svg"
+                  alt="download-pdf"
+                  width={18}
+                  height={22}
+                  className="-mt-0.5"
+                />
+              }
+              sx={{
+                backgroundColor: "#82110126",
+                width: "196px",
+                height: "50px",
+                fontSize: "15px",
+                pt: "10px",
+                fontFamily: "'Satoshi', sans-serif !important",
+                fontWeight: "500",
+                letterSpacing: "0.46px",
+                color: "#821101",
+                "&:hover": { backgroundColor: "#82110126" },
+              }}
+            >
+              Download PDF
+            </Button>
+          )}
           <Button
             variant="contained"
-            startIcon={
-              <Image
-                src="/download-pdf.svg"
-                alt="download-pdf"
-                width={18}
-                height={22}
-                className="-mt-0.5"
-              />
-            }
-            sx={{
-              backgroundColor: "#82110126",
-              width: "196px",
-              height: "50px",
-              fontSize: "15px",
-              pt: "10px",
-              fontFamily: "'Satoshi', sans-serif !important",
-              fontWeight: "500",
-              letterSpacing: "0.46px",
-              color: "#821101",
-              "&:hover": { backgroundColor: "#82110126" },
-            }}
-          >
-            Download PDF
-          </Button>
-
-          <Button
-            variant="contained"
+            onClick={toggleEditable}
             sx={{
               backgroundColor: "#821101",
               height: "50px",
@@ -194,26 +219,52 @@ export default function SubtotalSection({ totalGuests, totalAmount }) {
               letterSpacing: "0.46px",
             }}
           >
-            Adjust
+            {editable ? "Cancel" : "Adjust"}
           </Button>
 
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#821101",
-              height: "50px",
-              width: "106px",
-              color: "#FFFFFF",
-              fontSize: "15px",
-              fontFamily: "'Satoshi', sans-serif !important",
-              fontWeight: "500",
-              letterSpacing: "0.46px",
-            }}
-          >
-            Cancle
-          </Button>
+          {editable ? (
+            <Button
+              variant="contained"
+              onClick={handleRequestClick}
+              sx={{
+                backgroundColor: "#821101",
+                height: "50px",
+                width: "106px",
+                color: "#FFFFFF",
+                fontSize: "15px",
+                fontFamily: "'Satoshi', sans-serif !important",
+                fontWeight: "500",
+                letterSpacing: "0.46px",
+              }}
+            >
+              Request
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={toggleCancelModal}
+              sx={{
+                backgroundColor: "#821101",
+                height: "50px",
+                width: "106px",
+                color: "#FFFFFF",
+                fontSize: "15px",
+                fontFamily: "'Satoshi', sans-serif !important",
+                fontWeight: "500",
+                letterSpacing: "0.46px",
+              }}
+            >
+              Cancle
+            </Button>
+          )}
         </Box>
       </Box>
+
+      <CancelModal
+        open={isCancelModalOpen}
+        onClose={toggleCancelModal}
+        onConfirm={handleConfirmCancel}
+      />
     </Box>
   );
 }

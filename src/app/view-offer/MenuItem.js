@@ -1,7 +1,7 @@
 import { Typography, Box } from "@mui/material";
-import { BudgetInput as GuestInput } from "../components/popups/restaurant/budget";
 import { useState } from "react";
 import Image from "next/image";
+import { GuestInput } from "./GuestInput";
 
 export default function MenuItem({
   title,
@@ -12,6 +12,7 @@ export default function MenuItem({
   onGuestsChange,
   isChild,
   isSideDish,
+  editable,
 }) {
   const [isGuestFilled, setIsGuestFilled] = useState(false);
   const [guest, setGuest] = useState(null);
@@ -239,13 +240,10 @@ export default function MenuItem({
         <Box sx={{ display: "flex", alignItems: "start", gap: "1rem" }}>
           <Box sx={{ position: "relative" }}>
             <GuestInput
-              legend="Guests"
-              legendbg="white"
               opacityInput="opacity-100"
               valueOfInput={guests}
-              icon={false}
               onInputChange={handleGuestChange}
-              disable={true}
+              disable={!editable}
             />
           </Box>
           <Box
