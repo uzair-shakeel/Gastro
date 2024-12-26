@@ -1,13 +1,20 @@
 "use client";
 import { useState } from "react";
+import { useParams } from "next/navigation";
 import { Typography, Box } from "@mui/material";
 import MenuItem from "./MenuItem";
 import MenuSection from "./MenuSection";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import SubtotalSection from "./SubtotalSection";
 import { GuestInput } from "./GuestInput";
+import { initialOrders } from "@/app/page";
 
 export default function Menu() {
+  const { id } = useParams(); // Extract the id from the URL
+  const restaurant = initialOrders.find(
+    (order) => order.id === parseInt(id, 10)
+  ); // Find the restaurant by ID
+  console.log(restaurant);
   const [editable, setEditable] = useState(false);
   const [guests, setGuests] = useState(7);
 
@@ -20,8 +27,26 @@ export default function Menu() {
 
   const handleGuestChange = (value) => {
     setIsGuestFilled(value !== null && value !== undefined && value !== "");
-    setGuest(value);
+    setGuests(value);
   };
+
+  // If restaurant is not found, show an error message
+  if (!restaurant) {
+    return (
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h4" color="error">
+          Restaurant not found.
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box>
@@ -54,7 +79,7 @@ export default function Menu() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                Restaurant Sonnenberg
+                {restaurant.location}
               </Typography>
               <Typography
                 variant="body1"

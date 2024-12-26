@@ -183,7 +183,7 @@ export default function OrderCard({
                     </Link>
                   )}
                 </button>
-                <Link href="/view-offer">
+                <Link href={`/view-offer/${order.id}`}>
                   <button className="px-8 py-2 bg-[#821101] uppercase text-white transition">
                     View Offer
                   </button>
