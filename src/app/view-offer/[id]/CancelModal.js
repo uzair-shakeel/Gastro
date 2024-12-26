@@ -1,14 +1,6 @@
 import { Box, Modal, Button, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
 
 export default function CancelModal({ open, onClose, onConfirm }) {
-  const router = useRouter();
-
-  const handleConfirm = () => {
-    onConfirm();
-    router.push("/messages");
-  };
-
   return (
     <Modal
       open={open}
@@ -70,7 +62,7 @@ export default function CancelModal({ open, onClose, onConfirm }) {
             NO
           </Button>
           <Button
-            onClick={handleConfirm}
+            onClick={onConfirm}
             variant="contained"
             sx={{
               bgcolor: "#D32F2F",

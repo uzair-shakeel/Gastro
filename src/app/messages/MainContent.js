@@ -3,7 +3,6 @@ import { PiPaperPlaneRightLight } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
 import { ImSpoonKnife } from "react-icons/im";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { IoMdInformationCircleOutline } from "react-icons/io";
 import Link from "next/link";
 
 export default function MainContent({

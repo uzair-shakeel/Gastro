@@ -89,3 +89,8 @@ body {
 
   box-shadow: 0px 3px 14px 2px #0000001f;
 }
+
+/* Customizing the toast message */
+.custom-toast {
+  font-weight: 600; /* Custom font weight */
+}

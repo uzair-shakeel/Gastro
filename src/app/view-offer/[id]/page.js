@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Typography, Box } from "@mui/material";
 import MenuItem from "./MenuItem";
@@ -7,14 +7,29 @@ import MenuSection from "./MenuSection";
 import Navbar from "../../components/Navbar";
 import SubtotalSection from "./SubtotalSection";
 import { GuestInput } from "./GuestInput";
-import { initialOrders } from "@/app/page";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Menu() {
   const { id } = useParams(); // Extract the id from the URL
-  const restaurant = initialOrders.find(
-    (order) => order.id === parseInt(id, 10)
-  ); // Find the restaurant by ID
-  console.log(restaurant);
+  const [restaurant, setRestaurant] = useState(null); // State to store the selected restaurant
+
+  useEffect(() => {
+    // Retrieve orders from localStorage
+    const ordersData = localStorage.getItem("orders");
+    const parsedOrders = ordersData ? JSON.parse(ordersData) : [];
+
+    // Find the restaurant by ID
+    const foundRestaurant = parsedOrders.find(
+      (order) => order.id === parseInt(id, 10)
+    );
+
+    // Set the restaurant in state
+    if (foundRestaurant) {
+      setRestaurant(foundRestaurant);
+    }
+  }, [id]);
+
   const [editable, setEditable] = useState(false);
   const [guests, setGuests] = useState(7);
 
@@ -51,7 +66,16 @@ export default function Menu() {
   return (
     <Box>
       <Navbar />
-
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Box sx={{ minHeight: "100vh", backgroundColor: "#fffff" }}>
         <Box
           sx={{
@@ -219,6 +243,8 @@ export default function Menu() {
             totalAmount={totalAmount}
             editable={editable}
             setEditable={setEditable}
+            restaurant={restaurant}
+            setRestaurant={setRestaurant}
           />
         </Box>
       </Box>

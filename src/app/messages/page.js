@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import RestaurantList from "./RestaurantList";
 import MainContent from "./MainContent";
-import { initialOrders } from "../page";
+import { initialOrders } from "../../../public/data/initialOrders";
 
 const tabs = ["ALL", "ACTIVE", "CONFIRMED", "CANCELLED", "ARCHIVED"];
 const mockMessagesByRestaurant = {
@@ -134,12 +134,33 @@ const formatTime = (date) => {
 
 export default function MessagesPage() {
   const [activeTab, setActiveTab] = useState("ALL");
-  const [selectedRestaurant, setSelectedRestaurant] = useState(
-    initialOrders[0]
-  );
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const [messages, setMessages] = useState(mockMessagesByRestaurant);
-  const [restaurantsState, setRestaurantsState] = useState(initialOrders);
+  const [restaurantsState, setRestaurantsState] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+
+  // Fetch orders from localStorage or fallback to `initialOrders`
+  useEffect(() => {
+    const fetchInitialOrders = () => {
+      if (typeof window !== "undefined") {
+        const storedOrders = localStorage.getItem("orders");
+        if (storedOrders) {
+          return JSON.parse(storedOrders);
+        } else {
+          // Use initialOrders if not found in localStorage
+          return initialOrders; // Ensure initialOrders is imported
+        }
+      }
+      return initialOrders; // In case of server-side rendering or undefined window
+    };
+
+    const orders = fetchInitialOrders();
+    setRestaurantsState(orders);
+
+    if (orders.length > 0) {
+      setSelectedRestaurant(orders[0]); // Default to the first order
+    }
+  }, []);
 
   useEffect(() => {
     setFilteredRestaurants(getFilteredRestaurants());
@@ -147,8 +168,8 @@ export default function MessagesPage() {
 
   useEffect(() => {
     const storedOrderId = localStorage.getItem("currentOrderId");
-    if (storedOrderId) {
-      const updatedOrder = initialOrders.find(
+    if (storedOrderId && restaurantsState.length > 0) {
+      const updatedOrder = restaurantsState.find(
         (order) => order.id.toString() === storedOrderId
       );
       if (updatedOrder) {
@@ -156,7 +177,7 @@ export default function MessagesPage() {
       }
       localStorage.removeItem("currentOrderId");
     }
-  }, []);
+  }, [restaurantsState]);
 
   const getFilteredRestaurants = () => {
     let filtered = [];
@@ -191,19 +212,26 @@ export default function MessagesPage() {
   };
 
   const onSelectAndMarkRead = (restaurant) => {
+    // Update the selected restaurant
     setSelectedRestaurant(restaurant);
+
+    // Update the restaurant state to mark the restaurant as read
     const updatedRestaurants = restaurantsState.map((r) =>
       r.id === restaurant.id ? { ...r, isUnread: false } : r
     );
     setRestaurantsState(updatedRestaurants);
+
+    localStorage.setItem("orders", JSON.stringify(updatedRestaurants));
   };
 
   const updateRestaurantStatus = (id) => {
+    // Toggle the isArchived status for the selected restaurant
     setSelectedRestaurant((prev) => ({
       ...prev,
       isArchived: !prev.isArchived,
     }));
 
+    // Update the restaurant state
     const updatedRestaurants = restaurantsState.map((r) =>
       r.id === id
         ? {
@@ -214,7 +242,11 @@ export default function MessagesPage() {
     );
     setRestaurantsState(updatedRestaurants);
 
+    // Update the filtered restaurants list
     setFilteredRestaurants(getFilteredRestaurants());
+
+    // Update localStorage with the updated restaurant data
+    localStorage.setItem("orders", JSON.stringify(updatedRestaurants));
   };
 
   const getStatusStyle = (status) => {
@@ -241,6 +273,10 @@ export default function MessagesPage() {
           ? { ...restaurant, time: newTime, isUnread }
           : restaurant
       );
+
+      // Update localStorage with the updated restaurant data
+      localStorage.setItem("orders", JSON.stringify(updatedRestaurants));
+
       return updatedRestaurants;
     });
 
@@ -289,6 +325,10 @@ export default function MessagesPage() {
           ? { ...restaurant, time: currentTime, isUnread: true }
           : restaurant
       );
+
+      // Update localStorage with the updated restaurant data
+      localStorage.setItem("orders", JSON.stringify(updatedRestaurants));
+
       return updatedRestaurants;
     });
 
@@ -319,26 +359,27 @@ export default function MessagesPage() {
           ))}
         </div>
       </div>
-
-      <div className="flex pt-[24px] gap-[16px]">
-        <RestaurantList
-          restaurants={filteredRestaurants}
-          selectedRestaurant={selectedRestaurant}
-          onSelectAndMarkRead={onSelectAndMarkRead}
-          getStatusStyle={getStatusStyle}
-        />
-        <MainContent
-          selectedRestaurant={selectedRestaurant}
-          setSelectedRestaurant={setSelectedRestaurant}
-          messages={messages}
-          setMessages={setMessages}
-          getStatusStyle={getStatusStyle}
-          updateRestaurantStatus={updateRestaurantStatus}
-          setRestaurantsState={setRestaurantsState}
-          handleAddAutoMessage={handleAddAutoMessage}
-          updateTimeAndisUnread={updateTimeAndisUnread}
-        />
-      </div>
+      {selectedRestaurant && (
+        <div className="flex pt-[24px] gap-[16px]">
+          <RestaurantList
+            restaurants={filteredRestaurants}
+            selectedRestaurant={selectedRestaurant}
+            onSelectAndMarkRead={onSelectAndMarkRead}
+            getStatusStyle={getStatusStyle}
+          />
+          <MainContent
+            selectedRestaurant={selectedRestaurant}
+            setSelectedRestaurant={setSelectedRestaurant}
+            messages={messages}
+            setMessages={setMessages}
+            getStatusStyle={getStatusStyle}
+            updateRestaurantStatus={updateRestaurantStatus}
+            setRestaurantsState={setRestaurantsState}
+            handleAddAutoMessage={handleAddAutoMessage}
+            updateTimeAndisUnread={updateTimeAndisUnread}
+          />
+        </div>
+      )}
     </div>
   );
 }

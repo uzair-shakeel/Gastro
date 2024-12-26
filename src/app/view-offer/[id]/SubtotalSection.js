@@ -2,24 +2,63 @@ import { Box, Typography, TextField, Button } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 import CancelModal from "./CancelModal";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function SubtotalSection({
   totalGuests,
   totalAmount,
   setEditable,
   editable,
+  restaurant,
+  setRestaurant,
 }) {
+  const router = useRouter();
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const toggleCancelModal = () => {
-    setIsCancelModalOpen(!isCancelModalOpen);
+    if (restaurant.status !== "Confirmed") {
+      setIsCancelModalOpen(!isCancelModalOpen);
+    } else {
+      toast.warning("The order is already confirmed and cannot be Cancelled.", {
+        className: "custom-toast",
+      });
+    }
   };
 
   const handleConfirmCancel = () => {
-    // Implement confirm cancel logic logic here
+    // Retrieve all orders from localStorage
+    if (typeof window !== "undefined") {
+      const storedOrders = localStorage.getItem("orders");
+
+      if (storedOrders) {
+        // Parse the stored orders
+        const orders = JSON.parse(storedOrders);
+        // Find the restaurant to update
+        const updatedOrders = orders.map((order) =>
+          order.id === restaurant.id
+            ? { ...order, status: "Cancelled" } // Update status to Cancelled
+            : order
+        );
+
+        // Update the orders in localStorage with the modified order
+        localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+        // Optionally, update the state as well if needed
+        setRestaurant(updatedOrders);
+      }
+    }
+    // Redirect to /messages page
+    router.push("/messages");
   };
 
   const toggleEditable = () => {
-    setEditable(!editable);
+    if (restaurant.status !== "Confirmed") {
+      setEditable(!editable);
+    } else {
+      toast.warning("The order is already confirmed and cannot be modified.", {
+        className: "custom-toast",
+      });
+    }
   };
 
   const handleRequestClick = () => {
