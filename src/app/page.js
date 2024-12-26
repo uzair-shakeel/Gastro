@@ -6,6 +6,7 @@ import CancelPopup from "./components/popups/cancel";
 import Navbar from "./components/Navbar";
 import { CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
+import { initialOrders } from "../../public/data/initialOrders";
 
 export default function Home() {
   const [orders, setOrders] = useState(null);
