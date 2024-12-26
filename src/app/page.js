@@ -3,9 +3,12 @@ import { useState, useEffect } from "react";
 import OrderCard from "./screens/orders";
 import DeletePopup from "./components/popups/delete";
 import CancelPopup from "./components/popups/cancel";
+import Navbar from "./components/Navbar";
+import { CircularProgress } from "@mui/material";
+import { Box } from "@mui/system";
 
 export default function Home() {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showCancelPopup, setShowCancelPopup] = useState(false);
@@ -32,6 +35,22 @@ export default function Home() {
         .sort((a, b) => new Date(a.date) - new Date(b.date))
     );
   }, []);
+
+  // If orders is not found
+  if (!orders) {
+    return (
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress sx={{ color: "#821101" }} />
+      </Box>
+    );
+  }
 
   const handleDelete = (order) => {
     setSelectedOrder(order);
@@ -76,44 +95,48 @@ export default function Home() {
   }, {});
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-6">Orders</h1>
+    <div>
+      <Navbar />
+      <div className="container mx-auto px-4 py-6">
+        <h1 className="text-3xl font-bold mb-6">Orders</h1>
 
-      {Object.keys(groupedOrders).map((city) => (
-        <div key={city}>
-          <h2 className="text-2xl font-semibold mt-8 mb-4">
-            {city} -{new Date(groupedOrders[city][0].date).toLocaleDateString()}
-          </h2>
-          <div className="space-y-6">
-            {groupedOrders[city].map((order) => (
-              <OrderCard
-                key={order.id}
-                order={order}
-                showPopup={showPopup}
-                setShowPopup={setShowPopup}
-                handleDelete={handleDelete}
-                handleCancel={handleCancel}
-              />
-            ))}
+        {Object.keys(groupedOrders).map((city) => (
+          <div key={city}>
+            <h2 className="text-2xl font-semibold mt-8 mb-4">
+              {city} -
+              {new Date(groupedOrders[city][0].date).toLocaleDateString()}
+            </h2>
+            <div className="space-y-6">
+              {groupedOrders[city].map((order) => (
+                <OrderCard
+                  key={order.id}
+                  order={order}
+                  showPopup={showPopup}
+                  setShowPopup={setShowPopup}
+                  handleDelete={handleDelete}
+                  handleCancel={handleCancel}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
-      {showDeletePopup && selectedOrder && (
-        <DeletePopup
-          handleClosePopup={handleClosePopup}
-          confirmDelete={confirmDelete}
-          selectedOrder={selectedOrder}
-        />
-      )}
+        {showDeletePopup && selectedOrder && (
+          <DeletePopup
+            handleClosePopup={handleClosePopup}
+            confirmDelete={confirmDelete}
+            selectedOrder={selectedOrder}
+          />
+        )}
 
-      {showCancelPopup && selectedOrder && (
-        <CancelPopup
-          handleClosePopup={handleClosePopup}
-          confirmCancel={confirmCancel}
-          selectedOrder={selectedOrder}
-        />
-      )}
+        {showCancelPopup && selectedOrder && (
+          <CancelPopup
+            handleClosePopup={handleClosePopup}
+            confirmCancel={confirmCancel}
+            selectedOrder={selectedOrder}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, CircularProgress } from "@mui/material";
 import MenuItem from "./MenuItem";
 import MenuSection from "./MenuSection";
 import Navbar from "../../components/Navbar";
@@ -9,6 +9,7 @@ import SubtotalSection from "./SubtotalSection";
 import { GuestInput } from "./GuestInput";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { initialOrders } from "../../../../public/data/initialOrders";
 
 export default function Menu() {
   const { id } = useParams(); // Extract the id from the URL
@@ -16,8 +17,15 @@ export default function Menu() {
 
   useEffect(() => {
     // Retrieve orders from localStorage
-    const ordersData = localStorage.getItem("orders");
-    const parsedOrders = ordersData ? JSON.parse(ordersData) : [];
+    let ordersData = localStorage.getItem("orders");
+
+    // If no orders are found in localStorage, use initialOrders
+    if (!ordersData) {
+      ordersData = JSON.stringify(initialOrders);
+      localStorage.setItem("orders", ordersData);
+    }
+
+    const parsedOrders = JSON.parse(ordersData);
 
     // Find the restaurant by ID
     const foundRestaurant = parsedOrders.find(
@@ -45,7 +53,7 @@ export default function Menu() {
     setGuests(value);
   };
 
-  // If restaurant is not found, show an error message
+  // If restaurant is not found
   if (!restaurant) {
     return (
       <Box
@@ -56,9 +64,7 @@ export default function Menu() {
           alignItems: "center",
         }}
       >
-        <Typography variant="h4" color="error">
-          Restaurant not found.
-        </Typography>
+        <CircularProgress sx={{ color: "#821101" }} />
       </Box>
     );
   }

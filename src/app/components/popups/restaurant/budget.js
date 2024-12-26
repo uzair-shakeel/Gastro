@@ -3,10 +3,10 @@ import { TextField, InputAdornment } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CreditCard from "@mui/icons-material/CreditCard";
 
-const StyledTextField = styled(TextField)(({ legendbg, error, icon }) => ({
+const StyledTextField = styled(TextField)(({ legendbg, error }) => ({
   "& .MuiOutlinedInput-root": {
     backgroundColor: legendbg,
-    textAlign: icon ? "left" : "center", // Center align when no icon
+    textAlign: "left",
     "& fieldset": {
       border: error
         ? "1.5px solid #821101 !important"
@@ -19,7 +19,7 @@ const StyledTextField = styled(TextField)(({ legendbg, error, icon }) => ({
       border: "1px solid #00000040 !important",
     },
     "& input": {
-      textAlign: icon ? "left" : "center", // Center the text
+      textAlign: "left", // Center the text
     },
     "& input::placeholder": {
       color: error ? "#821101" : "#000000B2",
@@ -46,7 +46,6 @@ export function BudgetInput({
   onInputChange,
   error = false,
   valueOfInput = "",
-  icon = true,
   disable = false,
 }) {
   const [value, setValue] = useState(valueOfInput);
@@ -74,18 +73,17 @@ export function BudgetInput({
       value={value}
       onChange={handleChange}
       InputProps={{
-        startAdornment: icon ? (
+        startAdornment: (
           <InputAdornment position="start">
             <CreditCard sx={{ color: error ? "#821101B2" : "#0000008C" }} />
           </InputAdornment>
-        ) : null,
+        ),
       }}
       InputLabelProps={{
         shrink: true,
       }}
       label={legend}
       legendbg={legendbg}
-      icon={icon} // Pass the icon prop for conditional styling
       disabled={disable}
     />
   );

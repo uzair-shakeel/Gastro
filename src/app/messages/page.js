@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import RestaurantList from "./RestaurantList";
 import MainContent from "./MainContent";
 import { initialOrders } from "../../../public/data/initialOrders";
+import Navbar from "../components/Navbar";
+import { Box, CircularProgress } from "@mui/material";
 
 const tabs = ["ALL", "ACTIVE", "CONFIRMED", "CANCELLED", "ARCHIVED"];
 const mockMessagesByRestaurant = {
@@ -336,30 +338,47 @@ export default function MessagesPage() {
     setFilteredRestaurants(getFilteredRestaurants());
   };
 
-  return (
-    <div className="h-screen bg-white px-4 lg:px-[24px]">
-      {/* Header */}
-      <div className="flex justify-between w-full items-center">
-        <h1 className="text-[24px] font-[600]">Messages</h1>
+  // If restaurant is not found, show an error message
+  if (!selectedRestaurant) {
+    return (
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress sx={{ color: "#821101" }} />
+      </Box>
+    );
+  }
 
-        {/* Tabs */}
-        <div className="flex overflow-x-auto bg-[#CCCCCC33] rounded-[8px]">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-[32px] py-[16px] font-roboto whitespace-nowrap font-[500] text-[14px] ${
-                activeTab === tab
-                  ? "text-[#821101] border-b-2 border-[#821101]"
-                  : "text-[#000000B2]"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+  return (
+    <div>
+      <Navbar />
+      <div className="h-[86vh] bg-white px-4 lg:px-[24px]">
+        {/* Header */}
+        <div className="flex justify-between w-full items-center">
+          <h1 className="text-[24px] font-[600]">Messages</h1>
+
+          {/* Tabs */}
+          <div className="flex overflow-x-auto bg-[#CCCCCC33] rounded-[8px]">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-[32px] py-[16px] font-roboto whitespace-nowrap font-[500] text-[14px] ${
+                  activeTab === tab
+                    ? "text-[#821101] border-b-2 border-[#821101]"
+                    : "text-[#000000B2]"
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
-      {selectedRestaurant && (
         <div className="flex pt-[24px] gap-[16px]">
           <RestaurantList
             restaurants={filteredRestaurants}
@@ -379,7 +398,7 @@ export default function MessagesPage() {
             updateTimeAndisUnread={updateTimeAndisUnread}
           />
         </div>
-      )}
+      </div>
     </div>
   );
 }

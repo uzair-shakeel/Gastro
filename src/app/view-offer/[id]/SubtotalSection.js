@@ -16,12 +16,16 @@ export default function SubtotalSection({
   const router = useRouter();
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const toggleCancelModal = () => {
-    if (restaurant.status !== "Confirmed") {
-      setIsCancelModalOpen(!isCancelModalOpen);
-    } else {
+    if (restaurant.status === "Confirmed") {
       toast.warning("The order is already confirmed and cannot be Cancelled.", {
         className: "custom-toast",
       });
+    } else if (restaurant.status === "Cancelled") {
+      toast.warning("The order is already Cancelled.", {
+        className: "custom-toast",
+      });
+    } else {
+      setIsCancelModalOpen(!isCancelModalOpen);
     }
   };
 
@@ -52,12 +56,16 @@ export default function SubtotalSection({
   };
 
   const toggleEditable = () => {
-    if (restaurant.status !== "Confirmed") {
-      setEditable(!editable);
-    } else {
+    if (restaurant.status === "Confirmed") {
       toast.warning("The order is already confirmed and cannot be modified.", {
         className: "custom-toast",
       });
+    } else if (restaurant.status === "Cancelled") {
+      toast.warning("The order is already Cancelled and cannot be modified.", {
+        className: "custom-toast",
+      });
+    } else {
+      setEditable(!editable);
     }
   };
 
