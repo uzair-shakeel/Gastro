@@ -1,5 +1,5 @@
-import { Typography, Box, Button, IconButton } from "@mui/material";
-import { useState } from "react";
+import { Typography, Box, IconButton } from "@mui/material";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { GuestInput } from "./GuestInput";
 import { Trash2 } from "lucide-react";
@@ -15,13 +15,12 @@ export default function MenuItem({
   isSideDish,
   editable,
 }) {
-  const [isGuestFilled, setIsGuestFilled] = useState(false);
-  const [guest, setGuest] = useState(null);
+  const [localGuests, setLocalGuests] = useState(guests);
 
-  const handleGuestChange = (value) => {
-    setIsGuestFilled(value !== null && value !== undefined && value !== "");
-    setGuest(value);
-  };
+  useEffect(() => {
+    setLocalGuests(guests);
+  }, [editable, guests]);
+
   const getIcon = () => {
     const icons = [];
 
@@ -262,8 +261,11 @@ export default function MenuItem({
           <Box sx={{ position: "relative" }}>
             <GuestInput
               opacityInput="opacity-100"
-              valueOfInput={guests}
-              onInputChange={handleGuestChange}
+              valueOfInput={localGuests}
+              onInputChange={(value) => {
+                setLocalGuests(value);
+                onGuestsChange(value);
+              }}
               disable={!editable}
             />
           </Box>

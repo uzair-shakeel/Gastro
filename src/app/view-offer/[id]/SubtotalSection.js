@@ -12,6 +12,10 @@ export default function SubtotalSection({
   editable,
   restaurant,
   setRestaurant,
+  handleToggleEditing,
+  remarks,
+  onRemarksChange,
+  handleRequestClick,
 }) {
   const router = useRouter();
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -65,14 +69,10 @@ export default function SubtotalSection({
         className: "custom-toast",
       });
     } else {
-      setEditable(!editable);
+      handleToggleEditing();
     }
   };
 
-  const handleRequestClick = () => {
-    // Implement request logic here
-    setEditable(false);
-  };
   return (
     <Box sx={{ marginTop: "24px" }}>
       <Box
@@ -159,6 +159,8 @@ export default function SubtotalSection({
           multiline
           rows={1}
           fullWidth
+          value={remarks}
+          onChange={onRemarksChange}
           variant="outlined"
           disabled={!editable}
           sx={{

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Typography, Box, CircularProgress } from "@mui/material";
 import MenuItem from "./MenuItem";
 import MenuSection from "./MenuSection";
@@ -13,7 +13,15 @@ import { initialOrders } from "../../../../public/data/initialOrders";
 
 export default function Menu() {
   const { id } = useParams(); // Extract the id from the URL
+  const router = useRouter();
   const [restaurant, setRestaurant] = useState(null); // State to store the selected restaurant
+  const [guests, setGuests] = useState(7);
+  const [originalGuests, setOriginalGuests] = useState(7);
+  const [remarks, setRemarks] = useState("");
+  const [originalRemarks, setOriginalRemarks] = useState("");
+  const [editable, setEditable] = useState(false);
+  const totalGuests = 21;
+  const totalAmount = "6'000";
 
   useEffect(() => {
     // Retrieve orders from localStorage
@@ -38,19 +46,45 @@ export default function Menu() {
     }
   }, [id]);
 
-  const [editable, setEditable] = useState(false);
-  const [guests, setGuests] = useState(7);
+  const handleRemarksChange = (event) => {
+    setRemarks(event.target.value);
+  };
 
   const handleGuestsChange = (event) => {
     setGuests(event.target.value);
   };
 
-  const totalGuests = 21;
-  const totalAmount = "6'000";
-
-  const handleGuestChange = (value) => {
+  const handleTotalGuestChange = (value) => {
     setIsGuestFilled(value !== null && value !== undefined && value !== "");
     setGuests(value);
+  };
+
+  const handleToggleEditing = () => {
+    setGuests(originalGuests);
+    setRemarks(originalRemarks);
+    setEditable(!editable);
+  };
+
+  const handleRequestClick = () => {
+    if (restaurant) {
+      // Update the local state
+      const updatedRestaurant = { ...restaurant, status: "In Review" };
+      setRestaurant(updatedRestaurant);
+
+      // Update localStorage
+      let ordersData = JSON.parse(localStorage.getItem("orders"));
+      const updatedOrders = ordersData.map((order) =>
+        order.id === parseInt(id, 10)
+          ? { ...order, status: "In Review" }
+          : order
+      );
+      localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+      // Toggle edit mode
+      setEditable(!editable);
+      // Redirect to /messages page
+      router.push("/messages");
+    }
   };
 
   // If restaurant is not found
@@ -155,7 +189,7 @@ export default function Menu() {
                 <GuestInput
                   opacityInput="opacity-100"
                   valueOfInput={totalGuests}
-                  onInputChange={handleGuestChange}
+                  onInputChange={handleTotalGuestChange}
                   disable={!editable}
                 />
               )}
@@ -251,6 +285,10 @@ export default function Menu() {
             setEditable={setEditable}
             restaurant={restaurant}
             setRestaurant={setRestaurant}
+            handleToggleEditing={handleToggleEditing}
+            remarks={remarks}
+            onRemarksChange={handleRemarksChange}
+            handleRequestClick={handleRequestClick}
           />
         </Box>
       </Box>
