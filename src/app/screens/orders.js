@@ -194,7 +194,7 @@ export default function OrderCard({
                 <button>
                   {order.isMessaged ? (
                     <Link
-                      href="/messages"
+                      href={`/messages/${order.id}`}
                       onClick={() => handleMessageClick(order.id)}
                     >
                       <img
@@ -205,7 +205,7 @@ export default function OrderCard({
                     </Link>
                   ) : (
                     <Link
-                      href="/messages"
+                      href={`/messages/${order.id}`}
                       onClick={() => handleMessageClick(order.id)}
                     >
                       <img

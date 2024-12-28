@@ -83,7 +83,7 @@ export default function Menu() {
       // Toggle edit mode
       setEditable(!editable);
       // Redirect to /messages page
-      router.push("/messages");
+      router.push(`/messages/${order.id}`);
     }
   };
 
