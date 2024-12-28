@@ -15,6 +15,7 @@ export default function Home() {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showCancelPopup, setShowCancelPopup] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [mockMessages, setMockMessages] = useState(null);
 
   useEffect(() => {
     // Check if localStorage has orders
