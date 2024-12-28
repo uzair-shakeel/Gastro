@@ -116,12 +116,18 @@ export default function Menu() {
         draggable
         pauseOnHover
       />
-      <Box sx={{ minHeight: "100vh", backgroundColor: "#fffff" }}>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          backgroundColor: "#fffff",
+          padding: "24px 16px",
+        }}
+      >
         <Box
           sx={{
-            maxWidth: "1473px",
             margin: "0 auto",
-            padding: "2rem 1rem",
+            maxWidth: "1440px",
+            width: "100%",
           }}
         >
           <Box

@@ -6,7 +6,8 @@ import "swiper/css/navigation";
 import { Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 
 export default function OrderCard({
   order,
@@ -18,13 +19,28 @@ export default function OrderCard({
   handleDelete,
   handleCancel,
 }) {
-  const handlePopupToggle = () => {
+  const popupRef = useRef(null);
+  const handlePopupToggle = (event) => {
+    event.stopPropagation();
     setShowPopup((prev) => (prev === order.id ? null : order.id));
   };
 
   const handleMessageClick = useCallback((id) => {
     localStorage.setItem("currentOrderId", id);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showPopup && !popupRef.current?.contains(event.target)) {
+        setShowPopup(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopup, setShowPopup]);
 
   return (
     <div
@@ -92,20 +108,20 @@ export default function OrderCard({
         <div className="flex-grow space-y-3">
           <div className="flex justify-between items-center">
             <h2 className="text-[18px] font-[600]">{order.location}</h2>
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-[6px] items-center">
               <span className="text-[18px] font-[600]">{order.amount}</span>
-              <button onClick={handlePopupToggle} className="px-2">
-                <img
-                  src="/Vector.png"
-                  className="h-[20px] w-auto object-cover"
-                />
+              <button
+                onClick={handlePopupToggle}
+                className="p-2 hover:bg-gray-100 rounded-full"
+              >
+                <HiOutlineDotsVertical className="w-5 h-5" />
               </button>
             </div>
           </div>
 
           <div className="flex gap-3 items-start">
             <div className="space-y-2 border-r border-[#CCCCCC] pr-14">
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-[8px] items-center">
                 <img
                   src="/group.svg"
                   className="h-[20px] w-[20px] object-cover"
@@ -113,7 +129,7 @@ export default function OrderCard({
                 <p className="text-[16px] font-[600]">{order.persons}</p>
               </div>
 
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-[8px] items-center">
                 <img
                   src="/calendar_today.svg"
                   className="h-[20px] w-[20px] object-cover"
@@ -121,7 +137,7 @@ export default function OrderCard({
                 <p className="text-[16px] font-[600]">{order.date}</p>
               </div>
 
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-[8px] items-center">
                 <img
                   src="/checklist.svg"
                   className="h-[20px] w-[20px] object-cover"
@@ -131,7 +147,10 @@ export default function OrderCard({
             </div>
 
             <div>
-              <p className="px-8 text-[14px] font-[400]">{order.description}</p>
+              <p className="px-[24px] text-[14px] font-[400]">
+                Offer valid till:{" "}
+                <span className="font-[600]">{order.description}</span>
+              </p>
             </div>
           </div>
 
@@ -152,7 +171,7 @@ export default function OrderCard({
               >
                 {order.status}
               </span>
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-[6px] items-center">
                 <img src="/help.svg" className="h-[20px] w-auto" />
                 <p className="text-[14px] font-[400]">{order.note}</p>
               </div>
@@ -195,7 +214,10 @@ export default function OrderCard({
       </div>
 
       {showPopup === order.id && (
-        <div className="absolute bg-white border rounded-lg text-[black]/70 shadow-lg p-3 mt-2 w-[200px] top-12 right-4">
+        <div
+          ref={popupRef}
+          className="absolute bg-white border rounded-lg text-[black]/70 shadow-lg p-3 mt-2 w-[200px] top-12 right-4"
+        >
           <Link
             href="/restaurant"
             onClick={() => setShowPopup(order.id)}

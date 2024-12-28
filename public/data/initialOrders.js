@@ -7,8 +7,7 @@ export const initialOrders = [
     meal: "Lunch",
     status: "Confirmed",
     amount: "CHF 1500",
-    description:
-      "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
+    description: "12/8/2024 at 12:40PM - (3 days left)",
     note: "The offer has been accepted by the restaurant.",
     isMessaged: true,
     isUnread: false,
@@ -26,8 +25,7 @@ export const initialOrders = [
     meal: "Lunch",
     status: "In Review",
     amount: "CHF 1500",
-    description:
-      "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
+    description: "12/8/2024 at 12:40PM - (3 days left)",
     note: "The offer has been accepted by the restaurant.",
     isUnread: false,
     isArchived: false,
@@ -45,8 +43,7 @@ export const initialOrders = [
     meal: "Lunch",
     status: "In Review",
     amount: "CHF 1500",
-    description:
-      "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
+    description: "12/8/2024 at 12:40PM - (3 days left)",
     note: "The offer has been accepted by the restaurant.",
     isUnread: false,
     isArchived: false,
@@ -64,8 +61,7 @@ export const initialOrders = [
     meal: "Lunch",
     status: "Adjusted",
     amount: "CHF 1500",
-    description:
-      "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
+    description: "12/8/2024 at 12:40PM - (3 days left)",
     note: "The offer has been accepted by the restaurant.",
     isUnread: false,
     isArchived: false,
@@ -83,8 +79,7 @@ export const initialOrders = [
     meal: "Lunch",
     status: "Accepted",
     amount: "CHF 1500",
-    description:
-      "There will be any sort of internal notes which anyone can put there for remembrance and it will be shown to restaurants.",
+    description: "12/8/2024 at 12:40PM - (3 days left)",
     note: "The offer has been accepted by the restaurant.",
     isUnread: false,
     isArchived: false,

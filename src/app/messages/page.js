@@ -358,45 +358,47 @@ export default function MessagesPage() {
     <div>
       <Navbar />
       <div className="h-[86vh] bg-white px-4 lg:px-[24px]">
-        {/* Header */}
-        <div className="flex justify-between w-full items-center">
-          <h1 className="text-[24px] font-[600]">Messages</h1>
+        <div className="max-w-[1440px] mx-auto">
+          {/* Header */}
+          <div className="flex justify-between w-full items-center">
+            <h1 className="text-[24px] font-[600]">Messages</h1>
 
-          {/* Tabs */}
-          <div className="flex overflow-x-auto bg-[#CCCCCC33] rounded-[8px]">
-            {tabs.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-[32px] py-[16px] font-roboto whitespace-nowrap font-[500] text-[14px] ${
-                  activeTab === tab
-                    ? "text-[#821101] border-b-2 border-[#821101]"
-                    : "text-[#000000B2]"
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
+            {/* Tabs */}
+            <div className="flex overflow-x-auto bg-[#CCCCCC33] rounded-[8px]">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-[32px] py-[16px] font-roboto whitespace-nowrap font-[500] text-[14px] ${
+                    activeTab === tab
+                      ? "text-[#821101] border-b-2 border-[#821101]"
+                      : "text-[#000000B2]"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="flex pt-[24px] gap-[16px]">
-          <RestaurantList
-            restaurants={filteredRestaurants}
-            selectedRestaurant={selectedRestaurant}
-            onSelectAndMarkRead={onSelectAndMarkRead}
-            getStatusStyle={getStatusStyle}
-          />
-          <MainContent
-            selectedRestaurant={selectedRestaurant}
-            setSelectedRestaurant={setSelectedRestaurant}
-            messages={messages}
-            setMessages={setMessages}
-            getStatusStyle={getStatusStyle}
-            updateRestaurantStatus={updateRestaurantStatus}
-            setRestaurantsState={setRestaurantsState}
-            handleAddAutoMessage={handleAddAutoMessage}
-            updateTimeAndisUnread={updateTimeAndisUnread}
-          />
+          <div className="flex pt-[24px] gap-[16px]">
+            <RestaurantList
+              restaurants={filteredRestaurants}
+              selectedRestaurant={selectedRestaurant}
+              onSelectAndMarkRead={onSelectAndMarkRead}
+              getStatusStyle={getStatusStyle}
+            />
+            <MainContent
+              selectedRestaurant={selectedRestaurant}
+              setSelectedRestaurant={setSelectedRestaurant}
+              messages={messages}
+              setMessages={setMessages}
+              getStatusStyle={getStatusStyle}
+              updateRestaurantStatus={updateRestaurantStatus}
+              setRestaurantsState={setRestaurantsState}
+              handleAddAutoMessage={handleAddAutoMessage}
+              updateTimeAndisUnread={updateTimeAndisUnread}
+            />
+          </div>
         </div>
       </div>
     </div>
