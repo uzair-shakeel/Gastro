@@ -232,7 +232,7 @@ export default function MainContent({
                           </span>
                         </div>
                       )}
-                      <span className="text-[15px] font-[500] font-satoshi text-black">
+                      <span className="text-[15px] font-[500] font-satoshi text-black uppercase">
                         {msg.time}
                       </span>
                       {msg.sender.startsWith("ME") && (

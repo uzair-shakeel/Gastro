@@ -457,7 +457,7 @@ export default function RestaurantDetails() {
 
               <Typography
                 style={{
-                  marginTop: "24px !important",
+                  paddingTop: "24px !important",
                   color: "black",
                   fontSize: "18px",
                   lineHeight: "27px",
@@ -470,7 +470,7 @@ export default function RestaurantDetails() {
 
               <Typography
                 style={{
-                  marginTop: "24px !important",
+                  paddingTop: "24px !important",
                   color: "black",
                   fontSize: "18px",
                   lineHeight: "27px",

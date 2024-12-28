@@ -54,9 +54,43 @@ export default function SubtotalSection({
         // Optionally, update the state as well if needed
         setRestaurant(updatedOrders);
       }
+
+      // Retrieve the current mockMessages from localStorage
+      const storedMessages = localStorage.getItem("mockMessages");
+      const currentDate = new Date();
+      const formattedDate = `${
+        currentDate.getMonth() + 1
+      }/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+      const formattedTime = currentDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true, // Ensures AM/PM format
+      });
+
+      if (storedMessages) {
+        const mockMessages = JSON.parse(storedMessages);
+        const restaurantMessages = mockMessages[restaurant.id] || [];
+
+        // Create a new mock message for the current action with sender as "ME - FILIP"
+        const newMessage = {
+          id: restaurantMessages.length + 1, // Ensure unique ID (based on existing messages)
+          sender: "ME - FILIP", // Set sender to "ME - FILIP"
+          content: "OFFER CANCELLED",
+          time: formattedTime, // Includes AM/PM
+          date: formattedDate,
+          type: "info", // You can customize the type (info, update, etc.)
+        };
+
+        // Add the new message to the restaurant's messages
+        mockMessages[restaurant.id] = [...restaurantMessages, newMessage];
+
+        // Save the updated mockMessages to localStorage
+        localStorage.setItem("mockMessages", JSON.stringify(mockMessages));
+      }
     }
+
     // Redirect to /messages page
-    router.push("/messages");
+    router.push(`/messages/${restaurant.id}`);
   };
 
   const toggleEditable = () => {

@@ -2,60 +2,13 @@
 import { useEffect, useState } from "react";
 import RestaurantList from "./RestaurantList";
 import MainContent from "./MainContent";
-import { initialOrders } from "../../../public/data/initialOrders";
-import Navbar from "../components/Navbar";
+import { initialOrders } from "../../../../public/data/initialOrders";
+import Navbar from "../../components/Navbar";
 import { Box, CircularProgress } from "@mui/material";
+import { mockMessagesByRestaurant } from "../../../../public/data/mockMessagesByRestaurant";
+import { useParams } from "next/navigation";
 
 const tabs = ["ALL", "ACTIVE", "CONFIRMED", "CANCELLED", "ARCHIVED"];
-const mockMessagesByRestaurant = {
-  1: [
-    {
-      id: 1,
-      sender: "RESTAURANT 1",
-      content: "OFFER WAS UPDATED",
-      details: 'SUMMARY:\nREPLACED "STEAK" WITH "FISH"',
-      time: "11:55 AM",
-      date: "11/28/2024",
-      type: "update",
-    },
-    {
-      id: 2,
-      sender: "ME - FILIP",
-      content: "REQUESTED OFFER",
-      time: "11:24 AM",
-      date: "11/28/2024",
-      type: "request",
-    },
-    {
-      id: 3,
-      sender: "ME - FILIP",
-      content: "OFFER APPROVED",
-      time: "08:53 PM",
-      date: "11/28/2024",
-      type: "approval",
-    },
-  ],
-  2: [
-    {
-      id: 1,
-      sender: "RESTAURANT 2",
-      content: "TABLE RESERVED",
-      time: "12:30 PM",
-      date: "11/28/2024",
-      type: "info",
-    },
-  ],
-  3: [
-    {
-      id: 1,
-      sender: "RESTAURANT 3",
-      content: "OFFER UNDER REVIEW",
-      time: "10:00 AM",
-      date: "11/28/2024",
-      type: "review",
-    },
-  ],
-};
 
 const parseTime = (timeString) => {
   const currentTime = new Date();
@@ -137,9 +90,26 @@ const formatTime = (date) => {
 export default function MessagesPage() {
   const [activeTab, setActiveTab] = useState("ALL");
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-  const [messages, setMessages] = useState(mockMessagesByRestaurant);
   const [restaurantsState, setRestaurantsState] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [messages, setMessages] = useState(mockMessagesByRestaurant);
+  const params = useParams();
+  const restaurantId = params.id;
+
+  useEffect(() => {
+    // Check if mockMessages exist in localStorage
+    const storedMessages = localStorage.getItem("mockMessages");
+
+    if (storedMessages) {
+      // Parse and set messages from localStorage
+      setMessages(JSON.parse(storedMessages));
+    } else {
+      // If no messages in localStorage, initialize with mockMessagesByRestaurant
+      const initialMessagesData = JSON.stringify(mockMessagesByRestaurant);
+      localStorage.setItem("mockMessages", initialMessagesData);
+      setMessages(mockMessagesByRestaurant);
+    }
+  }, []);
 
   // Fetch orders from localStorage or fallback to `initialOrders`
   useEffect(() => {
@@ -150,19 +120,30 @@ export default function MessagesPage() {
           return JSON.parse(storedOrders);
         } else {
           // Use initialOrders if not found in localStorage
-          return initialOrders; // Ensure initialOrders is imported
+          return initialOrders;
         }
       }
-      return initialOrders; // In case of server-side rendering or undefined window
+      return initialOrders;
     };
 
     const orders = fetchInitialOrders();
     setRestaurantsState(orders);
 
     if (orders.length > 0) {
-      setSelectedRestaurant(orders[0]); // Default to the first order
+      if (restaurantId) {
+        const urlSelectedRestaurant = orders.find(
+          (order) => order.id.toString() === restaurantId
+        );
+        if (urlSelectedRestaurant) {
+          setSelectedRestaurant(urlSelectedRestaurant);
+        } else {
+          setSelectedRestaurant(orders[0]);
+        }
+      } else {
+        setSelectedRestaurant(orders[0]);
+      }
     }
-  }, []);
+  }, [restaurantId]);
 
   useEffect(() => {
     setFilteredRestaurants(getFilteredRestaurants());

@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import { CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
 import { initialOrders } from "../../public/data/initialOrders";
+import { mockMessagesByRestaurant } from "../../public/data/mockMessagesByRestaurant";
 
 export default function Home() {
   const [orders, setOrders] = useState(null);
@@ -16,8 +17,6 @@ export default function Home() {
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
-    const initialOrdersData = JSON.stringify(initialOrders);
-    localStorage.setItem("orders", initialOrdersData);
     // Check if localStorage has orders
     const storedOrders = localStorage.getItem("orders");
     if (storedOrders) {
@@ -28,6 +27,18 @@ export default function Home() {
       const initialOrdersData = JSON.stringify(initialOrders);
       localStorage.setItem("orders", initialOrdersData);
       setOrders(initialOrders);
+    }
+
+    // Check if localStorage has mockMessages
+    const storedMessages = localStorage.getItem("mockMessages");
+    if (storedMessages) {
+      // Parse and set mockMessages from localStorage
+      setMockMessages(JSON.parse(storedMessages));
+    } else {
+      // If no mockMessages in localStorage, initialize with mockMessagesByRestaurant
+      const initialMessagesData = JSON.stringify(mockMessagesByRestaurant);
+      localStorage.setItem("mockMessages", initialMessagesData);
+      setMockMessages(mockMessagesByRestaurant);
     }
   }, []);
 

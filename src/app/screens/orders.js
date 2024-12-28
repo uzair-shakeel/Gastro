@@ -31,7 +31,12 @@ export default function OrderCard({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showPopup && !popupRef.current?.contains(event.target)) {
+      if (
+        showPopup &&
+        popupRef.current &&
+        !popupRef.current.contains(event.target) &&
+        !event.target.closest("button[data-popup-trigger]")
+      ) {
         setShowPopup(null);
       }
     };
@@ -112,6 +117,7 @@ export default function OrderCard({
               <span className="text-[18px] font-[600]">{order.amount}</span>
               <button
                 onClick={handlePopupToggle}
+                data-popup-trigger
                 className="p-2 hover:bg-gray-100 rounded-full"
               >
                 <HiOutlineDotsVertical className="w-5 h-5" />
@@ -146,10 +152,17 @@ export default function OrderCard({
               </div>
             </div>
 
-            <div>
-              <p className="px-[24px] text-[14px] font-[400]">
+            <div className="flex items-center gap-[6px] px-[24px]">
+              <img
+                src="/valid-offer-icon.png"
+                alt="validity icon"
+                className="w-[20px] h-[20px]"
+              />
+              <p className="text-[15px] font-[600] text-[#00000099]">
                 Offer valid till:{" "}
-                <span className="font-[600]">{order.description}</span>
+                <span className="font-[600] text-black">
+                  {order.description}
+                </span>
               </p>
             </div>
           </div>
@@ -173,7 +186,7 @@ export default function OrderCard({
               </span>
               <div className="flex gap-[6px] items-center">
                 <img src="/help.svg" className="h-[20px] w-auto" />
-                <p className="text-[14px] font-[400]">{order.note}</p>
+                <p className="text-[14px] font-[500]">{order.note}</p>
               </div>
             </div>
             <div>
@@ -216,6 +229,7 @@ export default function OrderCard({
       {showPopup === order.id && (
         <div
           ref={popupRef}
+          onClick={(e) => e.stopPropagation()}
           className="absolute bg-white border rounded-lg text-[black]/70 shadow-lg p-3 mt-2 w-[200px] top-12 right-4"
         >
           <Link
