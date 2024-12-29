@@ -127,7 +127,7 @@ export default function MessagesPage() {
     };
 
     const orders = fetchInitialOrders();
-    setRestaurantsState(orders);
+    let updatedOrders = orders;
 
     if (orders.length > 0) {
       if (restaurantId) {
@@ -136,12 +136,27 @@ export default function MessagesPage() {
         );
         if (urlSelectedRestaurant) {
           setSelectedRestaurant(urlSelectedRestaurant);
-        } else {
-          setSelectedRestaurant(orders[0]);
+
+          // Update isUnread to false for the selected restaurant
+          updatedOrders = orders.map((order) =>
+            order.id.toString() === restaurantId
+              ? { ...order, isUnread: false }
+              : order
+          );
         }
       } else {
+        // If no restaurantId, default to the first order and set its isUnread to false
         setSelectedRestaurant(orders[0]);
+
+        updatedOrders = orders.map((order, index) =>
+          index === 0 ? { ...order, isUnread: false } : order
+        );
       }
+
+      // Update localStorage with the modified orders
+      localStorage.setItem("orders", JSON.stringify(updatedOrders));
+      // Update state with the modified orders
+      setRestaurantsState(updatedOrders);
     }
   }, [restaurantId]);
 
@@ -182,7 +197,7 @@ export default function MessagesPage() {
         break;
       case "ALL":
       default:
-        filtered = restaurantsState;
+        filtered = restaurantsState.filter((r) => r.isArchived !== true);
         break;
     }
 

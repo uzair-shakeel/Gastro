@@ -25,10 +25,6 @@ export default function OrderCard({
     setShowPopup((prev) => (prev === order.id ? null : order.id));
   };
 
-  const handleMessageClick = useCallback((id) => {
-    localStorage.setItem("currentOrderId", id);
-  }, []);
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -202,11 +198,8 @@ export default function OrderCard({
             <div>
               <div className="flex gap-5 items-center">
                 <button>
-                  {order.isMessaged ? (
-                    <Link
-                      href={`/messages/${order.id}`}
-                      onClick={() => handleMessageClick(order.id)}
-                    >
+                  {order.isUnread ? (
+                    <Link href={`/messages/${order.id}`}>
                       <img
                         src="/chat.png"
                         className="w-[20px] h-[20px] object-cover"
@@ -214,10 +207,7 @@ export default function OrderCard({
                       />
                     </Link>
                   ) : (
-                    <Link
-                      href={`/messages/${order.id}`}
-                      onClick={() => handleMessageClick(order.id)}
-                    >
+                    <Link href={`/messages/${order.id}`}>
                       <img
                         src="/chat (1).png"
                         className="w-[20px] h-[20px] object-cover"

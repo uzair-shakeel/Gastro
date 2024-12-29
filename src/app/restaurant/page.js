@@ -9,7 +9,6 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import { Favorite, FavoriteBorder, Star } from "@mui/icons-material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -29,6 +28,9 @@ import GuestsDropdown from "../components/popups/restaurant/guests-dropdown";
 import Link from "next/link";
 import { maxWidth, width } from "@mui/system";
 ("../globals.css");
+import EmailIcon from "@mui/icons-material/Email";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 const openingHours = [
   { day: "Monday", hoursOne: "8AM - 1PM", hoursTwo: " 3PM - 11PM" },
@@ -456,7 +458,7 @@ export default function RestaurantDetails() {
               <ImageGrid />
 
               <Typography
-                style={{
+                sx={{
                   paddingTop: "24px !important",
                   color: "black",
                   fontSize: "18px",
@@ -469,7 +471,7 @@ export default function RestaurantDetails() {
               </Typography>
 
               <Typography
-                style={{
+                sx={{
                   paddingTop: "24px !important",
                   color: "black",
                   fontSize: "18px",
@@ -677,23 +679,47 @@ export default function RestaurantDetails() {
                   </Typography>
                   {[
                     {
-                      icon: "/schedule.svg",
-                      label: "Email:",
+                      icon: (
+                        <EmailIcon
+                          sx={{
+                            width: "20px",
+                            height: "20px",
+                            color: "#821101",
+                          }}
+                        />
+                      ),
+                      label: "Email",
                       value: "mondalislamabad@hotel.com",
                     },
                     {
-                      icon: "/schedule.svg",
-                      label: "Mobile:",
+                      icon: (
+                        <LocalPhoneIcon
+                          sx={{
+                            width: "20px",
+                            height: "20px",
+                            color: "#821101",
+                          }}
+                        />
+                      ),
+                      label: "Mobile",
                       value: "+1 234 567 8910",
                     },
                     {
-                      icon: "/schedule.svg",
-                      label: "WhatsApp:",
+                      icon: (
+                        <WhatsAppIcon
+                          sx={{
+                            width: "20px",
+                            height: "20px",
+                            color: "#821101",
+                          }}
+                        />
+                      ),
+                      label: "WhatsApp",
                       value: "+1 234 567 8910",
                     },
                     {
                       icon: "/distance.svg",
-                      label: "Address:",
+                      label: "Address",
                       value:
                         "Food Street near Cricket Stadium, Islamabad, Pakistan",
                     },
@@ -715,14 +741,18 @@ export default function RestaurantDetails() {
                           fontWeight: "600",
                           letterSpacing: "-0.02em",
                         }}
-                        className="flex gap-1.5 text-opacity-80"
+                        className="flex gap-[6px] text-opacity-80"
                       >
-                        <img
-                          src={detail.icon}
-                          alt={`${detail.label} icon`}
-                          style={{ width: "20px", height: "20px" }}
-                        />
-                        {detail.label}
+                        {detail.label === "Address" ? (
+                          <img
+                            src={detail.icon}
+                            alt={`${detail.label} icon`}
+                            style={{ width: "20px", height: "20px" }}
+                          />
+                        ) : (
+                          detail.icon
+                        )}
+                        {detail.label}:
                       </Typography>
                       <Typography
                         sx={{

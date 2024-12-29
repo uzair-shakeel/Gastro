@@ -132,6 +132,7 @@ export default function Home() {
                     <OrderCard
                       key={order.id}
                       order={order}
+                      setOrders={setOrders}
                       showPopup={showPopup}
                       setShowPopup={setShowPopup}
                       handleDelete={handleDelete}
