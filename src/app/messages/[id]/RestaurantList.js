@@ -65,7 +65,7 @@ export default function RestaurantList({
   };
 
   return (
-    <div className="lg:w-[30%] w-[280px] custom-scrollbar space-y-[12px] overflow-y-auto h-[75vh]">
+    <div className="lg:w-[30%] w-[280px] custom-scrollbar space-y-[12px] overflow-y-auto h-[72vh]">
       {restaurants.map((restaurant) => (
         <div
           key={restaurant.id}

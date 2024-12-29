@@ -355,6 +355,7 @@ export default function MessagesPage() {
       <Navbar />
       <Box
         sx={{
+          height: "75vh",
           padding: {
             xs: "24px 16px", // Top-Bottom: 24px, Left-Right: 16px for smaller devices
             lg: "24px 24px", // Top-Bottom: 24px, Left-Right: 24px for large devices and up
