@@ -353,7 +353,7 @@ export default function MessagesPage() {
   return (
     <div>
       <Navbar />
-      <div className="h-[86vh] bg-white px-4 lg:px-[24px]">
+      <div className="h-[86vh] bg-white px-4">
         <div className="max-w-[1440px] mx-auto">
           {/* Header */}
           <div className="flex justify-between w-full items-center">

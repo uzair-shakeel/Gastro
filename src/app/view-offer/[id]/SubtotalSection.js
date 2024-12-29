@@ -34,11 +34,20 @@ export default function SubtotalSection({
   };
 
   const handleConfirmCancel = () => {
-    // Retrieve all orders from localStorage
     if (typeof window !== "undefined") {
       const storedOrders = localStorage.getItem("orders");
 
       if (storedOrders) {
+        const currentDate = new Date();
+        const formattedDate = `${
+          currentDate.getMonth() + 1
+        }/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+        const formattedTime = currentDate.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true, // Ensures AM/PM format
+        });
+
         // Parse the stored orders
         const orders = JSON.parse(storedOrders);
         // Find the restaurant to update
@@ -48,6 +57,8 @@ export default function SubtotalSection({
                 ...order,
                 status: "Cancelled", // Update status to Cancelled
                 note: "The offer has been cancelled", // Add or update note
+                time: formattedTime, // Update time
+                date: formattedDate, // Update date
               }
             : order
         );
@@ -59,7 +70,6 @@ export default function SubtotalSection({
         setRestaurant(updatedOrders);
       }
 
-      // Retrieve the current mockMessages from localStorage
       const storedMessages = localStorage.getItem("mockMessages");
       const currentDate = new Date();
       const formattedDate = `${
@@ -109,6 +119,72 @@ export default function SubtotalSection({
     } else {
       handleToggleEditing();
     }
+  };
+
+  const handleAccept = () => {
+    if (typeof window !== "undefined") {
+      const currentDate = new Date();
+      const formattedDate = `${
+        currentDate.getMonth() + 1
+      }/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+      const formattedTime = currentDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true, // Ensures AM/PM format
+      });
+
+      const storedOrders = localStorage.getItem("orders");
+
+      if (storedOrders) {
+        // Parse the stored orders
+        const orders = JSON.parse(storedOrders);
+
+        // Find the restaurant to update
+        const updatedOrders = orders.map((order) =>
+          order.id === restaurant.id
+            ? {
+                ...order,
+                status: "Confirmed", // Update status to Confirmed
+                note: "The offer has been accepted by the restaurant.", // Add or update note
+                time: formattedTime, // Update time
+                date: formattedDate, // Update date
+              }
+            : order
+        );
+
+        // Update the orders in localStorage with the modified order
+        localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+        // Optionally, update the state as well if needed
+        setRestaurant(updatedOrders);
+      }
+
+      const storedMessages = localStorage.getItem("mockMessages");
+
+      if (storedMessages) {
+        const mockMessages = JSON.parse(storedMessages);
+        const restaurantMessages = mockMessages[restaurant.id] || [];
+
+        // Create a new mock message for the current action with sender as "ME - FILIP"
+        const newMessage = {
+          id: restaurantMessages.length + 1, // Ensure unique ID (based on existing messages)
+          sender: "ME - FILIP", // Set sender to "ME - FILIP"
+          content: "OFFER APPROVED",
+          time: formattedTime, // Includes AM/PM
+          date: formattedDate,
+          type: "info", // You can customize the type (info, update, etc.)
+        };
+
+        // Add the new message to the restaurant's messages
+        mockMessages[restaurant.id] = [...restaurantMessages, newMessage];
+
+        // Save the updated mockMessages to localStorage
+        localStorage.setItem("mockMessages", JSON.stringify(mockMessages));
+      }
+    }
+
+    // Redirect to /messages page
+    router.push(`/messages/${restaurant.id}`);
   };
 
   return (
@@ -293,6 +369,27 @@ export default function SubtotalSection({
               Download PDF
             </Button>
           )}
+
+          {(restaurant.status === "Adjusted" ||
+            restaurant.status === "Accepted") && (
+            <Button
+              variant="contained"
+              onClick={handleAccept}
+              sx={{
+                backgroundColor: "#821101",
+                height: "50px",
+                width: "103px",
+                color: "#FFFFFF",
+                fontSize: "15px",
+                fontFamily: "'Satoshi', sans-serif !important",
+                fontWeight: "500",
+                letterSpacing: "0.46px",
+              }}
+            >
+              Accept
+            </Button>
+          )}
+
           <Button
             variant="contained"
             onClick={toggleEditable}
@@ -332,10 +429,18 @@ export default function SubtotalSection({
               variant="contained"
               onClick={toggleCancelModal}
               sx={{
-                backgroundColor: "#821101",
+                backgroundColor:
+                  restaurant.status === "Adjusted" ||
+                  restaurant.status === "Accepted"
+                    ? "#82110126"
+                    : "#821101",
                 height: "50px",
                 width: "106px",
-                color: "#FFFFFF",
+                color:
+                  restaurant.status === "Adjusted" ||
+                  restaurant.status === "Accepted"
+                    ? "#821101"
+                    : "#FFFFFF",
                 fontSize: "15px",
                 fontFamily: "'Satoshi', sans-serif !important",
                 fontWeight: "500",

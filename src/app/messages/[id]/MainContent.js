@@ -98,7 +98,7 @@ export default function MainContent({
   };
 
   return (
-    <div className="flex-1 flex flex-col gap-[24px] min-h-[76.3vh] h-full p-[16px] border border-[#0000001A] rounded-[4px]">
+    <div className="flex-1 flex flex-col gap-[24px] h-[76vh] p-[16px] border border-[#0000001A] rounded-[4px]">
       {/* Selected restaurant header */}
       <div className="flex items-center justify-between border-b border-[#CCCCCC80] bg-white pb-[12px]">
         <div className="flex items-center gap-[12px]">

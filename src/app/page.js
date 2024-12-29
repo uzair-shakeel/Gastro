@@ -86,11 +86,61 @@ export default function Home() {
   };
 
   const confirmCancel = () => {
-    setOrders((prevOrders) =>
-      prevOrders.map((o) =>
-        o.id === selectedOrder.id ? { ...o, status: "Cancelled" } : o
-      )
-    );
+    const currentDate = new Date();
+    const formattedDate = `${
+      currentDate.getMonth() + 1
+    }/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+    const formattedTime = currentDate.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true, // Ensures AM/PM format
+    });
+
+    // Initialize updatedOrders and mockMessages only once
+    let updatedOrders = [];
+    let mockMessages = {};
+
+    setOrders((prevOrders) => {
+      updatedOrders = prevOrders.map((o) =>
+        o.id === selectedOrder.id
+          ? {
+              ...o,
+              status: "Cancelled",
+              note: "The offer has been cancelled",
+              time: formattedTime, // Update time
+              date: formattedDate, // Update date
+            }
+          : o
+      );
+
+      // Update localStorage with the new orders state
+      localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+      return updatedOrders;
+    });
+
+    // Handle mock messages
+    const storedMessages = localStorage.getItem("mockMessages");
+    mockMessages = storedMessages ? JSON.parse(storedMessages) : {};
+
+    const selectedOrderMessages = mockMessages[selectedOrder.id] || [];
+
+    // Avoid adding duplicate messages
+    const newMessage = {
+      id: selectedOrderMessages.length + 1, // Ensure unique ID
+      sender: "ME - FILIP",
+      content: "OFFER CANCELLED",
+      time: formattedTime, // Includes AM/PM
+      date: formattedDate,
+      type: "info", // Customize the type if needed
+    };
+
+    mockMessages[selectedOrder.id] = [...selectedOrderMessages, newMessage];
+
+    // Save the updated messages to localStorage
+    localStorage.setItem("mockMessages", JSON.stringify(mockMessages));
+
+    // Close the cancel popup and reset selected order
     setShowCancelPopup(false);
     setSelectedOrder(null);
   };

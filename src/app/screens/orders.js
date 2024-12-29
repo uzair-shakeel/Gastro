@@ -240,23 +240,14 @@ export default function OrderCard({
             <img src="/info.svg" className="h-[20px] w-auto" />
             <span>View Details</span>
           </Link>
-          {order.status !== "Confirmed" && order.status !== "Confirmed" && (
-            <>
-              <div
-                onClick={() => handleDelete(order)}
-                className="flex items-center gap-[12px] cursor-pointer py-2 px-4 hover:bg-gray-100"
-              >
-                <img src="/delete.svg" className="h-[20px] w-auto" />
-                <span>Delete</span>
-              </div>
-              <div
-                onClick={() => handleCancel(order)}
-                className="flex items-center gap-2 cursor-pointer py-2 px-4 hover:bg-gray-100"
-              >
-                <img src="/cancel.svg" className="h-[20px] w-auto" />
-                <span>Cancel</span>
-              </div>
-            </>
+          {order.status !== "Confirmed" && order.status !== "Cancelled" && (
+            <div
+              onClick={() => handleCancel(order)}
+              className="flex items-center gap-2 cursor-pointer py-2 px-4 hover:bg-gray-100"
+            >
+              <img src="/cancel.svg" className="h-[20px] w-auto" />
+              <span>Cancel</span>
+            </div>
           )}
         </div>
       )}
