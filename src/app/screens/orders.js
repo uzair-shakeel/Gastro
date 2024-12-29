@@ -250,7 +250,7 @@ export default function OrderCard({
             <img src="/info.svg" className="h-[20px] w-auto" />
             <span>View Details</span>
           </Link>
-          {order.status === "Confirmed" && (
+          {order.status !== "Confirmed" && order.status !== "Confirmed" && (
             <>
               <div
                 onClick={() => handleDelete(order)}

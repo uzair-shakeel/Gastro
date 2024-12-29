@@ -46,4 +46,51 @@ export const mockMessagesByRestaurant = {
       type: "review",
     },
   ],
+  6: [
+    {
+      id: 1,
+      sender: "RESTAURANT 6",
+      content: "OFFER WAS UPDATED",
+      details: 'SUMMARY:\nREPLACED "STEAK" WITH "FISH"',
+      time: "11:55 AM",
+      date: "11/28/2024",
+      type: "update",
+    },
+    {
+      id: 2,
+      sender: "ME - FILIP",
+      content: "REQUESTED OFFER",
+      time: "11:24 AM",
+      date: "11/28/2024",
+      type: "request",
+    },
+    {
+      id: 3,
+      sender: "ME - FILIP",
+      content: "OFFER APPROVED",
+      time: "08:53 PM",
+      date: "11/28/2024",
+      type: "approval",
+    },
+  ],
+  7: [
+    {
+      id: 1,
+      sender: "RESTAURANT 7",
+      content: "TABLE RESERVED",
+      time: "12:30 PM",
+      date: "11/28/2024",
+      type: "info",
+    },
+  ],
+  8: [
+    {
+      id: 1,
+      sender: "RESTAURANT 8",
+      content: "OFFER UNDER REVIEW",
+      time: "10:00 AM",
+      date: "11/28/2024",
+      type: "review",
+    },
+  ],
 };

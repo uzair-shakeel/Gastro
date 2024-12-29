@@ -18,7 +18,6 @@ export default function Menu() {
   const [guests, setGuests] = useState(7);
   const [originalGuests, setOriginalGuests] = useState(7);
   const [remarks, setRemarks] = useState("");
-  const [originalRemarks, setOriginalRemarks] = useState("");
   const [editable, setEditable] = useState(false);
   const totalGuests = 21;
   const totalAmount = "6'000";
@@ -43,6 +42,7 @@ export default function Menu() {
     // Set the restaurant in state
     if (foundRestaurant) {
       setRestaurant(foundRestaurant);
+      setRemarks(foundRestaurant.remarks);
     }
   }, [id]);
 
@@ -61,7 +61,7 @@ export default function Menu() {
 
   const handleToggleEditing = () => {
     setGuests(originalGuests);
-    setRemarks(originalRemarks);
+    setRemarks(restaurant.remarks);
     setEditable(!editable);
   };
 
@@ -72,6 +72,7 @@ export default function Menu() {
         ...restaurant,
         status: "In Review",
         note: "This offer is being reviewed by the restaurant.",
+        remarks: remarks,
       };
       setRestaurant(updatedRestaurant);
 
@@ -83,10 +84,44 @@ export default function Menu() {
               ...order,
               status: "In Review",
               note: "This offer is being reviewed by the restaurant.",
+              remarks: remarks,
             }
           : order
       );
       localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+      // Add a new message for "Requested Offer"
+      const storedMessages = localStorage.getItem("mockMessages");
+      const currentDate = new Date();
+      const formattedDate = `${
+        currentDate.getMonth() + 1
+      }/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+      const formattedTime = currentDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true, // Ensures AM/PM format
+      });
+
+      if (storedMessages) {
+        const mockMessages = JSON.parse(storedMessages);
+        const restaurantMessages = mockMessages[restaurant.id] || [];
+
+        // Create a new message
+        const newMessage = {
+          id: restaurantMessages.length + 1, // Increment ID
+          sender: "ME - FILIP",
+          content: "REQUESTED OFFER",
+          time: formattedTime, // Includes AM/PM
+          date: formattedDate,
+          type: "request", // Specify the type
+        };
+
+        // Add the new message to the restaurant's messages
+        mockMessages[restaurant.id] = [...restaurantMessages, newMessage];
+
+        // Save the updated messages to localStorage
+        localStorage.setItem("mockMessages", JSON.stringify(mockMessages));
+      }
 
       // Toggle edit mode
       setEditable(!editable);
