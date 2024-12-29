@@ -160,10 +160,25 @@ export default function Home() {
   }, {});
 
   return (
-    <div>
+    <Box>
       <Navbar />
-      <div className="px-4 py-6">
-        <div className="max-w-[1440px] mx-auto">
+      <Box
+        sx={{
+          minHeight: "100vh",
+          backgroundColor: "#fffff",
+          padding: {
+            xs: "24px 16px", // Top-Bottom: 24px, Left-Right: 16px for smaller devices
+            lg: "24px 24px", // Top-Bottom: 24px, Left-Right: 24px for large devices and up
+          },
+        }}
+      >
+        <Box
+          sx={{
+            margin: "0 auto",
+            maxWidth: "1440px",
+            width: "100%",
+          }}
+        >
           <h1 className="text-[24px] font-[600] mb-[24px] tracking-[-2%]">
             Orders
           </h1>
@@ -209,8 +224,8 @@ export default function Home() {
               selectedOrder={selectedOrder}
             />
           )}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }

@@ -351,10 +351,25 @@ export default function MessagesPage() {
   }
 
   return (
-    <div>
+    <Box>
       <Navbar />
-      <div className="h-[86vh] bg-white px-4">
-        <div className="max-w-[1440px] mx-auto">
+      <Box
+        sx={{
+          minHeight: "100vh",
+          backgroundColor: "#fffff",
+          padding: {
+            xs: "24px 16px", // Top-Bottom: 24px, Left-Right: 16px for smaller devices
+            lg: "24px 24px", // Top-Bottom: 24px, Left-Right: 24px for large devices and up
+          },
+        }}
+      >
+        <Box
+          sx={{
+            margin: "0 auto",
+            maxWidth: "1440px",
+            width: "100%",
+          }}
+        >
           {/* Header */}
           <div className="flex justify-between w-full items-center">
             <h1 className="text-[24px] font-[600]">Messages</h1>
@@ -395,8 +410,8 @@ export default function MessagesPage() {
               updateTimeAndisUnread={updateTimeAndisUnread}
             />
           </div>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }
