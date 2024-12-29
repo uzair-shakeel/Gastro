@@ -44,7 +44,11 @@ export default function SubtotalSection({
         // Find the restaurant to update
         const updatedOrders = orders.map((order) =>
           order.id === restaurant.id
-            ? { ...order, status: "Cancelled" } // Update status to Cancelled
+            ? {
+                ...order,
+                status: "Cancelled", // Update status to Cancelled
+                note: "The offer has been cancelled", // Add or update note
+              }
             : order
         );
 

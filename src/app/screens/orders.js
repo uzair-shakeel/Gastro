@@ -156,13 +156,23 @@ export default function OrderCard({
               <img
                 src="/valid-offer-icon.png"
                 alt="validity icon"
-                className="w-[20px] h-[20px]"
+                className={`w-[20px] h-[20px] ${
+                  order.status === "Cancelled" ? "grayscale" : ""
+                }`}
               />
+
               <p className="text-[15px] font-[600] text-[#00000099]">
-                Offer valid till:{" "}
-                <span className="font-[600] text-black">
-                  {order.description}
-                </span>
+                {order.status !== "Confirmed" &&
+                order.status !== "Cancelled" ? (
+                  <>
+                    Offer valid till:{" "}
+                    <span className="font-[600] text-black">
+                      {order.description}
+                    </span>
+                  </>
+                ) : (
+                  <span>{order.status}!</span>
+                )}
               </p>
             </div>
           </div>

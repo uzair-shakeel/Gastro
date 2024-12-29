@@ -68,22 +68,31 @@ export default function Menu() {
   const handleRequestClick = () => {
     if (restaurant) {
       // Update the local state
-      const updatedRestaurant = { ...restaurant, status: "In Review" };
+      const updatedRestaurant = {
+        ...restaurant,
+        status: "In Review",
+        note: "This offer is being reviewed by the restaurant.",
+      };
       setRestaurant(updatedRestaurant);
 
       // Update localStorage
       let ordersData = JSON.parse(localStorage.getItem("orders"));
       const updatedOrders = ordersData.map((order) =>
         order.id === parseInt(id, 10)
-          ? { ...order, status: "In Review" }
+          ? {
+              ...order,
+              status: "In Review",
+              note: "This offer is being reviewed by the restaurant.",
+            }
           : order
       );
       localStorage.setItem("orders", JSON.stringify(updatedOrders));
 
       // Toggle edit mode
       setEditable(!editable);
+
       // Redirect to /messages page
-      router.push(`/messages/${order.id}`);
+      router.push(`/messages/${restaurant.id}`);
     }
   };
 
