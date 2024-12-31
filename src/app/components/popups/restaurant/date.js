@@ -33,7 +33,7 @@ const CalendarGrid = styled("div")(({ theme }) => ({
     },
     "&.selected": {
       backgroundColor: "#8B0000",
-      color: "white",
+      color: "white !important",
     },
     "&.today": {
       border: `1px solid ${theme.palette.primary.main}`,
@@ -115,18 +115,23 @@ export function DateSelectionDropdown({
 
   useEffect(() => {
     const handleGlobalClick = (event) => {
-      if (open && dropdownRef.current && !dropdownRef.current.contains(event.target) &&
-          buttonRef.current && !buttonRef.current.contains(event.target)) {
+      if (
+        open &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
         handleClose();
       }
     };
 
     if (open) {
-      document.addEventListener('click', handleGlobalClick);
+      document.addEventListener("click", handleGlobalClick);
     }
 
     return () => {
-      document.removeEventListener('click', handleGlobalClick);
+      document.removeEventListener("click", handleGlobalClick);
     };
   }, [open]);
 
@@ -149,17 +154,17 @@ export function DateSelectionDropdown({
           color: selectedDate
             ? "#000000B2"
             : error
-              ? "#821101"
-              : focused
-                ? "#BBBBBB"
-                : "#000000B2",
+            ? "#821101"
+            : focused
+            ? "#BBBBBB"
+            : "#000000B2",
           border: selectedDate
             ? "1px solid #C4C4C4"
             : error
-              ? "1.5px solid #821101"
-              : focused
-                ? "1px solid #BBBBBB"
-                : "1px solid #C4C4C4",
+            ? "1.5px solid #821101"
+            : focused
+            ? "1px solid #BBBBBB"
+            : "1px solid #C4C4C4",
           borderRadius: "4px",
           height: "56px",
           width: "121px",
@@ -171,8 +176,9 @@ export function DateSelectionDropdown({
         }}
       >
         <legend
-          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${selectedDate || !error ? "text-[#00000099]" : "text-[#821101]"
-            }`}
+          className={`absolute top-0 left-2 -translate-y-1/2 ${legendbg} px-[4px] text-[12px] font-roboto font-[400] ${
+            selectedDate || !error ? "text-[#00000099]" : "text-[#821101]"
+          }`}
         >
           {legend}
         </legend>
@@ -189,22 +195,23 @@ export function DateSelectionDropdown({
                 selectedDate
                   ? "/CalendarTodayFilled.svg"
                   : error
-                    ? "/red-date.svg"
-                    : focused
-                      ? "/CalendarTodayFilled.svg"
-                      : "/CalendarTodayFilled.svg"
+                  ? "/red-date.svg"
+                  : focused
+                  ? "/CalendarTodayFilled.svg"
+                  : "/CalendarTodayFilled.svg"
               }
               className="w-[24px] h-[24px] min-w-[24px] max-w-[24px] max-h-[24px] min-h-[24px]"
               alt="calendar icon"
             />
           </div>
           <h3
-            className={`${opacity} text-[#000000B2] tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto`}>
+            className={`${opacity} text-[#000000B2] tracking-[0.15px] text-[16px] ml-2 mt-1 font-normal !font-roboto`}
+          >
             {selectedDate
               ? selectedDate.toLocaleDateString(undefined, {
-                month: "2-digit",
-                day: "2-digit",
-              })
+                  month: "2-digit",
+                  day: "2-digit",
+                })
               : "Select"}
           </h3>
         </span>
@@ -248,20 +255,33 @@ export function DateSelectionDropdown({
             ))}
             {[...Array(days)].map((_, index) => {
               const day = index + 1;
+              const currentDate = new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth(),
+                day
+              );
               const isTempSelected =
                 tempSelectedDate?.getDate() === day &&
                 tempSelectedDate?.getMonth() === currentMonth.getMonth() &&
                 tempSelectedDate?.getFullYear() === currentMonth.getFullYear();
+              const today = new Date();
               const isToday =
-                new Date().getDate() === day &&
-                new Date().getMonth() === currentMonth.getMonth() &&
-                new Date().getFullYear() === currentMonth.getFullYear();
+                currentDate.getDate() === today.getDate() &&
+                currentDate.getMonth() === today.getMonth() &&
+                currentDate.getFullYear() === today.getFullYear();
+              const isPast = currentDate < today && !isToday;
+
               return (
                 <div
                   key={day}
-                  className={`day ${isTempSelected ? "selected" : ""} ${isToday ? "today" : ""
-                    }`}
-                  onClick={() => handleDateSelect(day)}
+                  className={`day ${isTempSelected ? "selected" : ""} ${
+                    isToday ? "today" : ""
+                  } ${isPast ? "disabled" : ""}`}
+                  onClick={() => !isPast && handleDateSelect(day)}
+                  style={{
+                    pointerEvents: isPast ? "none" : "auto",
+                    color: isPast ? "#CCCCCC" : "inherit",
+                  }}
                 >
                   {day}
                 </div>
@@ -311,4 +331,3 @@ export function DateSelectionDropdown({
     </>
   );
 }
-

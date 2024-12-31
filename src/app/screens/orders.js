@@ -233,7 +233,7 @@ export default function OrderCard({
           className="absolute bg-white border rounded-lg text-[black]/70 shadow-lg p-3 mt-2 w-[200px] top-12 right-4"
         >
           <Link
-            href="/restaurant"
+            href={`/restaurant/${order.id}`}
             onClick={() => setShowPopup(order.id)}
             className="flex items-center gap-[12px] cursor-pointer py-2 px-4 hover:bg-gray-100"
           >

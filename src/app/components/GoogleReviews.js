@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Info, ArrowRight, ArrowLeft } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -14,45 +14,43 @@ const Reviews = () => {
       name: "Omar Sundaram",
       time: "9 hours ago",
       stars: 3,
-      review:
-        "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+      review: "Lorem Ipsum",
     },
     {
       id: 2,
       name: "Omar Sundaram",
       time: "9 hours ago",
       stars: 3,
-      review:
-        "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+      review: "Lorem Ipsum",
     },
     {
       id: 3,
       name: "Omar Sundaram",
       time: "9 hours ago",
       stars: 3,
-      review:
-        "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+      review: "Lorem Ipsum",
     },
   ];
 
   const googleSwiperRef = useRef(null);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [isPrevDisabled, setIsPrevDisabled] = useState(true);
+  const [isNextDisabled, setIsNextDisabled] = useState(false);
 
-  const renderStars = (filledStars) => {
-    return (
-      <>
-        {Array.from({ length: 5 }, (_, i) => (
-          <IoMdStar
-            key={i}
-            className={`h-6 w-6 ${i < filledStars
-                ? "fill-[#FFB400] text-[#FFB400]"
-                : "text-[#0000003B]"
-              }`}
-          />
-        ))}
-      </>
-    );
-  };
+  const renderStars = (filledStars) => (
+    <>
+      {Array.from({ length: 5 }, (_, i) => (
+        <IoMdStar
+          key={i}
+          className={`h-6 w-6 ${
+            i < filledStars
+              ? "fill-[#FFB400] text-[#FFB400]"
+              : "text-[#0000003B]"
+          }`}
+        />
+      ))}
+    </>
+  );
 
   const renderReviewCard = (review) => (
     <div className="p-4 border rounded-lg bg-white shadow-custom-one">
@@ -83,9 +81,9 @@ const Reviews = () => {
     </div>
   );
 
-  const NavigationButtons = ({ swiperRef, direction }) => {
+  const NavigationButtons = ({ swiperRef, direction, disabled }) => {
     const handleClick = () => {
-      if (swiperRef.current) {
+      if (swiperRef.current && !disabled) {
         if (direction === "prev") {
           swiperRef.current.swiper.slidePrev();
         } else if (direction === "next") {
@@ -97,7 +95,10 @@ const Reviews = () => {
     return (
       <button
         onClick={handleClick}
-        className="p-2 rounded-full"
+        disabled={disabled}
+        className={`p-2 rounded-full ${
+          disabled ? "opacity-50 cursor-not-allowed" : ""
+        }`}
       >
         {direction === "prev" ? (
           <ArrowLeft className="w-6 h-6 text-gray-600" />
@@ -107,6 +108,26 @@ const Reviews = () => {
       </button>
     );
   };
+
+  useEffect(() => {
+    const swiper = googleSwiperRef.current?.swiper;
+
+    if (swiper) {
+      const updateButtonsState = () => {
+        setIsPrevDisabled(swiper.isBeginning);
+        setIsNextDisabled(swiper.isEnd);
+      };
+
+      updateButtonsState();
+
+      swiper.on("slideChange", updateButtonsState);
+
+      // Cleanup swiper event listener on component unmount
+      return () => {
+        swiper.off("slideChange", updateButtonsState);
+      };
+    }
+  }, []);
 
   return (
     <div>
@@ -139,7 +160,7 @@ const Reviews = () => {
                   height={20}
                 />
                 {showTooltip && (
-                  <div className="absolute flex items-center justify-center w-[130px] h-[30px] top-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm px-3  py-1 rounded-md shadow-lg z-50">
+                  <div className="absolute flex items-center justify-center w-[130px] h-[30px] top-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm px-3 py-1 rounded-md shadow-lg z-50">
                     Google Rating
                   </div>
                 )}
@@ -148,8 +169,16 @@ const Reviews = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <NavigationButtons swiperRef={googleSwiperRef} direction="prev" />
-            <NavigationButtons swiperRef={googleSwiperRef} direction="next" />
+            <NavigationButtons
+              swiperRef={googleSwiperRef}
+              direction="prev"
+              disabled={isPrevDisabled}
+            />
+            <NavigationButtons
+              swiperRef={googleSwiperRef}
+              direction="next"
+              disabled={isNextDisabled}
+            />
           </div>
         </div>
         <div className="relative">

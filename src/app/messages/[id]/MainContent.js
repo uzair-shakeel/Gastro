@@ -109,7 +109,7 @@ export default function MainContent({
             />
           </div>
           <div>
-            <Link href="/restaurant">
+            <Link href={`/restaurant/${selectedRestaurant.id}`}>
               <h2 className="font-[600] pb-[8px]">
                 {selectedRestaurant.location}
               </h2>

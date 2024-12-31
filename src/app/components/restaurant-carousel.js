@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { images } from "../restaurant/page";
+import { images } from "../restaurant/[id]/page";
 
 export function RestaurantCarousel() {
   return (

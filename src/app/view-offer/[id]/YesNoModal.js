@@ -1,6 +1,12 @@
 import { Box, Modal, Button, Typography } from "@mui/material";
 
-export default function CancelModal({ open, onClose, onConfirm }) {
+export default function YesNoModal({
+  title,
+  message,
+  open,
+  onClose,
+  onConfirm,
+}) {
   return (
     <Modal
       open={open}
@@ -31,7 +37,7 @@ export default function CancelModal({ open, onClose, onConfirm }) {
             mb: "16px",
           }}
         >
-          Cancel?
+          {title}
         </Typography>
         <Typography
           id="cancel-modal-description"
@@ -41,7 +47,7 @@ export default function CancelModal({ open, onClose, onConfirm }) {
             fontSize: "16px",
           }}
         >
-          Are you sure to cancel your order?
+          {message}
         </Typography>
         <Box sx={{ display: "flex", gap: "12px", justifyContent: "end" }}>
           <Button

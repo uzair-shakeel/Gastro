@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Box, Tabs, Tab, Button, Grid, Collapse } from "@mui/material";
-import { BudgetInput } from "../components/popups/restaurant/budget";
-import { CategoryDropdown } from "../components/popups/restaurant/category";
-import { DateSelectionDropdown } from "../components/popups/restaurant/date";
+import { BudgetInput } from "../../components/popups/restaurant/budget";
+import { CategoryDropdown } from "../../components/popups/restaurant/category";
+import { DateSelectionDropdown } from "../../components/popups/restaurant/date";
 import _ from "lodash";
 import Image from "next/image";
-import WhereInput from "../components/WhereInput";
+import WhereInput from "../../components/WhereInput";
 import MoreOptions from "./MoreOptions";
-import GuestsDropdown from "../components/popups/restaurant/guests-dropdown";
+import GuestsDropdown from "../../components/popups/restaurant/guests-dropdown";
 
 const EventSearch = () => {
   const [tabValue, setTabValue] = useState(0);

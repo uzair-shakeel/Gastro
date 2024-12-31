@@ -8,29 +8,32 @@ import {
   CardContent,
   Box,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { DateSelectionDropdown } from "../components/popups/restaurant/date";
-import { CategoryDropdown } from "../components/popups/restaurant/category";
-import { BudgetInput } from "../components/popups/restaurant/budget";
-import GestroOfferReviews from "../components/GestroOfferReviews";
-import GoogleReviews from "../components/GoogleReviews";
-import { QRCodeModal } from "../components/popups/restaurant/qr-code";
+import { DateSelectionDropdown } from "../../components/popups/restaurant/date";
+import { CategoryDropdown } from "../../components/popups/restaurant/category";
+import { BudgetInput } from "../../components/popups/restaurant/budget";
+import GestroOfferReviews from "../../components/GestroOfferReviews";
+import GoogleReviews from "../../components/GoogleReviews";
+import { QRCodeModal } from "../../components/popups/restaurant/qr-code";
 import Image from "next/image";
 import ImageGrid from "./ImageGrid";
 import Modal from "./Modal";
-import Navbar from "../components/Navbar";
-import GuestsDropdown from "../components/popups/restaurant/guests-dropdown";
+import Navbar from "../../components/Navbar";
+import GuestsDropdown from "../../components/popups/restaurant/guests-dropdown";
 import Link from "next/link";
 import { maxWidth, width } from "@mui/system";
 ("../globals.css");
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { useParams } from "next/navigation";
+import { initialOrders } from "../../../../public/data/initialOrders";
 
 const openingHours = [
   { day: "Monday", hoursOne: "8AM - 1PM", hoursTwo: " 3PM - 11PM" },
@@ -81,6 +84,7 @@ const matter = {
 };
 
 export default function RestaurantDetails() {
+  const { id } = useParams(); // Extract the id from the URL
   const [showTooltip, setShowTooltip] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
@@ -113,6 +117,36 @@ export default function RestaurantDetails() {
     budget: false,
   });
   const [showErrors, setShowErrors] = useState(false);
+  const [restaurant, setRestaurant] = useState(null); // State to store the selected restaurant
+
+  useEffect(() => {
+    if (!id) return; // Ensure id is defined before proceeding
+
+    // Retrieve orders from localStorage
+    let ordersData = localStorage.getItem("orders");
+
+    // If no orders are found in localStorage, use initialOrders
+    if (!ordersData) {
+      ordersData = JSON.stringify(initialOrders);
+      localStorage.setItem("orders", ordersData);
+    }
+
+    const parsedOrders = JSON.parse(ordersData);
+
+    // Find the restaurant by ID
+    const foundRestaurant = parsedOrders.find(
+      (order) => order.id === parseInt(id, 10)
+    );
+
+    // Set the restaurant in state
+    if (foundRestaurant) {
+      setRestaurant(foundRestaurant);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    setIsButtonEnabled(!Object.values(errors).some(Boolean));
+  }, [errors]);
 
   const validateInputs = () => {
     const newErrors = {
@@ -133,10 +167,6 @@ export default function RestaurantDetails() {
       setShowErrors(true);
     }
   };
-
-  useEffect(() => {
-    setIsButtonEnabled(!Object.values(errors).some(Boolean));
-  }, [errors]);
 
   const openModal = (index) => {
     setCurrentImageIndex(index);
@@ -190,6 +220,22 @@ export default function RestaurantDetails() {
     setBudget(value);
   };
 
+  // If restaurant is not found
+  if (!restaurant) {
+    return (
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress sx={{ color: "#821101" }} />
+      </Box>
+    );
+  }
+
   return (
     <div>
       <Navbar />
@@ -226,7 +272,7 @@ export default function RestaurantDetails() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                {matter.name}
+                {restaurant.location}
               </Typography>
               <div className="flex gap-4 items-center">
                 <Typography

@@ -1,7 +1,7 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
-import CancelModal from "./CancelModal";
+import YesNoModal from "./YesNoModal";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -19,6 +19,7 @@ export default function SubtotalSection({
 }) {
   const router = useRouter();
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [isAcceptModalOpen, setIsAcceptModalOpen] = useState(false);
   const toggleCancelModal = () => {
     if (restaurant.status === "Confirmed") {
       toast.warning("The order is already confirmed and cannot be Cancelled.", {
@@ -121,7 +122,7 @@ export default function SubtotalSection({
     }
   };
 
-  const handleAccept = () => {
+  const handleConfirmAccept = () => {
     if (typeof window !== "undefined") {
       const currentDate = new Date();
       const formattedDate = `${
@@ -183,12 +184,13 @@ export default function SubtotalSection({
       }
     }
 
+    setIsAcceptModalOpen(false);
     // Redirect to /messages page
     router.push(`/messages/${restaurant.id}`);
   };
 
   return (
-    <Box sx={{ marginTop: "24px" }}>
+    <Box sx={{ marginTop: "24px", paddingBottom: "56px" }}>
       <Box
         sx={{
           display: "flex",
@@ -300,6 +302,18 @@ export default function SubtotalSection({
           alignItems: "center",
           justifyContent: "space-between",
           gap: "16px",
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          backgroundColor: "#ffffff",
+          padding: {
+            xs: "16px 16px", // Top-Bottom: 24px, Left-Right: 16px for smaller devices
+            lg: "16px 29px", // Top-Bottom: 24px, Left-Right: 24px for large devices and up
+          },
+          zIndex: 999,
+          boxShadow:
+            "0 5px 45px 3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
         }}
       >
         {/* Notice Section */}
@@ -374,7 +388,7 @@ export default function SubtotalSection({
             restaurant.status === "Accepted") && (
             <Button
               variant="contained"
-              onClick={handleAccept}
+              onClick={() => setIsAcceptModalOpen(true)}
               sx={{
                 backgroundColor: "#821101",
                 height: "50px",
@@ -453,10 +467,19 @@ export default function SubtotalSection({
         </Box>
       </Box>
 
-      <CancelModal
+      <YesNoModal
+        title={"Cancel?"}
+        message={"Are you sure to cancel your order?"}
         open={isCancelModalOpen}
         onClose={toggleCancelModal}
         onConfirm={handleConfirmCancel}
+      />
+      <YesNoModal
+        title={"Accept?"}
+        message={"Are you sure to accept your order?"}
+        open={isAcceptModalOpen}
+        onClose={() => setIsAcceptModalOpen(false)}
+        onConfirm={handleConfirmAccept}
       />
     </Box>
   );

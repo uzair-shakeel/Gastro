@@ -66,7 +66,7 @@ const UserProfile = () => {
             {/* Dropdown Links */}
             <div className="px-4 py-4 flex items-start flex-col gap-1">
               <Link
-                href="/restaurant"
+                href="/restaurant/1"
                 className="flex items-center gap-3 h-[36px]"
               >
                 <Image
@@ -102,7 +102,7 @@ const UserProfile = () => {
                 </h2>
               </Link>
               <Link
-                href="/restaurant"
+                href="/restaurant/1"
                 className="flex items-center gap-3 h-[36px]"
               >
                 <Image
@@ -116,7 +116,7 @@ const UserProfile = () => {
                 </h2>
               </Link>
               <Link
-                href="/restaurant"
+                href="/restaurant/1"
                 className="flex items-center gap-3 h-[36px]"
               >
                 <Image
@@ -134,7 +134,7 @@ const UserProfile = () => {
             {/* Sign Out */}
             <div className="py-3 border-t border-[#0000005a] px-4">
               <Link
-                href="/restaurant"
+                href="/restaurant/1"
                 className="flex items-center gap-3 h-[36px]"
               >
                 <Image

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
-import EventSearch from "../restaurant/EventSearch";
+import EventSearch from "../restaurant/[id]/EventSearch";
 import UserProfile from "./UserProfile";
 import LanguageSelector from "./language-selector";
 import Link from "next/link";
